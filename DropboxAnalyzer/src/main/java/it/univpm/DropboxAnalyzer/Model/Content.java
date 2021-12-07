@@ -1,26 +1,20 @@
 package it.univpm.DropboxAnalyzer.Model;
 
-public class Metadata {
+public class Content {
 
 	/*Inizializzo le variabili che, usando in 
 	 * Postaman GetMetadata, mi vengono restituite */
-	
-	//Non inizializzo .tag perchè devo sempre analizzare dei file
 
 	//attributi
 	private String name;
 	private String path;
 	private String id;
-	private Long size;
-	private Boolean isDownloadable; //in teoria lo sono tutti
 	
 	//costruttore
-	public Metadata(String name, String path, String id, Long size, Boolean isDownloadable) {
+	public Content(String name, String path, String id) {
 		this.name=name;
 		this.path=path;
 		this.id=id;
-		this.size=size;
-		this.isDownloadable=isDownloadable;
 	}
 
 	//getter e setter
@@ -48,20 +42,4 @@ public class Metadata {
 		this.id = id;
 	}
 
-	public Long getSize() {
-		return size;
-	}
-
-	public void setSize(Long size) {
-		this.size = size;
-	}
-
-	public Boolean getIsDownloadable() {
-		return isDownloadable;
-	}
-
-	public void setIsDownloadable(Boolean isDownloadable) {
-		this.isDownloadable = isDownloadable;
-	}
-	
 }
