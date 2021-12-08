@@ -13,11 +13,10 @@ import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser; 
 
 public class HTTPRequests {
-	public static JSONObject ListFolderRequest()
+	public static JSONObject ListFolderRequest(String token)
 	{
 		JSONObject jsonObject = null;
 		String url = "https://api.dropboxapi.com/2/files/list_folder";
-		String token = "Bearer G4J8eRdP9roAAAAAAAAAAbvWRhutuOx6QkF7rz2VDCjVr5tQMhM3InqV16_tajQB";
 		try {
 
 			HttpURLConnection openConnection = (HttpURLConnection) new URL(url).openConnection();
