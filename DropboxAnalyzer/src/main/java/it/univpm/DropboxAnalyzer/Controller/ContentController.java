@@ -7,6 +7,7 @@ import java.util.Scanner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import it.univpm.DropboxAnalyzer.Service.FileService;
@@ -19,10 +20,9 @@ public class ContentController {
 	private FileService fileService;
 	//"list-folder API call
 	@GetMapping("/list")
-	public @ResponseBody String POSTListFolder() throws MalformedURLException
+	public @ResponseBody JSONObject POSTListFolder(@RequestParam(name="token") String token) throws MalformedURLException
 	{
 		Scanner input = new Scanner(System.in);
-		String token = input.nextLine();
 		String url = "https://api.dropboxapi.com/2/files/list_folder";
 		String jsonBody = "{\r\n"
 				+ "    \"path\": \"/Uni\",\r\n"
@@ -35,14 +35,13 @@ public class ContentController {
 				+ "}";
 		JSONObject jsonObj = fileService.GetJsonFromRequest("POST", token, url, jsonBody);
 		//TODO: Proper convert from json to list of files. (Now only raw conversion from json to string).
-		return jsonObj.toJSONString();
+		return jsonObj;
 	}
 	
 	@GetMapping("/get-metadata")
-	public @ResponseBody String POSTGetMetadata() throws MalformedURLException
+	public @ResponseBody JSONObject POSTGetMetadata(@RequestParam(name="token") String token) throws MalformedURLException
 	{
 		Scanner input = new Scanner(System.in);
-		String token = input.nextLine();
 		String url = "https://api.dropboxapi.com/2/files/get_metadata";
 		String jsonBody = "{{\r\n"
 				+ "    \"path\": \"/Uni/Appunti.paper\",\r\n"
@@ -52,7 +51,7 @@ public class ContentController {
 				+ "}";
 		JSONObject jsonObj = fileService.GetJsonFromRequest("POST", token, url, jsonBody);
 		//TODO: Proper convert from json to metadata file. (Now only raw conversion from json to string).
-		return jsonObj.toJSONString();
+		return jsonObj;
 	}
 	
 	
