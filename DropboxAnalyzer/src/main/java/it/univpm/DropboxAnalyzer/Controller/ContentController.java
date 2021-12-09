@@ -22,7 +22,6 @@ public class ContentController {
 	@GetMapping("/list")
 	public @ResponseBody JSONObject POSTListFolder(@RequestParam(name="token") String token) throws MalformedURLException
 	{
-		Scanner input = new Scanner(System.in);
 		String url = "https://api.dropboxapi.com/2/files/list_folder";
 		String jsonBody = "{\r\n"
 				+ "    \"path\": \"/Uni\",\r\n"
@@ -41,14 +40,13 @@ public class ContentController {
 	@GetMapping("/get-metadata")
 	public @ResponseBody JSONObject POSTGetMetadata(@RequestParam(name="token") String token) throws MalformedURLException
 	{
-		Scanner input = new Scanner(System.in);
 		String url = "https://api.dropboxapi.com/2/files/get_metadata";
-		String jsonBody = "{{\r\n"
-				+ "    \"path\": \"/Uni/Appunti.paper\",\r\n"
-				+ "    \"include_media_info\": false,\r\n"
-				+ "    \"include_deleted\": true,\r\n"
-				+ "    \"include_has_explicit_shared_members\": true\r\n"
-				+ "}";
+		String jsonBody = "{\r\n" + 
+				"    \"path\": \"/Uni\",\r\n" + 
+				"    \"include_media_info\": true,\r\n" + 
+				"    \"include_deleted\": false,\r\n" + 
+				"    \"include_has_explicit_shared_members\": false\r\n" + 
+				"}";
 		JSONObject jsonObj = fileService.GetJsonFromRequest("POST", token, url, jsonBody);
 		//TODO: Proper convert from json to metadata file. (Now only raw conversion from json to string).
 		return jsonObj;

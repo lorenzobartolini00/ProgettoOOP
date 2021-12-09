@@ -43,11 +43,15 @@ public class HTTPSRequest implements FileService {
 			JSONParser jsonParser = new JSONParser();
 			jsonObject = (JSONObject)jsonParser.parse(new InputStreamReader(in, "UTF-8"));
 			
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 		return jsonObject;
 	}
 	
 	
 }
+	
+	
