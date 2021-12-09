@@ -10,5 +10,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface FileService {
 	
-	public JSONObject GetJsonFromRequest(String type, String token, String url, String jsonBody);
+	public JSONObject rootCall(String root, String path, String token);
 }

@@ -1,0 +1,17 @@
+@ListFolderBody
+"{\r\n"
+				+ "    \"path\": \"/Uni\",\r\n"
+				+ "    \"recursive\": false,\r\n"
+				+ "    \"include_media_info\": false,\r\n"
+				+ "    \"include_deleted\": false,\r\n"
+				+ "    \"include_has_explicit_shared_members\": false,\r\n"
+				+ "    \"include_mounted_folders\": true,\r\n"
+				+ "    \"include_non_downloadable_files\": true\r\n"
+				+ "}"
+@GetMetadataBody
+"{\r\n" + 
+				"    \"path\": \"/Uni\",\r\n" + 
+				"    \"include_media_info\": true,\r\n" + 
+				"    \"include_deleted\": false,\r\n" + 
+				"    \"include_has_explicit_shared_members\": false\r\n" + 
+				"}"
