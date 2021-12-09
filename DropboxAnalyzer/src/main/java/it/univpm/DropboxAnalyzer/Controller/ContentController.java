@@ -22,7 +22,7 @@ public class ContentController {
 	@GetMapping("/list_folder")
 	public @ResponseBody JSONObject POSTListFolder(@RequestParam(name="token") String token) throws MalformedURLException
 	{
-		JSONObject jsonObj = fileService.rootCall("/list_folder","/Uni", token);
+		JSONObject jsonObj = fileService.rootCall(0,"/Uni", token);
 		//TODO: Proper convert from json to list of files. (Now only raw conversion from json to string).
 		return jsonObj;
 	}
@@ -30,7 +30,7 @@ public class ContentController {
 	@GetMapping("/get-metadata")
 	public @ResponseBody JSONObject POSTGetMetadata(@RequestParam(name="token") String token) throws MalformedURLException
 	{
-		JSONObject jsonObj = fileService.rootCall("/get_metadata","/Uni", token);
+		JSONObject jsonObj = fileService.rootCall(1,"/Uni", token);
 		//TODO: Proper convert from json to metadata file. (Now only raw conversion from json to string).
 		return jsonObj;
 	}

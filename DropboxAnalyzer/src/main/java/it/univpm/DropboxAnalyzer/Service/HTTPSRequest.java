@@ -26,7 +26,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class HTTPSRequest implements FileService {
-	public JSONObject rootCall(String request, String path, String token)
+	public JSONObject rootCall(int request, String path, String token)
 	{
 		HttpURLConnection openConnection = connectionSetUp(getConfigurationsProperties(request, path, token));
 		return getJson(openConnection);
@@ -38,7 +38,7 @@ public class HTTPSRequest implements FileService {
 		String url = properties.get(0);
 		String jsonBody = properties.get(1);
 		String type = properties.get(2);
-		String token = properties.get(2);
+		String token = properties.get(3);
 		HttpURLConnection openConnection = null;
 		try 
 		{
@@ -76,15 +76,15 @@ public class HTTPSRequest implements FileService {
 	}
 	
 	//Ottiene i parametri giusti a seconda della richiesta e del tipo
-	private Vector<String> getConfigurationsProperties(String request, String path, String token)
+	private Vector<String> getConfigurationsProperties(int request, String path, String token)
 	{
-		Vector<String> properties = null;
+		Vector<String> properties = new Vector<String>();
 		String url = null;
 		String jsonBody = null;
 		String type = null;
 		switch(request)
 		{
-		case "/list_folder":
+		case 0:
 		{
 			url = "https://api.dropboxapi.com/2/files/list_folder";
 			jsonBody = "{\r\n"
@@ -100,7 +100,7 @@ public class HTTPSRequest implements FileService {
 					+ "}";
 			type = "POST";
 		}
-		case "/get_metadata":
+		case 1:
 		{
 			url = "https://api.dropboxapi.com/2/files/get_metadata";
 			jsonBody = "{\r\n" + 
