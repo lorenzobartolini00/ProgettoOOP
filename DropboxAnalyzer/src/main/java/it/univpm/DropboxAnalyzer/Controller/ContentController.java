@@ -27,7 +27,7 @@ public class ContentController {
 		return jsonObj;
 	}
 	
-	@GetMapping("/get-metadata")
+	@GetMapping("/get_metadata")
 	public @ResponseBody JSONObject POSTGetMetadata(@RequestParam(name="token") String token) throws MalformedURLException
 	{
 		JSONObject jsonObj = fileService.rootCall(1,"/Uni", token);

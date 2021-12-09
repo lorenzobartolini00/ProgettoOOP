@@ -99,6 +99,7 @@ public class HTTPSRequest implements FileService {
 					+ "    \"include_non_downloadable_files\": true\r\n"
 					+ "}";
 			type = "POST";
+			break;
 		}
 		case 1:
 		{
@@ -112,6 +113,7 @@ public class HTTPSRequest implements FileService {
 					"    \"include_has_explicit_shared_members\": false\r\n" + 
 					"}";
 			type = "POST";
+			break;
 		}
 		}
 		properties.add(url);
