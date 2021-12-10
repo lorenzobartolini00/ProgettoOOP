@@ -1,5 +1,6 @@
 package it.univpm.DropboxAnalyzer.Controller;
 
-public class Configuration {
+public interface Configuration {
+	public String getJson();
 
 }
