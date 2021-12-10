@@ -7,17 +7,20 @@ public class Content {
 
 	//attributi
 	private String name;
-	private String path;
+	private String pathLower;
+	private String pathDisplay;
 	private String id;
 	
 	//costruttore
-	public Content(String name, String path, String id) {
-		this.name=name;
-		this.path=path;
-		this.id=id;
+
+	public Content(String name, String pathLower, String pathDisplay, String id) {
+		super();
+		this.name = name;
+		this.pathLower = pathLower;
+		this.pathDisplay = pathDisplay;
+		this.id = id;
 	}
 
-	//getter e setter
 	public String getName() {
 		return name;
 	}
@@ -26,12 +29,20 @@ public class Content {
 		this.name = name;
 	}
 
-	public String getPath() {
-		return path;
+	public String getPathLower() {
+		return pathLower;
 	}
 
-	public void setPath(String path) {
-		this.path = path;
+	public void setPathLower(String pathLower) {
+		this.pathLower = pathLower;
+	}
+
+	public String getPathDisplay() {
+		return pathDisplay;
+	}
+
+	public void setPathDisplay(String pathDisplay) {
+		this.pathDisplay = pathDisplay;
 	}
 
 	public String getId() {
@@ -42,4 +53,5 @@ public class Content {
 		this.id = id;
 	}
 
+	
 }

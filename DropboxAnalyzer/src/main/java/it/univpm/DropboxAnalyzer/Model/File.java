@@ -6,13 +6,13 @@ public class File extends Content{
 	private Long size;
 	private Boolean isDownloadable;
 	
-	public File(String name, String path, String id, Long size, Boolean isDownloadable) {
-		super(name, path, id);
-		this.size=size;
-		this.isDownloadable=isDownloadable;
+	//costruttore
+	public File(String name, String pathLower, String pathDisplay, String id, Long size, Boolean isDownloadable) {
+		super(name, pathLower, pathDisplay, id);
+		this.size = size;
+		this.isDownloadable = isDownloadable;
 	}
 
-	
 	//getter e setter
 	public Long getSize() {
 		return size;
