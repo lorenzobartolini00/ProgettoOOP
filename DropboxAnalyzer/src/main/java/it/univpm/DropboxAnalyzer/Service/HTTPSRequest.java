@@ -23,12 +23,14 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import it.univpm.DropboxAnalyzer.Controller.Configuration;
+
 
 @Service
-public class HTTPSRequest implements FileService {
-	public JSONObject rootCall(int request, String path, String token)
+public class HTTPSRequest{
+	public JSONObject rootCall(int request, Configuration config, String token)
 	{
-		HttpURLConnection openConnection = connectionSetUp(getConfigurationsProperties(request, path, token));
+		HttpURLConnection openConnection = connectionSetUp(getConfigurationsProperties(request, config, token));
 		return getJson(openConnection);
 	}
 	
@@ -76,7 +78,7 @@ public class HTTPSRequest implements FileService {
 	}
 	
 	//Ottiene i parametri giusti a seconda della richiesta e del tipo
-	private Vector<String> getConfigurationsProperties(int request, String path, String token)
+	private Vector<String> getConfigurationsProperties(int request, Configuration config, String token)
 	{
 		Vector<String> properties = new Vector<String>();
 		String url = null;
@@ -89,7 +91,7 @@ public class HTTPSRequest implements FileService {
 			url = "https://api.dropboxapi.com/2/files/list_folder";
 			jsonBody = "{\r\n"
 					+ "    \"path\": \""
-					+ path
+					+ config
 					+ "\",\r\n"
 					+ "    \"recursive\": false,\r\n"
 					+ "    \"include_media_info\": false,\r\n"
@@ -106,7 +108,7 @@ public class HTTPSRequest implements FileService {
 			url = "https://api.dropboxapi.com/2/files/get_metadata";
 			jsonBody = "{\r\n" + 
 					"    \"path\": \""
-					+ path
+					+ config
 					+ "\",\r\n" + 
 					"    \"include_media_info\": true,\r\n" + 
 					"    \"include_deleted\": false,\r\n" + 
