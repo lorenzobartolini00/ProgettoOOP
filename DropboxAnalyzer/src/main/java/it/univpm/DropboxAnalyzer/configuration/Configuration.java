@@ -6,6 +6,15 @@ public class Configuration {
 	private URL url;
 	private Body body;
 	
+	
+	
+	public Configuration(URL url, Body body) {
+		this.url = url;
+		this.body = body;
+	}
+
+
+
 	public String getStringBody()
 	{
 		return body.toString();
