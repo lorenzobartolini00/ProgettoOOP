@@ -50,8 +50,8 @@ public class FileServiceImpl implements FileService{
         
         for(Object jsonObject : jsonArray) {
         	String name=((JSONObject) jsonObject).getString("name");
-        	String pathLower=((JSONObject) jsonObject).getString("pathLower");
-        	String pathDisplay=((JSONObject) jsonObject).getString("pathDisplay");
+        	String pathLower=((JSONObject) jsonObject).getString("path_lower");
+        	String pathDisplay=((JSONObject) jsonObject).getString("path_display");
         	String id=((JSONObject) jsonObject).getString("id");
         	
         	Content content=new Content(name,pathLower,pathDisplay,id);
@@ -66,8 +66,8 @@ public class FileServiceImpl implements FileService{
 	public Content getMetadata(JSONObject jsonObj) {
 		
 		String name=((JSONObject) jsonObj).getString("name");
-		String pathLower=((JSONObject) jsonObj).getString("pathLower");
-    	String pathDisplay=((JSONObject) jsonObj).getString("pathDisplay");
+		String pathLower=((JSONObject) jsonObj).getString("path_lower");
+    	String pathDisplay=((JSONObject) jsonObj).getString("path_display");
     	String id=((JSONObject) jsonObj).getString("id");
     	
     	Content content=new Content(name,pathLower,pathDisplay,id);
