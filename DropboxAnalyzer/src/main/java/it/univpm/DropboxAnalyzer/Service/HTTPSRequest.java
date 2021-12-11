@@ -1,5 +1,7 @@
 package it.univpm.DropboxAnalyzer.Service;
 
+import it.univpm.DropboxAnalyzer.configuration.*;
+
 import java.io.BufferedReader;
 
 import java.io.IOException;
@@ -23,7 +25,6 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import it.univpm.DropboxAnalyzer.Controller.Configuration;
 
 
 @Service
