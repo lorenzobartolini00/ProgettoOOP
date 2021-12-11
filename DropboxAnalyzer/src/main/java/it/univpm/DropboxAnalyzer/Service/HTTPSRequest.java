@@ -23,7 +23,9 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import it.univpm.DropboxAnalyzer.Controller.Configuration;
+import it.univpm.DropboxAnalyzer.configuration.Configuration;
+
+
 
 
 @Service
