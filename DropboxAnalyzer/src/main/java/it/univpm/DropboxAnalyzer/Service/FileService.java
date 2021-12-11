@@ -3,7 +3,7 @@ package it.univpm.DropboxAnalyzer.Service;
 
 import java.util.Vector;
 
-import org.json.simple.JSONObject;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import it.univpm.DropboxAnalyzer.Model.*;
