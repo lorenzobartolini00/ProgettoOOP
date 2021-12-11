@@ -12,7 +12,7 @@ import it.univpm.DropboxAnalyzer.Model.Revision;
 
 
 
-public class FileServiceImpl implements FileService{
+public class FileServiceImpl implements FileService {
 
 	@Autowired
 	HTTPSRequest httpsReq;
