@@ -1,5 +1,7 @@
 package it.univpm.DropboxAnalyzer.configuration;
 
+import org.json.JSONObject;
+
 public class ListFolderBody implements Body {
 	private String path;
 	private boolean recursive;
@@ -9,39 +11,34 @@ public class ListFolderBody implements Body {
 	private boolean includeMountedFoulders;
 	private boolean includeNonDownloadableFiles;
 
+	@Override
 	public String toString()
 	{
-		return "{\r\n"
-				+ "    \"path\": \""
-				+ this.path
-				+ "\",\r\n"
-				+ "    \"recursive\": "
-				+ String.valueOf(this.recursive)
-				+ ",\r\n"
-				+ "    \"include_media_info\": "
-				+ String.valueOf(this.includeMediaInfo)
-				+ ",\r\n"
-				+ "    \"include_deleted\": "
-				+ String.valueOf(this.includeDeleted)
-				+ ",\r\n"
-				+ "    \"include_has_explicit_shared_members\": "
-				+ String.valueOf(this.includeHasExplicitMembers)
-				+ ",\r\n"
-				+ "    \"include_mounted_folders\": "
-				+ String.valueOf(this.includeMountedFoulders)
-				+ ",\r\n"
-				+ "    \"include_non_downloadable_files\": "
-				+ String.valueOf(this.includeNonDownloadableFiles)
-				+ "\r\n"
-				+ "}";
+		return toJSONObject().toString();
+	}
+	
+	@Override
+	public JSONObject toJSONObject()
+	{
+		JSONObject object = new JSONObject();
+		
+		object.put("path", path);
+		object.put("recursive", recursive);
+		object.put("include_media_info", includeMediaInfo);
+		object.put("include_deleted", includeDeleted);
+		object.put("include_has_explicit_shared_members", includeHasExplicitMembers);
+		object.put("include_mounted_folders", includeMountedFoulders);
+		object.put("include_non_downloadable_files", includeNonDownloadableFiles);
+		
+		return object;
 	}
 	
 	public ListFolderBody(String path, boolean recursive) {
 		this.path = path;
 		this.recursive = recursive;
-		this.includeMediaInfo = true;
-		this.includeDeleted = true;
-		this.includeHasExplicitMembers = true;
+		this.includeMediaInfo = false;
+		this.includeDeleted = false;
+		this.includeHasExplicitMembers = false;
 		this.includeMountedFoulders = true;
 		this.includeNonDownloadableFiles = true;
 	}
