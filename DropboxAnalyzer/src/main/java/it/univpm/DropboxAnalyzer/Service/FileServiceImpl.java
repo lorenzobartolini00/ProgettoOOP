@@ -43,14 +43,36 @@ public class FileServiceImpl implements FileService {
 
 	@Override
 	public Vector<Content> getListFolder(JSONObject jsonObj) {
-		// TODO Auto-generated method stub
-		return null;
+		Vector<Content> listFolder = new Vector<Content>();
+		
+		//Ottengo il jsonArray che contiene la lista delle revisioni per il file di interesse
+        JSONArray jsonArray= (JSONArray) jsonObj.get("entries");
+        
+        for(Object jsonObject : jsonArray) {
+        	String name=((JSONObject) jsonObject).getString("name");
+        	String pathLower=((JSONObject) jsonObject).getString("path_lower");
+        	String pathDisplay=((JSONObject) jsonObject).getString("path_display");
+        	String id=((JSONObject) jsonObject).getString("id");
+        	
+        	Content content=new Content(name,pathLower,pathDisplay,id);
+        	
+        	listFolder.add(content);
+        }
+        
+		return listFolder;
 	}
 
 	@Override
 	public Content getMetadata(JSONObject jsonObj) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		String name=((JSONObject) jsonObj).getString("name");
+		String pathLower=((JSONObject) jsonObj).getString("path_lower");
+    	String pathDisplay=((JSONObject) jsonObj).getString("path_display");
+    	String id=((JSONObject) jsonObj).getString("id");
+    	
+    	Content content=new Content(name,pathLower,pathDisplay,id);
+		
+		return content;
 	}
 
 	
