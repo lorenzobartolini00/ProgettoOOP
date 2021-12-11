@@ -9,6 +9,7 @@ public class Configuration {
 	
 	
 	public Configuration(URL url, Body body) {
+		super();
 		this.url = url;
 		this.body = body;
 	}
