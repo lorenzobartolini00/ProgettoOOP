@@ -3,12 +3,15 @@ package it.univpm.DropboxAnalyzer.Service;
 import java.util.Collection;
 import java.util.Vector;
 
-
-import org.json.simple.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import it.univpm.DropboxAnalyzer.Model.Content;
 import it.univpm.DropboxAnalyzer.Model.Revision;
+
+
 
 public class FileServiceImpl implements FileService{
 
@@ -16,64 +19,66 @@ public class FileServiceImpl implements FileService{
 	HTTPSRequest httpsReq;
 	
 	@Override
-	public Vector<Revision> getListRevisions(JSONObject pippo) {
-		Vector<Revision> v= new Vector<Revision>();
-		JSONObject jo=new JSONObject();
-        JSONArray jsonArray= (JSONArray) pippo.get("entries");
-        for(int i=0; i<jsonArray.length() ;i++)
+	public Vector<Revision> getListRevisions(JSONObject JSONrevisions) {
+		Vector<Revision> revisionList = new Vector<Revision>();
+		
+		//Ottengo il jsonArray che contiene la lista delle revisioni per il file di interesse
+        JSONArray jsonArray= (JSONArray) JSONrevisions.get("entries");
+        
+        //Per ogni JSONObject dentro il jsonArray estraggo i 3 valori che mi interessano e li uso per inizializzare una nuova
+        //istanza della classe Revision
+        for(Object jsonObject : jsonArray)
         {
-        	try {
-				jo=(JSONObject) jsonArray.get(i);
-				for(int k=0; k<(jo).size(); k++) {
-				v.add((Revision) jo.get(i)); 
-				
-				//Posso farlo dato che ogni volta che scorro k, mi verrà restituita una stringa
-				
-				}
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+        	String lastClientModify = ((JSONObject) jsonObject).getString("client_modified");
+        	String lastServerModify = ((JSONObject) jsonObject).getString("server_modified");
+        	String revisionId = ((JSONObject) jsonObject).getString("rev");
+
+        	Revision revision = new Revision(lastClientModify, lastServerModify, revisionId);
+        	
+        	revisionList.add(revision);
         }
-		return v;
+		return revisionList;
 		
 			
 		}
-	
 
 	@Override
 	public Vector<Content> getListFolder(JSONObject jsonObj) {
-		Vector<Content> v= new Vector<Content>();
-		JSONObject jo=new JSONObject();
+		Vector<Content> listFolder = new Vector<Content>();
+		
+		//Ottengo il jsonArray che contiene la lista delle revisioni per il file di interesse
         JSONArray jsonArray= (JSONArray) jsonObj.get("entries");
-        for(int i=0; i<jsonArray.length() ;i++)
-        {
-        	try {
-				jo=(JSONObject) jsonArray.get(i);
-				for(int k=0; k<(jo).size(); k++) {
-				v.add((Content) jo.get(i)); 
-				
-				//Posso farlo dato che ogni volta che scorro k, mi verrà restituita una stringa
-				
-				}
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+        
+        for(Object jsonObject : jsonArray) {
+        	String name=((JSONObject) jsonObject).getString("name");
+        	String pathLower=((JSONObject) jsonObject).getString("path_lower");
+        	String pathDisplay=((JSONObject) jsonObject).getString("path_display");
+        	String id=((JSONObject) jsonObject).getString("id");
+        	
+        	Content content=new Content(name,pathLower,pathDisplay,id);
+        	
+        	listFolder.add(content);
         }
-		return v;
+        
+		return listFolder;
 	}
 
 	@Override
 	public Content getMetadata(JSONObject jsonObj) {
 		
-		//in questo caso mi viene restituito solo un jo
+		String name=((JSONObject) jsonObj).getString("name");
+		String pathLower=((JSONObject) jsonObj).getString("path_lower");
+    	String pathDisplay=((JSONObject) jsonObj).getString("path_display");
+    	String id=((JSONObject) jsonObj).getString("id");
+    	
+    	Content content=new Content(name,pathLower,pathDisplay,id);
 		
-		Vector<String> elem=new Vector<String>();
-		for (int i=0;i<jsonObj.size();i++) {
-			elem.add((String) jsonObj.get(i));
-		}
-		Content c=new Content(elem.get(1),elem.get(2),elem.get(3), elem.get(4));
-		return c;
+		return content;
 	}
+
+	
+
+	
 
 	
 }
