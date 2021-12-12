@@ -16,29 +16,27 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Vector;
-
-import org.apache.tomcat.util.json.JSONParser;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import it.univpm.DropboxAnalyzer.configuration.Configuration;
+import org.json.JSONObject;
 
 
 @Service
 public class HTTPSRequest{
-	public JSONObject rootCall(int request, Configuration config, String token)
+	public JSONObject rootCall(Configuration config)
 	{
-		HttpURLConnection openConnection = connectionSetUp(getConfigurationsProperties(request, config, token));
-		return getJson(openConnection);
+		return getJson(connectionSetUp(config));
 	}
 	
 	//Metodo per fare chimata HTTP
-	private HttpURLConnection connectionSetUp(Vector<String> properties)
+	private HttpURLConnection connectionSetUp(Configuration config)
 	{
-		String url = properties.get(0);
-		String jsonBody = properties.get(1);
-		String type = properties.get(2);
-		String token = properties.get(3);
+		String url = config.getUrl();
+		String jsonBody = config.getBody().toString();
+		String type = config.getType();
+		String token = config.getToken();
 		HttpURLConnection openConnection = null;
 		try 
 		{
@@ -66,63 +64,25 @@ public class HTTPSRequest{
 		JSONObject jsonObject = null;
 		try {
 			InputStream in = openConnection.getInputStream();
-			JSONParser jsonParser = new JSONParser();
-			jsonObject = (JSONObject)jsonParser.parse(new InputStreamReader(in, "UTF-8"));
+			String data = "";
+			String line = "";
+			try {
+				InputStreamReader inR = new InputStreamReader(in);
+				BufferedReader buf = new BufferedReader(inR);
+
+				while ((line = buf.readLine()) != null) {
+					data += line;
+				}
+			} finally {
+				in.close();
+			}
+			jsonObject = (JSONObject) new JSONObject(data);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
 		return jsonObject;
 	}
-	
-	//Ottiene i parametri giusti a seconda della richiesta e del tipo
-	private Vector<String> getConfigurationsProperties(int request, Configuration config, String token)
-	{
-		Vector<String> properties = new Vector<String>();
-		String url = null;
-		String jsonBody = null;
-		String type = null;
-		switch(request)
-		{
-		case 0:
-		{
-			url = "https://api.dropboxapi.com/2/files/list_folder";
-			jsonBody = "{\r\n"
-					+ "    \"path\": \""
-					+ config
-					+ "\",\r\n"
-					+ "    \"recursive\": false,\r\n"
-					+ "    \"include_media_info\": false,\r\n"
-					+ "    \"include_deleted\": false,\r\n"
-					+ "    \"include_has_explicit_shared_members\": false,\r\n"
-					+ "    \"include_mounted_folders\": true,\r\n"
-					+ "    \"include_non_downloadable_files\": true\r\n"
-					+ "}";
-			type = "POST";
-			break;
-		}
-		case 1:
-		{
-			url = "https://api.dropboxapi.com/2/files/get_metadata";
-			jsonBody = "{\r\n" + 
-					"    \"path\": \""
-					+ config
-					+ "\",\r\n" + 
-					"    \"include_media_info\": true,\r\n" + 
-					"    \"include_deleted\": false,\r\n" + 
-					"    \"include_has_explicit_shared_members\": false\r\n" + 
-					"}";
-			type = "POST";
-			break;
-		}
-		}
-		properties.add(url);
-		properties.add(jsonBody);
-		properties.add(type);
-		properties.add(token);
-		return properties;
-	}
-	
 	
 }
 	
