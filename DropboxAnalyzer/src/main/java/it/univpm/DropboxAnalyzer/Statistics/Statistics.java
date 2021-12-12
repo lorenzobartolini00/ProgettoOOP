@@ -2,7 +2,7 @@ package it.univpm.DropboxAnalyzer.Statistics;
 
 import java.util.Calendar;
 import java.util.Vector;
-
+import java.util.ArrayList.indexOf();
 import it.univpm.DropboxAnalyzer.Model.Revision;
 
 public class Statistics {
@@ -15,19 +15,20 @@ public class Statistics {
 		Long deltaHour=(long) 0;
 		Calendar thisDate=null;
 		Calendar prevDate=null;
-		
+		if(revisions.indexOf(thisDate) != -1) {
+			
 		for (Revision revision : revisions) {
 			thisDate=revision.getLastClientModify();
-			if(revision != 0) {
+			
 				//calcolo delta in millisecondi
 				delta= thisDate.getTimeInMillis()-prevDate.getTimeInMillis(); 
 				//conversione in ore
 				deltaHour=delta/1000/60/60; 
 				somma += deltaHour;
-			}
+		}
 			prevDate = thisDate;
 		}
-		return somma/revisions.size();;
+		return somma/revisions.size();
 		
 	}
 }
