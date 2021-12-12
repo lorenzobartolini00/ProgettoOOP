@@ -17,6 +17,7 @@ import it.univpm.DropboxAnalyzer.Service.FileService;
 import it.univpm.DropboxAnalyzer.Service.HTTPSRequest;
 import it.univpm.DropboxAnalyzer.configuration.Body;
 import it.univpm.DropboxAnalyzer.configuration.Configuration;
+import it.univpm.DropboxAnalyzer.configuration.GetMetadataBody;
 import it.univpm.DropboxAnalyzer.configuration.ListFolderBody;
 
 @Controller
@@ -36,10 +37,18 @@ public class ContentController {
 	}
 	
 	@GetMapping("/get_metadata")
-	public @ResponseBody JSONObject POSTGetMetadata(@RequestParam(name="token") String token) throws MalformedURLException
+	public @ResponseBody Content POSTGetMetadata(@RequestParam(name="token") String token) throws MalformedURLException
 	{
-		//JSONObject jsonObj = fileService.rootCall(1,"/Uni", token);
-		Configuration config = new Configuration("https://api.dropboxapi.com/2/files/get_metadata", new Metadata(/Uni,true), "Post", token);
+		
+		Configuration config = new Configuration("https://api.dropboxapi.com/2/files/get_metadata", new GetMetadataBody("/Uni",true,true,true), "POST", token);
+		Content content = fileService.getMetadata(httpsReq.rootCall(config));
+		return content;
+	}
+	
+	@GetMapping("/get_list_revisions")
+	public @ResponseBody String POSTGetListRevision(@RequestParam(name="token") String token) throws MalformedURLException
+	{
+		
 		return null;
 	}
 	
