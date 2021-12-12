@@ -6,13 +6,8 @@ import java.util.Vector;
 import it.univpm.DropboxAnalyzer.Model.Revision;
 
 public class Statistics {
-
-	//devo implementare un metodo che restituisce una lista di revisioni per il Content desiderato
-	
-	public Vector<Revision> getRevisionFromContent(Content content){
 		
-	}
-	
+	//mi ritorna quante ore, in media, viene effettuata una revisione di questo file
 	public double getHourPerRevision (Vector<Revision> revisions) {
 		
 		Long somma=(long) 0;
@@ -23,15 +18,16 @@ public class Statistics {
 		
 		for (Revision revision : revisions) {
 			thisDate=revision.getLastClientModify();
-			if(revision.get() != 0) {
+			if(revision != 0) {
 				//calcolo delta in millisecondi
 				delta= thisDate.getTimeInMillis()-prevDate.getTimeInMillis(); 
 				//conversione in ore
 				deltaHour=delta/1000/60/60; 
 				somma += deltaHour;
 			}
+			prevDate = thisDate;
 		}
-		return 0;
+		return somma/revisions.size();;
 		
 	}
 }
