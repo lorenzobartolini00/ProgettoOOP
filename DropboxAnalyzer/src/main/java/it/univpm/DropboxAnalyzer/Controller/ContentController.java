@@ -39,7 +39,7 @@ public class ContentController {
 	public @ResponseBody JSONObject POSTGetMetadata(@RequestParam(name="token") String token) throws MalformedURLException
 	{
 		//JSONObject jsonObj = fileService.rootCall(1,"/Uni", token);
-		//TODO: Proper convert from json to metadata file. (Now only raw conversion from json to string).
+		Configuration config = new Configuration("https://api.dropboxapi.com/2/files/get_metadata", new Metadata(/Uni,true), "Post", token);
 		return null;
 	}
 	
