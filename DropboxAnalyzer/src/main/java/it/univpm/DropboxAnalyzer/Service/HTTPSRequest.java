@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
 import it.univpm.DropboxAnalyzer.configuration.Configuration;
 import org.json.JSONObject;
 
-
 @Service
 public class HTTPSRequest{
 	public JSONObject rootCall(Configuration config)

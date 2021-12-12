@@ -7,12 +7,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import it.univpm.DropboxAnalyzer.Model.Content;
 import it.univpm.DropboxAnalyzer.Model.Revision;
 
 
-
-public class FileServiceImpl implements FileService{
+@Service
+public class FileServiceImpl implements FileService {
 
 	@Autowired
 	HTTPSRequest httpsReq;

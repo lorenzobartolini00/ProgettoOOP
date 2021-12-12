@@ -1,7 +1,6 @@
 package it.univpm.DropboxAnalyzer.Service;
 
 import java.util.Vector;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
