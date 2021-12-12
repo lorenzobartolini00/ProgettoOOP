@@ -14,7 +14,7 @@ import it.univpm.DropboxAnalyzer.Model.*;
 @Service
 public interface FileService {
 	
-	public Vector<Revision> getListRevisions(JSONObject jsonObj);
-	public Vector<Content> getListFolder(JSONObject jsonObj);
-	public Content getMetadata(JSONObject jsonObj); //non è un vettore perchè mi restituisce ciò che riguarda un solo file
+	public Vector<Revision> getRevisionList(JSONObject jsonObjectRevisions);
+	public Vector<Content> getContentList(JSONObject jsonObjectFolders);
+	public Content getMetadata(JSONObject jsonObjectContent); //non è un vettore perchè mi restituisce ciò che riguarda un solo file
 }
