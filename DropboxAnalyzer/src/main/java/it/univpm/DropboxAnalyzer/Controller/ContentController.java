@@ -31,12 +31,12 @@ public class ContentController {
 	
 	//"list-folder API call
 	@GetMapping("/list_folder")
-	public @ResponseBody String POSTListFolder(@RequestParam(name="token") String token) throws MalformedURLException
+	public @ResponseBody Content POSTListFolder(@RequestParam(name="token") String token) throws MalformedURLException
 	{
 		Configuration config = new Configuration("https://api.dropboxapi.com/2/files/list_folder", new ListFolderBody("/Uni", true), "POST", token);
-		Vector<Content> contents = fileService.getListFolder(httpsReq.rootCall(config));
+		Vector<Content> contents = fileService.getContentList(httpsReq.rootCall(config));
 		
-		return contents.get(1).getName();
+		return contents.get(4);
 	}
 	
 	//get-metadata API call
@@ -51,11 +51,11 @@ public class ContentController {
 	
 	//list-revision API call
 	@GetMapping("/get_list_revisions")
-	public @ResponseBody String POSTGetListRevision(@RequestParam(name="token") String token) throws MalformedURLException
+	public @ResponseBody Revision POSTGetListRevision(@RequestParam(name="token") String token) throws MalformedURLException
 	{
-		Configuration config = new Configuration("https://api.dropboxapi.com/2/files/list_revisions", new ListRevisionsBody("/Uni",10), "POST", token);
-		Vector<Revision> revision= fileService.getListRevisions(httpsReq.rootCall(config));
-		return revision.get(1).getRevisionId();
+		Configuration config = new Configuration("https://api.dropboxapi.com/2/files/list_revisions", new ListRevisionsBody("/Uni/Appunti.paper",10), "POST", token);
+		Vector<Revision> revision= fileService.getRevisionList(httpsReq.rootCall(config));
+		return revision.get(1);
 		//Stringa per prova
 	}
 	

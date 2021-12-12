@@ -63,8 +63,8 @@ public class FileServiceImpl implements FileService {
         	if(((JSONObject) jsonObjectContent).getString(".tag").equals("file"))
         	{
         		//TODO: Gestire eccezioni
-        		Long size = Long.valueOf( ((JSONObject) jsonObjectContent).getString("size") );
-        		boolean isDownloadable = Boolean.parseBoolean(((JSONObject) jsonObjectContent).getString("is_downloadable"));
+        		Long size = ((JSONObject) jsonObjectContent).getLong("size");
+        		boolean isDownloadable = ((JSONObject) jsonObjectContent).getBoolean("is_downloadable");
         		content = new File(name, pathLower, pathDisplay, id, size, isDownloadable);
         	}
         	else if(((JSONObject) jsonObjectContent).getString(".tag").equals("folder"))
@@ -90,8 +90,8 @@ public class FileServiceImpl implements FileService {
     	if(((JSONObject) jsonObjectContent).getString(".tag").equals("file"))
     	{
     		//TODO: Gestire eccezioni
-    		Long size = Long.valueOf( ((JSONObject) jsonObjectContent).getString("size") );
-    		boolean isDownloadable = Boolean.parseBoolean(((JSONObject) jsonObjectContent).getString("is_downloadable"));
+    		Long size =  ((JSONObject) jsonObjectContent).getLong("size");
+    		boolean isDownloadable = ((JSONObject) jsonObjectContent).getBoolean("is_downloadable");
     		content = new File(name, pathLower, pathDisplay, id, size, isDownloadable);
     	}
     	else if(((JSONObject) jsonObjectContent).getString(".tag").equals("folder"))

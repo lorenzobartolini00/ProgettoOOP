@@ -24,7 +24,7 @@ public class UserController {
 	public String POSTGetListFileMembers(@RequestParam(name="token") String token) throws MalformedURLException{
 		
 		Configuration config = new Configuration("https://api.dropboxapi.com/2/sharing/list_file_members", new ListFileMembersBody("/Uni",10), "POST", token);
-		Vector<User> users=userService.getListUsers(httpsReq.rootCall(config));
+		Vector<User> users=userService.getUserList(httpsReq.rootCall(config));
 		return users.get(1).getEmail();
 		
 	}
