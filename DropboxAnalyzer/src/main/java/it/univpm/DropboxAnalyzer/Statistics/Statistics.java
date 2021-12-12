@@ -2,7 +2,6 @@ package it.univpm.DropboxAnalyzer.Statistics;
 
 import java.util.Calendar;
 import java.util.Vector;
-import java.util.ArrayList.indexOf();
 import it.univpm.DropboxAnalyzer.Model.Revision;
 
 public class Statistics {
