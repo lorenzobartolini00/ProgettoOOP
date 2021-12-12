@@ -9,6 +9,8 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import it.univpm.DropboxAnalyzer.Model.Content;
+import it.univpm.DropboxAnalyzer.Model.File;
+import it.univpm.DropboxAnalyzer.Model.Folder;
 import it.univpm.DropboxAnalyzer.Model.Revision;
 
 
@@ -55,25 +57,47 @@ public class FileServiceImpl implements FileService {
         	String pathDisplay=((JSONObject) jsonObject).getString("path_display");
         	String id=((JSONObject) jsonObject).getString("id");
         	
-        	Content content=new Content(name,pathLower,pathDisplay,id);
+        	Content content = null;
+        	if(((JSONObject) jsonObject).getString(".tag").equals("file"))
+        	{
+        		//TODO: Gestire eccezioni
+        		Long size = Long.valueOf( ((JSONObject) jsonObject).getString("size") );
+        		boolean isDownloadable = Boolean.parseBoolean(((JSONObject) jsonObject).getString("is_downloadable"));
+        		content = new File(name, pathLower, pathDisplay, id, size, isDownloadable);
+        	}
+        	else if(((JSONObject) jsonObject).getString(".tag").equals("folder"))
+        	{
+        		content = new Folder(name,pathLower,pathDisplay,id);
+        	}
         	
-        	listFolder.add(content);
+        	if(content != null) listFolder.add(content);
         }
         
 		return listFolder;
 	}
 
 	@Override
-	public Content getMetadata(JSONObject jsonObj) {
+	public Content getMetadata(JSONObject JSONContent) {
 		
-		String name=((JSONObject) jsonObj).getString("name");
-		String pathLower=((JSONObject) jsonObj).getString("path_lower");
-    	String pathDisplay=((JSONObject) jsonObj).getString("path_display");
-    	String id=((JSONObject) jsonObj).getString("id");
+		String name=((JSONObject) JSONContent).getString("name");
+		String pathLower=((JSONObject) JSONContent).getString("path_lower");
+    	String pathDisplay=((JSONObject) JSONContent).getString("path_display");
+    	String id=((JSONObject) JSONContent).getString("id");
     	
-    	Content content=new Content(name,pathLower,pathDisplay,id);
-		
-		return content;
+    	Content content = null;
+    	if(((JSONObject) JSONContent).getString(".tag").equals("file"))
+    	{
+    		//TODO: Gestire eccezioni
+    		Long size = Long.valueOf( ((JSONObject) JSONContent).getString("size") );
+    		boolean isDownloadable = Boolean.parseBoolean(((JSONObject) JSONContent).getString("is_downloadable"));
+    		content = new File(name, pathLower, pathDisplay, id, size, isDownloadable);
+    	}
+    	else if(((JSONObject) JSONContent).getString(".tag").equals("folder"))
+    	{
+    		content = new Folder(name,pathLower,pathDisplay,id);
+    	}
+    	
+    	return content;
 	}
 
 	
