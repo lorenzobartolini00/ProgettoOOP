@@ -22,8 +22,9 @@ public class Revision {
 	//Metodo che converte da stringa a calendar
 	private Calendar toCalendar(String date)
 	{
-		
-		return null;
+		Calendar calendar= Calendar.getInstance();
+		calendar.set(Integer.valueOf(date.substring(0,3)), Integer.valueOf(date.substring(5,6)), Integer.valueOf(date.substring(8,9)),Integer.valueOf(date.substring(11,12)), Integer.valueOf(date.substring(14,15)));
+		return calendar;
 	}
 	
 	public Calendar getLastClientModify() {
