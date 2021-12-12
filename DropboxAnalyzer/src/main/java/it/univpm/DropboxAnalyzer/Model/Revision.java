@@ -12,6 +12,20 @@ public class Revision {
 		this.lastServerModify = lastServerModify;
 		this.revisionId = revisionId;
 	}
+	
+	public Revision(String lastClientModify, String lastServerModify, String revisionId) {
+		this.lastClientModify = toCalendar(lastClientModify);
+		this.lastServerModify = toCalendar(lastServerModify);
+		this.revisionId = revisionId;
+	}
+	
+	//Metodo che converte da stringa a calendar
+	private Calendar toCalendar(String date)
+	{
+		
+		return null;
+	}
+	
 	public Calendar getLastClientModify() {
 		return lastClientModify;
 	}
