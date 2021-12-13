@@ -6,6 +6,7 @@ import it.univpm.DropboxAnalyzer.Model.Revision;
 
 public class RevisionStatistics{
 	private double hourPerRevision;
+	private Long sizeEverage;
 	private Vector<Revision> revisions;
 	
 	public RevisionStatistics(Vector<Revision> revisions)
@@ -48,14 +49,25 @@ public class RevisionStatistics{
 		return String.valueOf(this.hourPerRevision);
 	}
 	
-	
-	/*dobbiamo implementare altri metodi per fare statistiche:
-	 * 
-	 * //metodo che mi dice di quanto aumenta, in media, la dimensione dei file per revisione
-	 * public void sizePerRevision(){
-	
+	 
+	 //metodo che mi dice di quanto aumenta, in media, la dimensione dalla prima revisione
+	 public void sizePerRevision(){
+		 Long thisSize=(long) 0;
+		 Long prevSize=(long) 0;
+		 Long totalSize= (long) 0;
+		 Long delta=(long) 0;
+		 for(Revision revision:revisions) {
+			 thisSize=revision.getSize();
+			 if(revisions.indexOf(revision)!=0) {
+				 delta = thisSize - prevSize;
+				 totalSize += delta;
+			 }
+			 thisSize=prevSize;
+		 }
+		 this.sizeEverage=totalSize/revisions.size();
 		}
-		
+	 
+	/*
 		//metodo che mi dice quanti utenti ci sono in media per ogni cartella/file nel dropbox
 		public void usersPerFile(){
 		

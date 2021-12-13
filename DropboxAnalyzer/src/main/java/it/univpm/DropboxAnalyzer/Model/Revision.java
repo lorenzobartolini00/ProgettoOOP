@@ -10,8 +10,9 @@ public class Revision {
 	private Calendar lastClientModify;
 	private Calendar lastServerModify;
 	private String revisionId;
+	private Long size;
 	
-	public Revision(Calendar lastClientModify, Calendar lastServerModify, String revisionId) {
+	public Revision(Calendar lastClientModify, Calendar lastServerModify, String revisionId, Long revision) {
 		this.lastClientModify = lastClientModify;
 		this.lastServerModify = lastServerModify;
 		this.revisionId = revisionId;
@@ -32,6 +33,14 @@ public class Revision {
 		return calendar;
 	}
 	
+	public Long getSize() {
+		return size;
+	}
+
+	public void setSize(Long size) {
+		this.size = size;
+	}
+
 	public Calendar getLastClientModify() {
 		return lastClientModify;
 	}
