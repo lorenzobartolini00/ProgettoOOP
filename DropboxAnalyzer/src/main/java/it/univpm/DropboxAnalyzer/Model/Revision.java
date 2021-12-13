@@ -13,7 +13,13 @@ public class Revision {
 	private Long size;
 	private Boolean isDownloadable;
 	
-	public Revision(Calendar lastClientModify, Calendar lastServerModify, String revisionId, Long revision, Boolean isDownloadable) {
+	public Revision(Calendar lastClientModify, Calendar lastServerModify, String revisionId) {
+		this.lastClientModify = lastClientModify;
+		this.lastServerModify = lastServerModify;
+		this.revisionId = revisionId;
+	}
+	
+	public Revision(Calendar lastClientModify, Calendar lastServerModify, String revisionId, Boolean isDownloadable) {
 		this.lastClientModify = lastClientModify;
 		this.lastServerModify = lastServerModify;
 		this.revisionId = revisionId;
