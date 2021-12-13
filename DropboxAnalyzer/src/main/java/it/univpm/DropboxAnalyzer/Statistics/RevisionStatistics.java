@@ -9,10 +9,7 @@ import it.univpm.DropboxAnalyzer.Model.Revision;
 public class RevisionStatistics{
 	private double hourPerRevision;
 	private Long sizeEverage;
-	private double isDownloadableEverage;
-	private double usersEverage;
 	private Vector<Revision> revisions;
-	private Vector<File> files;
 	
 	
 	public RevisionStatistics(Vector<Revision> revisions)
@@ -59,12 +56,6 @@ public class RevisionStatistics{
 		return String.valueOf(this.hourPerRevision);
 	}
 	
-	
-	public double getIsDownloadableEverage() {
-		return isDownloadableEverage;
-	}
-	
-	
 	 public Long getSizeEverage() {
 		return sizeEverage;
 	}
@@ -86,14 +77,5 @@ public class RevisionStatistics{
 		 }
 		 this.sizeEverage=totalSize/revisions.size();
 		}
-
-	public double getUsersEverage() {
-		return usersEverage;
-	}
-
-	//implementare un setter che mi dice quanti utenti in media hanno accesso ai file di dropbox
-	public void setUsersEverage() {
-		
-	}
 	
 }
