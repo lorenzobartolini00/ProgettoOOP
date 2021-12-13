@@ -4,11 +4,11 @@ import java.util.Calendar;
 import java.util.Vector;
 import it.univpm.DropboxAnalyzer.Model.Revision;
 
-public class Statistics {
+public class RevisionStatistics{
 	private double hourPerRevision;
 	private Vector<Revision> revisions;
 	
-	public Statistics(Vector<Revision> revisions)
+	public RevisionStatistics(Vector<Revision> revisions)
 	{
 		this.revisions = revisions;
 		setHourPerRevision();
@@ -48,6 +48,27 @@ public class Statistics {
 		return String.valueOf(this.hourPerRevision);
 	}
 	
+	
+	/*dobbiamo implementare altri metodi per fare statistiche:
+	 * 
+	 * //metodo che mi dice di quanto aumenta, in media, la dimensione dei file per revisione
+	 * public void sizePerRevision(){
+	
+		}
+		
+		//metodo che mi dice quanti utenti ci sono in media per ogni cartella/file nel dropbox
+		public void usersPerFile(){
+		
+			//userò l'id che mi viene fornito per ogni file
+			 * 
+		}
+		
+		//metodo che mi calcola quanti file in media sono scaricabili
+		 * 
+		 * public void mediaIsDownloadable(){
+		 * 
+		 * }
+	 */
 	
 	
 }
