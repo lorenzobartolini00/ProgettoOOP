@@ -2,12 +2,16 @@ package it.univpm.DropboxAnalyzer.Statistics;
 
 import java.util.Calendar;
 import java.util.Vector;
+
+import it.univpm.DropboxAnalyzer.Model.File;
 import it.univpm.DropboxAnalyzer.Model.Revision;
 
 public class RevisionStatistics{
 	private double hourPerRevision;
 	private Long sizeEverage;
+	private double isDownloadableEverage;
 	private Vector<Revision> revisions;
+	private Vector<File> files;
 	
 	public RevisionStatistics(Vector<Revision> revisions)
 	{
@@ -21,6 +25,7 @@ public class RevisionStatistics{
 	}
 	
 	//mi ritorna ogni quante ore, in media, viene effettuata una revisione di questo file
+	
 	public void setHourPerRevision () {
 		Long somma=(long) 0;
 		Long delta=(long) 0;
@@ -51,7 +56,8 @@ public class RevisionStatistics{
 	
 	 
 	 //metodo che mi dice di quanto aumenta, in media, la dimensione dalla prima revisione
-	 public void sizePerRevision(){
+	
+	public void sizePerRevision(){
 		 Long thisSize=(long) 0;
 		 Long prevSize=(long) 0;
 		 Long totalSize= (long) 0;
@@ -67,6 +73,22 @@ public class RevisionStatistics{
 		 this.sizeEverage=totalSize/revisions.size();
 		}
 	 
+	//metodo che mi calcola quanti file in media sono scaricabili
+	 
+	 public void isDownloadableHM() {
+		 
+		 //in questo caso userò la chiamata ListFolder
+		 
+		 int somma=0;
+		 for(File file:files) {
+			 if(files.indexOf(file)!=0) {
+				 if(file.getIsDownloadable().equals("true")) {
+					 somma += 1;
+				 }
+			 }
+		 }
+		 this.isDownloadableEverage=somma/files.size();
+	 }
 	/*
 		//metodo che mi dice quanti utenti ci sono in media per ogni cartella/file nel dropbox
 		public void usersPerFile(){
@@ -75,11 +97,7 @@ public class RevisionStatistics{
 			 * 
 		}
 		
-		//metodo che mi calcola quanti file in media sono scaricabili
-		 * 
-		 * public void mediaIsDownloadable(){
-		 * 
-		 * }
+		
 	 */
 	
 	
