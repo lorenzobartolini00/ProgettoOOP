@@ -59,7 +59,44 @@ public class RevisionStatistics implements Statistics{
 		 }
 		 return totalSize/revisions.size();
 		}
+	
+	//percentuale
+	
+	public double getPercentSize() {
+		 Long thisSize=(long) 0;
+		 Long prevSize=(long) 0;
+		 double somma= 0;
+		 Long delta=(long) 0;
+		 double incrRelativo=0;
+		 double incrPercentuale=0;
+		 for(Revision revision: revisions) {
+			 thisSize=revision.getSize();
+			 if(revisions.indexOf(revision)!=0) {
+				 delta=prevSize-thisSize;
+				 incrRelativo= delta/thisSize;
+				 incrPercentuale= incrRelativo*100;
+				 somma += incrPercentuale;
+			 }
+			 prevSize=thisSize;
+		 }
+		 return somma/revisions.size()-1;
+	}
+	
 
+	//incremento percentuale della dimensione dalla creazione all'ultima revisione
+	
+	public double getTotalPercent() {
+	int indice=revisions.size();
+	double delta=revisions.get(0).getSize()-revisions.get(indice).getSize(); //dimensione finale meno iniziale
+	return delta/revisions.get(indice).getSize()*100; //incremento percentuale
+	}
+	
+	
+	//numero totale di revisioni
+	
+	public int getNumberOfRevision() {
+		return revisions.size();
+	}
 	
 	@Override
 	public JSONObject getStatistics() {
@@ -67,6 +104,9 @@ public class RevisionStatistics implements Statistics{
 		
 		statistics.put("average_time_between_each_revision", getHourPerRevision());
 		statistics.put("average_size_increment", getSizeAverage());
+		statistics.put("totale_percentage_size", getTotalPercent());
+		statistics.put("percentage_size", getPercentSize());
+		statistics.put("number_of_revisions", getNumberOfRevision());
 		
 		return statistics;
 	}
