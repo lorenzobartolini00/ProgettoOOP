@@ -60,7 +60,7 @@ public class RevisionStatistics{
 		return sizeEverage;
 	}
 	
-	 //setter che mi dice di quanto aumenta, in media, la dimensione dalla prima revisione
+	 //setter che mi dice di quanto aumenta, in media, la dimensione per ogni revisione
 
 	public void setSizeEverage(){
 		 Long thisSize=(long) 0;

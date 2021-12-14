@@ -13,23 +13,24 @@ public class Revision {
 	private Long size;
 	private Boolean isDownloadable;
 	
-	public Revision(Calendar lastClientModify, Calendar lastServerModify, String revisionId) {
+
+	public Revision(Calendar lastClientModify, Calendar lastServerModify, String revisionId, Long size,
+			Boolean isDownloadable) {
 		this.lastClientModify = lastClientModify;
 		this.lastServerModify = lastServerModify;
 		this.revisionId = revisionId;
+		this.size = size;
+		this.isDownloadable = isDownloadable;
 	}
 	
-	public Revision(Calendar lastClientModify, Calendar lastServerModify, String revisionId, Boolean isDownloadable) {
-		this.lastClientModify = lastClientModify;
-		this.lastServerModify = lastServerModify;
-		this.revisionId = revisionId;
-		this.isDownloadable=isDownloadable;
-	}
 	
-	public Revision(String lastClientModify, String lastServerModify, String revisionId) {
+	public Revision(String lastClientModify, String lastServerModify, String revisionId, Long size,
+			Boolean isDownloadable) {
 		this.lastClientModify = toCalendar(lastClientModify);
 		this.lastServerModify = toCalendar(lastServerModify);
 		this.revisionId = revisionId;
+		this.size = size;
+		this.isDownloadable = isDownloadable;
 	}
 	
 	//Metodo che converte da stringa a calendar

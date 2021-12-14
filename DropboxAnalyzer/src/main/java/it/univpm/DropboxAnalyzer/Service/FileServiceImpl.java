@@ -34,8 +34,10 @@ public class FileServiceImpl implements FileService {
         	String lastClientModify = ((JSONObject) jsonObjectRevision).getString("client_modified");
         	String lastServerModify = ((JSONObject) jsonObjectRevision).getString("server_modified");
         	String revisionId = ((JSONObject) jsonObjectRevision).getString("rev");
+        	Long size = ((JSONObject) jsonObjectRevision).getLong("size");
+        	Boolean isDownloadable = ((JSONObject) jsonObjectRevision).getBoolean("is_downloadable");
 
-        	Revision revision = new Revision(lastClientModify, lastServerModify, revisionId);
+        	Revision revision = new Revision(lastClientModify, lastServerModify, revisionId, size, isDownloadable);
         	
         	revisionList.add(revision);
         }
