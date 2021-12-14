@@ -1,10 +1,10 @@
 package it.univpm.DropboxAnalyzer.filter;
 
 public class Filter {
-	private long periodOfTime;
+	private Long periodOfTime;
 	private String fileExtension;
 	private boolean onlyDownloadable;
-	private int revisionsThreshold;
+	private Integer revisionsThreshold;
 	
 	public Filter(long periodOfTime, String fileExtension, boolean onlyDownloadable, int revisionsThreshold) {
 		this.periodOfTime = periodOfTime;
@@ -12,7 +12,30 @@ public class Filter {
 		this.onlyDownloadable = onlyDownloadable;
 		this.revisionsThreshold = revisionsThreshold;
 	}
-	
+	public Filter(long periodOfTime, String fileExtension, boolean onlyDownloadable) {
+		this.periodOfTime = periodOfTime;
+		this.fileExtension = fileExtension;
+		this.onlyDownloadable = onlyDownloadable;
+		this.revisionsThreshold = null;
+	}
+	public Filter(long periodOfTime, String fileExtension) {
+		this.periodOfTime = periodOfTime;
+		this.fileExtension = fileExtension;
+		this.onlyDownloadable = false;
+		this.revisionsThreshold = null;
+	}
+	public Filter(long periodOfTime) {
+		this.periodOfTime = periodOfTime;
+		this.fileExtension = ".all";
+		this.onlyDownloadable = false;
+		this.revisionsThreshold = null;
+	}
+	public Filter() {
+		this.periodOfTime = null;
+		this.fileExtension = ".all";
+		this.onlyDownloadable = false;
+		this.revisionsThreshold = null;
+	}
 	public long getPeriodOfTime() {
 		return periodOfTime;
 	}
