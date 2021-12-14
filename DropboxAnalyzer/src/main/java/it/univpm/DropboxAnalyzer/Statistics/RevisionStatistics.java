@@ -55,7 +55,7 @@ public class RevisionStatistics implements Statistics{
 				 delta = thisSize - prevSize;
 				 totalSize += delta;
 			 }
-			 thisSize=prevSize;
+			 prevSize = thisSize;
 		 }
 		 return totalSize/revisions.size();
 		}

@@ -36,7 +36,7 @@ public class ContentController {
 		Configuration config = new Configuration("https://api.dropboxapi.com/2/files/list_revisions", new ListRevisionsBody("/Uni/Appunti.paper",10), "POST", token);
 		Vector<Revision> revisions = fileService.getRevisionList(httpsReq.rootCall(config));
 		RevisionStatistics statistics = new RevisionStatistics(revisions);
-		return "Il numero di ore tra una revisione e l'altra in media è: " + statistics.toString();
+		return statistics.getStatistics().toString();
 	}
 	
 	//"list-folder API call
