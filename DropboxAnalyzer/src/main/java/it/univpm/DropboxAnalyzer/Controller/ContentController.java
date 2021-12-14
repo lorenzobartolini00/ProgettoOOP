@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -33,10 +34,10 @@ public class ContentController {
 	@GetMapping("/get_revision_statistics")
 	public @ResponseBody String POSTRevisionStatistics(@RequestParam(name="token") String token) throws MalformedURLException
 	{
-		Configuration config = new Configuration("https://api.dropboxapi.com/2/files/list_revisions", new ListRevisionsBody("/Uni/Appunti.paper",10), "POST", token);
+		Configuration config = new Configuration("https://api.dropboxapi.com/2/files/list_revisions", new ListRevisionsBody("/Uni/Generali.docx", 10), "POST", token);
 		Vector<Revision> revisions = fileService.getRevisionList(httpsReq.rootCall(config));
 		RevisionStatistics statistics = new RevisionStatistics(revisions);
-		return statistics.getStatistics().toString();
+		return statistics.getStatistics(null).toString();
 	}
 	
 	//"list-folder API call

@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import it.univpm.DropboxAnalyzer.Model.File;
 import it.univpm.DropboxAnalyzer.Model.Revision;
+import it.univpm.DropboxAnalyzer.filter.RevisionFilter;
 
 public class RevisionStatistics implements Statistics{
 	private Vector<Revision> revisions;
@@ -79,7 +80,7 @@ public class RevisionStatistics implements Statistics{
 			 }
 			 prevSize=thisSize;
 		 }
-		 return somma/revisions.size()-1;
+		 return somma/(revisions.size()-1);
 	}
 	
 
@@ -87,8 +88,8 @@ public class RevisionStatistics implements Statistics{
 	
 	public double getTotalPercent() {
 	int indice=revisions.size();
-	double delta=revisions.get(0).getSize()-revisions.get(indice).getSize(); //dimensione finale meno iniziale
-	return delta/revisions.get(indice).getSize()*100; //incremento percentuale
+	double delta=revisions.get(0).getSize()-revisions.get(indice-1).getSize(); //dimensione finale meno iniziale
+	return delta/revisions.get(indice-1).getSize()*100; //incremento percentuale
 	}
 	
 	
@@ -99,8 +100,10 @@ public class RevisionStatistics implements Statistics{
 	}
 	
 	@Override
-	public JSONObject getStatistics() {
+	public JSONObject getStatistics(RevisionFilter filter) {
 		JSONObject statistics=new JSONObject();
+		
+		//Chiamata del metodo filter.filter() 
 		
 		statistics.put("average_time_between_each_revision", getHourPerRevision());
 		statistics.put("average_size_increment", getSizeAverage());

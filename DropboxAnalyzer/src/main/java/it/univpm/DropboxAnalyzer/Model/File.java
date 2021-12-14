@@ -1,5 +1,9 @@
 package it.univpm.DropboxAnalyzer.Model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Vector;
+
 public class File extends Content{
 
 	//attributi
@@ -16,8 +20,8 @@ public class File extends Content{
 	}
 
 	private String toExtension(String pathLower) {
-		String[] strings = pathLower.split(".");
-		return "." + strings[strings.length - 1];
+		ArrayList<String> strings = new ArrayList<String>(Arrays.asList(pathLower.split(".")));
+		return "." + strings.get(strings.size() - 1);
 	}
 
 	//getter e setter
