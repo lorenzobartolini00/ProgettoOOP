@@ -3,32 +3,23 @@ package it.univpm.DropboxAnalyzer.Statistics;
 import java.util.Calendar;
 import java.util.Vector;
 
+import org.json.JSONObject;
+
 import it.univpm.DropboxAnalyzer.Model.File;
 import it.univpm.DropboxAnalyzer.Model.Revision;
 
-public class RevisionStatistics{
-	private double hourPerRevision;
-	private Long sizeEverage;
+public class RevisionStatistics implements Statistics{
 	private Vector<Revision> revisions;
 	
 	
 	public RevisionStatistics(Vector<Revision> revisions)
 	{
 		this.revisions = revisions;
-		setHourPerRevision();
-		
-		setSizeEverage();
-		
 	}
 	
-	public double getHourPerRevision()
-	{
-		return this.hourPerRevision;
-	}
 	
-	//mi ritorna ogni quante ore, in media, viene effettuata una revisione di questo file
 	
-	public void setHourPerRevision () {
+	private double getHourPerRevision() {
 		Long somma=(long) 0;
 		Long delta=(long) 0;
 		Long deltaHour=(long) 0;
@@ -48,21 +39,12 @@ public class RevisionStatistics{
 			prevDate = thisDate;
 		}
 		
-		this.hourPerRevision = somma/revisions.size();
+		return somma/revisions.size();
 	}
 	
-	public String toString()
-	{
-		return String.valueOf(this.hourPerRevision);
-	}
-	
-	 public Long getSizeEverage() {
-		return sizeEverage;
-	}
-	
-	 //setter che mi dice di quanto aumenta, in media, la dimensione per ogni revisione
+	//mi ritorna ogni quante ore, in media, viene effettuata una revisione di questo file
 
-	public void setSizeEverage(){
+	private double getSizeAverage(){
 		 Long thisSize=(long) 0;
 		 Long prevSize=(long) 0;
 		 Long totalSize= (long) 0;
@@ -75,7 +57,18 @@ public class RevisionStatistics{
 			 }
 			 thisSize=prevSize;
 		 }
-		 this.sizeEverage=totalSize/revisions.size();
+		 return totalSize/revisions.size();
 		}
+
+	
+	@Override
+	public JSONObject getStatistics() {
+		JSONObject statistics=new JSONObject();
+		
+		statistics.put("average_time_between_each_revision", getHourPerRevision());
+		statistics.put("average_size_increment", getSizeAverage());
+		
+		return statistics;
+	}
 	
 }
