@@ -18,6 +18,7 @@ import it.univpm.DropboxAnalyzer.Model.Revision;
 import it.univpm.DropboxAnalyzer.Service.FileService;
 import it.univpm.DropboxAnalyzer.Service.HTTPSRequest;
 import it.univpm.DropboxAnalyzer.Statistics.RevisionStatistics;
+import it.univpm.DropboxAnalyzer.Statistics.Statistics;
 import it.univpm.DropboxAnalyzer.configuration.Body;
 import it.univpm.DropboxAnalyzer.configuration.Configuration;
 import it.univpm.DropboxAnalyzer.configuration.GetMetadataBody;
@@ -32,12 +33,11 @@ public class ContentController {
 	private HTTPSRequest httpsReq;
 	
 	@GetMapping("/get_revision_statistics")
-	public @ResponseBody String POSTRevisionStatistics(@RequestParam(name="token") String token) throws MalformedURLException
+	public @ResponseBody RevisionStatistics POSTRevisionStatistics(@RequestParam(name="token") String token) throws MalformedURLException
 	{
-		Configuration config = new Configuration("https://api.dropboxapi.com/2/files/list_revisions", new ListRevisionsBody("/Uni/Generali.docx", 10), "POST", token);
+		Configuration config = new Configuration("https://api.dropboxapi.com/2/files/list_revisions", new ListRevisionsBody("/Uni/Appunti.paper", 10), "POST", token);
 		Vector<Revision> revisions = fileService.getRevisionList(httpsReq.rootCall(config));
-		RevisionStatistics statistics = new RevisionStatistics(revisions);
-		return statistics.getStatistics(null).toString();
+		return new RevisionStatistics(revisions);
 	}
 	
 	//"list-folder API call

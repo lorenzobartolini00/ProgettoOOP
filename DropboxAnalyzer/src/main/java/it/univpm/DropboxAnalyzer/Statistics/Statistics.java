@@ -6,5 +6,5 @@ import it.univpm.DropboxAnalyzer.filter.RevisionFilter;
 
 public interface Statistics {
 
-	public JSONObject getStatistics(RevisionFilter filter);
+	public void updateStatistics();
 }

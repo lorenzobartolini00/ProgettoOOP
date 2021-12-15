@@ -53,11 +53,19 @@ public class Revision {
 	public Calendar getLastClientModify() {
 		return lastClientModify;
 	}
+	
+	public Long getLastClientModifyInMilliseconds() {
+		return lastClientModify.getTimeInMillis();
+	}
+	
 	public void setLastClientModify(Calendar lastClientModify) {
 		this.lastClientModify = lastClientModify;
 	}
 	public Calendar getLastServerModify() {
 		return lastServerModify;
+	}
+	public Long getLastServerModifyInMilliseconds() {
+		return lastServerModify.getTimeInMillis();
 	}
 	public void setLastServerModify(Calendar lastServerModify) {
 		this.lastServerModify = lastServerModify;
