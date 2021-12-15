@@ -12,6 +12,12 @@ public class FileFilter implements Filter{
 	private Vector<File> files;
 	private Vector<File> filteredFiles;
 	
+	
+	public FileFilter(String fileExtension, boolean onlyDownloadable) {
+		this.fileExtension = fileExtension;
+		this.onlyDownloadable = onlyDownloadable;
+	}
+
 	//questo metodo mi deve restituire un lista di file filtrati
 	
 	@Override
