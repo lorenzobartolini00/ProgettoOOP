@@ -36,13 +36,13 @@ public class RevisionFilter implements Filter{
 		 
 		 //L'elemento viene rimosso se se la seguente condizione è verificata, ovvero se la distanza temporale tra la data odierna
 		 //e quella della modifica è maggiore di un certo range.
-        return p -> (( todaysDateinMillis - p.getLastClientModifyInMilliseconds() ) > periodOfTime) && periodOfTime!=null;
+        return p -> (( todaysDateinMillis - p.getLastClientModifyInMilliseconds() ) > periodOfTime);
     }
 	
 	private Predicate<Revision> aboveThreshold() {
 		//L'elemento viene rimosso se se la seguente condizione è verificata,
 		//ovvero se la dimensione dell'elemento è maggiore o uguale alla soglia
-        return p -> ((p.getSize() - revisionsThreshold) >= 0) && revisionsThreshold!=null;
+        return p -> ((p.getSize() - revisionsThreshold) >= 0);
     }
 	
 	
