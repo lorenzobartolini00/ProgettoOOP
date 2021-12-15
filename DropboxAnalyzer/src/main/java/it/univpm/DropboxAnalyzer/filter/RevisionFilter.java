@@ -10,20 +10,16 @@ import it.univpm.DropboxAnalyzer.Model.Revision;
 
 public class RevisionFilter implements Filter{
 	private Long periodOfTime;
-	private String fileExtension;
-	private boolean onlyDownloadable;
 	private Integer revisionsThreshold;
 	
 	private Vector<Revision> revisions;
-	private Vector<Revision> filteredRevisions;
 	
 	
 	//questo metodo mi deve restituire un lista di revisioni filtrate
 	
 	@Override
 	public Vector<Revision> filter() {
-		
-		JSONObject jo= new JSONObject();
+		Vector<Revision> filteredRevisions = new Vector<Revision>();
 		
 			for(Revision revision: revisions) {
 				
@@ -59,53 +55,29 @@ public class RevisionFilter implements Filter{
 			
 	
 	
-	public RevisionFilter(long periodOfTime, String fileExtension, boolean onlyDownloadable, int revisionsThreshold) {
+	public RevisionFilter(Vector<Revision> revisions, long periodOfTime, int revisionsThreshold) {
+		this.revisions = revisions;
 		this.periodOfTime = periodOfTime;
-		this.fileExtension = fileExtension;
-		this.onlyDownloadable = onlyDownloadable;
 		this.revisionsThreshold = revisionsThreshold;
 	}
-	public RevisionFilter(long periodOfTime, String fileExtension, boolean onlyDownloadable) {
+	
+	public RevisionFilter(Vector<Revision> revisions, long periodOfTime) {
+		this.revisions = revisions;
 		this.periodOfTime = periodOfTime;
-		this.fileExtension = fileExtension;
-		this.onlyDownloadable = onlyDownloadable;
 		this.revisionsThreshold = null;
 	}
-	public RevisionFilter(long periodOfTime, String fileExtension) {
-		this.periodOfTime = periodOfTime;
-		this.fileExtension = fileExtension;
-		this.onlyDownloadable = false;
-		this.revisionsThreshold = null;
-	}
-	public RevisionFilter(long periodOfTime) {
-		this.periodOfTime = periodOfTime;
-		this.fileExtension = ".all";
-		this.onlyDownloadable = false;
-		this.revisionsThreshold = null;
-	}
-	public RevisionFilter() {
+	
+	public RevisionFilter(Vector<Revision> revisions) {
+		this.revisions = revisions;
 		this.periodOfTime = null;
-		this.fileExtension = ".all";
-		this.onlyDownloadable = false;
 		this.revisionsThreshold = null;
 	}
+	
 	public long getPeriodOfTime() {
 		return periodOfTime;
 	}
 	public void setPeriodOfTime(long periodOfTime) {
 		this.periodOfTime = periodOfTime;
-	}
-	public String getFileExtension() {
-		return fileExtension;
-	}
-	public void setFileExtension(String fileExtension) {
-		this.fileExtension = fileExtension;
-	}
-	public boolean isOnlyDownloadable() {
-		return onlyDownloadable;
-	}
-	public void setOnlyDownloadable(boolean onlyDownloadable) {
-		this.onlyDownloadable = onlyDownloadable;
 	}
 	public int getRevisionsThreshold() {
 		return revisionsThreshold;

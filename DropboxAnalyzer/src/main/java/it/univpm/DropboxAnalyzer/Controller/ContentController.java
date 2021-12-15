@@ -24,6 +24,7 @@ import it.univpm.DropboxAnalyzer.configuration.Configuration;
 import it.univpm.DropboxAnalyzer.configuration.GetMetadataBody;
 import it.univpm.DropboxAnalyzer.configuration.ListFolderBody;
 import it.univpm.DropboxAnalyzer.configuration.ListRevisionsBody;
+import it.univpm.DropboxAnalyzer.filter.RevisionFilter;
 
 @Controller
 public class ContentController {
@@ -37,7 +38,7 @@ public class ContentController {
 	{
 		Configuration config = new Configuration("https://api.dropboxapi.com/2/files/list_revisions", new ListRevisionsBody("/Uni/Appunti.paper", 10), "POST", token);
 		Vector<Revision> revisions = fileService.getRevisionList(httpsReq.rootCall(config));
-		return new RevisionStatistics(revisions);
+		return new RevisionStatistics(new RevisionFilter(revisions).filter() );
 	}
 	
 	//"list-folder API call

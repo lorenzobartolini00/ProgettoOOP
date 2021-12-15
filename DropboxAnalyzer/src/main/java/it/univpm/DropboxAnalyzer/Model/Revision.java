@@ -2,9 +2,12 @@ package it.univpm.DropboxAnalyzer.Model;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Vector;
 
 import org.joda.time.DateTime;
 import org.json.JSONObject;
+
+import it.univpm.DropboxAnalyzer.filter.RevisionFilter;
 
 public class Revision {
 	private Calendar lastClientModify;
