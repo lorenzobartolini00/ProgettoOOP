@@ -2,7 +2,6 @@ package it.univpm.DropboxAnalyzer.filter;
 
 import java.time.LocalDate;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
 import java.util.Vector;
 
 import org.json.JSONObject;
@@ -16,8 +15,7 @@ public class RevisionFilter implements Filter{
 	private Integer revisionsThreshold;
 	
 	private Vector<Revision> revisions;
-	private Vector<Revision> filteredRevision;
-	
+	private Vector<Revision> filteredRevisions;
 	
 	
 	//questo metodo mi deve restituire un lista di oggetti filtrati
@@ -39,7 +37,7 @@ public class RevisionFilter implements Filter{
 					
 					 //se la differenza tra la data attuale e la data dell'ultima modifica è minore del filtro, allora aggiungo la revisione al vettore filteredRevision
 					 if(todaysDateinMillis-revision.getLastClientModify().getTimeInMillis()<periodOfTime) {
-						 filteredRevision.add(revision);
+						 filteredRevisions.add(revision);
 					 }
 					 
 				}
@@ -48,12 +46,21 @@ public class RevisionFilter implements Filter{
 				//vado a vedere se onlyDownloadable mi viene richiesto come filtro
 				if(onlyDownloadable) {
 					if(revision.getIsDownloadable()) {
-						filteredRevision.add(revision);
+						filteredRevisions.add(revision);
 					}
 				}
-				return filteredRevision;
+				
+				//vado a filtrare gli elementi per dimensione (piazzo una soglia)
+				if (revisionsThreshold!=null) {
+					
+					//controllo che il file non superi la soglia richiesta
+					if(revision.getSize()-revisionsThreshold>=0) {
+						filteredRevisions.add(revision);
+					}
+				}
 			}
-						
+			
+			return filteredRevisions;		
 		}
 			
 	
