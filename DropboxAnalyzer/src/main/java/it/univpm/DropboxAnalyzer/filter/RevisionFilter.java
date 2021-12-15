@@ -2,6 +2,7 @@ package it.univpm.DropboxAnalyzer.filter;
 
 import java.time.LocalDate;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import org.json.JSONObject;
@@ -18,9 +19,12 @@ public class RevisionFilter implements Filter{
 	private Vector<Revision> filteredRevision;
 	
 	
+	
 	//questo metodo mi deve restituire un lista di oggetti filtrati
 	@Override
-	public Object filter() {
+	public Vector<Revision> filter() {
+		
+		JSONObject jo= new JSONObject();
 		
 			for(Revision revision: revisions) {
 				
@@ -37,9 +41,9 @@ public class RevisionFilter implements Filter{
 					 if(todaysDateinMillis-revision.getLastClientModify().getTimeInMillis()<periodOfTime) {
 						 filteredRevision.add(revision);
 					 }
+					 
 				}
 				
-				//vado a vedere 
 				
 				//vado a vedere se onlyDownloadable mi viene richiesto come filtro
 				if(onlyDownloadable) {
@@ -47,12 +51,12 @@ public class RevisionFilter implements Filter{
 						filteredRevision.add(revision);
 					}
 				}
-				
-				
+				return filteredRevision;
 			}
+						
+		}
 			
-		return null;
-	}
+	
 	
 	public RevisionFilter(long periodOfTime, String fileExtension, boolean onlyDownloadable, int revisionsThreshold) {
 		this.periodOfTime = periodOfTime;
