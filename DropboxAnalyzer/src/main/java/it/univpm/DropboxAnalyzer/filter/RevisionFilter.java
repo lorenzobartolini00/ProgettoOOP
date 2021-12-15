@@ -1,16 +1,63 @@
 package it.univpm.DropboxAnalyzer.filter;
 
+import java.time.LocalDate;
+import java.time.ZoneOffset;
+import java.util.Vector;
+
+import org.json.JSONObject;
+
+import it.univpm.DropboxAnalyzer.Model.Revision;
+
 public class RevisionFilter implements Filter{
 	private Long periodOfTime;
 	private String fileExtension;
 	private boolean onlyDownloadable;
 	private Integer revisionsThreshold;
 	
+	private Vector<Revision> revisions;
+	private Vector<Revision> filteredRevisions;
+	
+	
+	//questo metodo mi deve restituire un lista di revisioni filtrate
+	
 	@Override
-	public Object filter() {
-		// TODO Implementare metodo che restituisce la lista di oggetti filtrati
-		return null;
-	}
+	public Vector<Revision> filter() {
+		
+		JSONObject jo= new JSONObject();
+		
+			for(Revision revision: revisions) {
+				
+				//vado a vedere se mi viene richiesto un periodo temporale
+				if(periodOfTime!=null) {
+					
+					//vedo qual'è la data attuale
+					 LocalDate todaysDate = LocalDate.now();
+					 
+					 //vado a prendere la data attuale in millisecondi
+					 Long todaysDateinMillis=todaysDate.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli();
+					
+					 //se la differenza tra la data attuale e la data dell'ultima modifica è minore del filtro, allora aggiungo la revisione al vettore filteredRevision
+					 if(todaysDateinMillis-revision.getLastClientModify().getTimeInMillis()<periodOfTime) {
+						 filteredRevisions.add(revision);
+					 }
+					 
+				}
+				
+				//vado a filtrare gli elementi per dimensione (piazzo una soglia)
+				if (revisionsThreshold!=null) {
+					
+					//controllo che il file non superi la soglia richiesta
+					if(revision.getSize()-revisionsThreshold>=0) {
+						filteredRevisions.add(revision);
+					}
+				}
+				
+			}
+			
+			return filteredRevisions;		
+		}
+			
+	
 	
 	public RevisionFilter(long periodOfTime, String fileExtension, boolean onlyDownloadable, int revisionsThreshold) {
 		this.periodOfTime = periodOfTime;
@@ -66,5 +113,7 @@ public class RevisionFilter implements Filter{
 	public void setRevisionsThreshold(int revisionsThreshold) {
 		this.revisionsThreshold = revisionsThreshold;
 	}
+	
+	
 	
 }
