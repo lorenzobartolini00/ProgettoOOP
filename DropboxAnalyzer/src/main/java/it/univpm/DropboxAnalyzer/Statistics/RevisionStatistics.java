@@ -9,9 +9,10 @@ import it.univpm.DropboxAnalyzer.Model.Revision;
 
 public class RevisionStatistics implements Statistics{
 	private double hourPerRevision;
-	private double sizeIncrementalAbsolute;
-	private double sizeIncrementalPercentage;
-	private double totalSizeIncrementalPercentage;
+	private double averageSizeIncrementPerRevision;
+	private double averageSizePercentageIncrementPerRevision;
+	private double absoluteSizeIncrement;
+	private double absoluteSizePercentageIncrement;
 	private int numberOfRevisons;
 	
 	private Vector<Revision> revisions;
@@ -25,9 +26,9 @@ public class RevisionStatistics implements Statistics{
 	@Override
 	public void updateStatistics() {
 		setHourPerRevision(getHourPerRevision());
-		setSizeIncrementalAbsolute(getSizeIncrementalAbsolute());
-		setSizeIncrementalPercentage(getSizeIncrementalPercentage());
-		setTotalSizeIncrementalPercentage(getTotalSizeIncrementalPercentage());
+		setAverageSizeIncrementPerRevision(getAverageSizeIncrementPerRevision());
+		setAverageSizePercentageIncrementPerRevision(getAverageSizePercentageIncrementPerRevision());
+		setAbsoluteSizePercentageIncrement(getAbsoluteSizePercentageIncrement());
 		setNumberOfRevisons(getNumberOfRevisons());
 	}
 	
@@ -42,30 +43,38 @@ public class RevisionStatistics implements Statistics{
 		this.hourPerRevision = hourPerRevision;
 	}
 
-	public double getSizeIncrementalAbsolute() {
+	public double getAverageSizeIncrementPerRevision() {
 		return getAverage(revisions, "getSize", false);
 	}
 
-	public void setSizeIncrementalAbsolute(double sizeIncrementalAbsolute) {
-		this.sizeIncrementalAbsolute = sizeIncrementalAbsolute;
+	public void setAverageSizeIncrementPerRevision(double sizeIncrementalAbsolute) {
+		this.averageSizeIncrementPerRevision = sizeIncrementalAbsolute;
 	}
 
-	public double getSizeIncrementalPercentage() {
+	public double getAverageSizePercentageIncrementPerRevision() {
 		return getAverage(revisions, "getSize", true);
 	}
 
-	public void setSizeIncrementalPercentage(double sizeIncrementalPercentage) {
-		this.sizeIncrementalPercentage = sizeIncrementalPercentage;
+	public void setAverageSizePercentageIncrementPerRevision(double sizeIncrementalPercentage) {
+		this.averageSizePercentageIncrementPerRevision = sizeIncrementalPercentage;
 	}
 
-	public double getTotalSizeIncrementalPercentage() {
+	public double getAbsoluteSizePercentageIncrement() {
 		int index = revisions.size();
-		double delta=revisions.get(0).getSize() - revisions.get(index-1).getSize(); //dimensione finale meno iniziale
-		return delta/revisions.get(index-1).getSize()*100; //incremento percentuale
+		if(index != 0)
+		{
+			double delta=revisions.get(0).getSize() - revisions.get(index-1).getSize(); //dimensione finale meno iniziale
+			return delta/revisions.get(index-1).getSize()*100; //incremento percentuale
+		}
+		else
+		{
+			return 0;
+		}
+		
 	}
 
-	public void setTotalSizeIncrementalPercentage(double totalSizeIncrementalPercentage) {
-		this.totalSizeIncrementalPercentage = totalSizeIncrementalPercentage;
+	public void setAbsoluteSizePercentageIncrement(double totalSizeIncrementalPercentage) {
+		this.absoluteSizePercentageIncrement = totalSizeIncrementalPercentage;
 	}
 
 	public int getNumberOfRevisons() {
@@ -77,14 +86,16 @@ public class RevisionStatistics implements Statistics{
 	}
 	
 	//Metodi ausiliari
-		private double getAverage(Vector<Revision> args, String methodName, boolean isPercentage)
+	private double getAverage(Vector<Revision> args, String methodName, boolean isPercentage)
+	{
+		if(args.size() != 0)
 		{
 			//Salva dentro il vettore values tutti i valori restituiti dal metodo methodName
 			Vector<Long> values = new Vector<Long>(CollectionUtils.collect(args, TransformerUtils.invokerTransformer(methodName)) );
 			
 			//Poichè serve calcolare la media di questi valori, uso un for each per sommare le differenze tra tutti i valori
-			long sum = 0;
-			long delta = 0;
+			double sum = 0;
+			double delta = 0;
 			for(Long value : values) 
 			{
 				if(values.indexOf(value) != 0)
@@ -100,6 +111,14 @@ public class RevisionStatistics implements Statistics{
 			}
 			return sum/values.size();
 		}
+		else
+		{
+			return 0;
+		}
+			
+	}
+		
+	
 
 
 

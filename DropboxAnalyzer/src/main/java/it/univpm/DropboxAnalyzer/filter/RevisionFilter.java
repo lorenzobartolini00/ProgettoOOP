@@ -3,6 +3,7 @@ package it.univpm.DropboxAnalyzer.filter;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.util.Vector;
+import java.util.function.Predicate;
 
 import org.json.JSONObject;
 
@@ -19,14 +20,76 @@ public class RevisionFilter implements Filter{
 	
 	@Override
 	public Vector<Revision> filter() {
-		Vector<Revision> filteredRevisions = new Vector<Revision>();
-		
-			for(Revision revision: revisions) {
+		if(periodOfTime != null) revisions.removeIf(notInRange());
+		if(revisionsThreshold != null) revisions.removeIf(aboveThreshold());
+				
+		return revisions;		
+		}
+	
+	//Metodi che restituiscono il filtro da passare come parametro al metodo RemoveIf()
+	private Predicate<Revision> notInRange() {
+		//vedo qual è la data attuale
+		 LocalDate todaysDate = LocalDate.now();
+		 
+		 //vado a prendere la data attuale in millisecondi
+		 Long todaysDateinMillis=todaysDate.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli();
+		 
+		 //L'elemento viene rimosso se se la seguente condizione è verificata, ovvero se la distanza temporale tra la data odierna
+		 //e quella della modifica è maggiore di un certo range.
+        return p -> (( todaysDateinMillis - p.getLastClientModifyInMilliseconds() ) > periodOfTime) && periodOfTime!=null;
+    }
+	
+	private Predicate<Revision> aboveThreshold() {
+		//L'elemento viene rimosso se se la seguente condizione è verificata,
+		//ovvero se la dimensione dell'elemento è maggiore o uguale alla soglia
+        return p -> (p.getSize() - revisionsThreshold >= 0) && revisionsThreshold!=null;
+    }
+	
+	
+	public RevisionFilter(Vector<Revision> revisions, long periodOfTime, int revisionsThreshold) {
+		this.revisions = revisions;
+		this.periodOfTime = periodOfTime;
+		this.revisionsThreshold = revisionsThreshold;
+	}
+	
+	public RevisionFilter(Vector<Revision> revisions, long periodOfTime) {
+		this.revisions = revisions;
+		this.periodOfTime = periodOfTime;
+		this.revisionsThreshold = null;
+	}
+	
+	public RevisionFilter(Vector<Revision> revisions, int revisionsThreshold) {
+		this.revisions = revisions;
+		this.periodOfTime = null;
+		this.revisionsThreshold = revisionsThreshold;
+	}
+	
+	public RevisionFilter(Vector<Revision> revisions) {
+		this.revisions = revisions;
+		this.periodOfTime = null;
+		this.revisionsThreshold = null;
+	}
+	
+	public long getPeriodOfTime() {
+		return periodOfTime;
+	}
+	public void setPeriodOfTime(long periodOfTime) {
+		this.periodOfTime = periodOfTime;
+	}
+	public int getRevisionsThreshold() {
+		return revisionsThreshold;
+	}
+	public void setRevisionsThreshold(int revisionsThreshold) {
+		this.revisionsThreshold = revisionsThreshold;
+	}
+	
+	/*
+	 * for(Revision revision: revisions) {
 				
 				//vado a vedere se mi viene richiesto un periodo temporale
 				if(periodOfTime!=null) {
 					
-					//vedo qual'è la data attuale
+					//vedo qual è la data attuale
 					 LocalDate todaysDate = LocalDate.now();
 					 
 					 //vado a prendere la data attuale in millisecondi
@@ -49,43 +112,6 @@ public class RevisionFilter implements Filter{
 				}
 				
 			}
-			
-			return filteredRevisions;		
-		}
-			
-	
-	
-	public RevisionFilter(Vector<Revision> revisions, long periodOfTime, int revisionsThreshold) {
-		this.revisions = revisions;
-		this.periodOfTime = periodOfTime;
-		this.revisionsThreshold = revisionsThreshold;
-	}
-	
-	public RevisionFilter(Vector<Revision> revisions, long periodOfTime) {
-		this.revisions = revisions;
-		this.periodOfTime = periodOfTime;
-		this.revisionsThreshold = null;
-	}
-	
-	public RevisionFilter(Vector<Revision> revisions) {
-		this.revisions = revisions;
-		this.periodOfTime = null;
-		this.revisionsThreshold = null;
-	}
-	
-	public long getPeriodOfTime() {
-		return periodOfTime;
-	}
-	public void setPeriodOfTime(long periodOfTime) {
-		this.periodOfTime = periodOfTime;
-	}
-	public int getRevisionsThreshold() {
-		return revisionsThreshold;
-	}
-	public void setRevisionsThreshold(int revisionsThreshold) {
-		this.revisionsThreshold = revisionsThreshold;
-	}
-	
-	
+	 */
 	
 }

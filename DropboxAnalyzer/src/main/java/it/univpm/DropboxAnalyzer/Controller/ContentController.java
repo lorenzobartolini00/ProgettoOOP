@@ -36,9 +36,10 @@ public class ContentController {
 	@GetMapping("/get_revision_statistics")
 	public @ResponseBody RevisionStatistics POSTRevisionStatistics(@RequestParam(name="token") String token) throws MalformedURLException
 	{
-		Configuration config = new Configuration("https://api.dropboxapi.com/2/files/list_revisions", new ListRevisionsBody("/Uni/Appunti.paper", 10), "POST", token);
+		Configuration config = new Configuration("https://api.dropboxapi.com/2/files/list_revisions", new ListRevisionsBody("/Uni/Generali.docx", 10), "POST", token);
 		Vector<Revision> revisions = fileService.getRevisionList(httpsReq.rootCall(config));
-		return new RevisionStatistics(new RevisionFilter(revisions).filter() );
+		Vector<Revision> filteredRevisions = new RevisionFilter(revisions, 12164).filter();
+		return new RevisionStatistics(filteredRevisions);
 	}
 	
 	//"list-folder API call
