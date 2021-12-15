@@ -13,6 +13,7 @@ public class RevisionFilter implements Filter{
 	private String fileExtension;
 	private boolean onlyDownloadable;
 	private Integer revisionsThreshold;
+	
 	private Vector<Revision> revisions;
 	private Vector<Revision> filteredRevision;
 	
@@ -21,19 +22,24 @@ public class RevisionFilter implements Filter{
 	@Override
 	public Object filter() {
 		
-		//vedo quali filtri sono nulli
 			for(Revision revision: revisions) {
 				
 				//vado a vedere se mi viene richiesto un periodo temporale
 				if(periodOfTime!=null) {
+					
+					//vedo qual'è la data attuale
 					 LocalDate todaysDate = LocalDate.now();
 					 
 					 //vado a prendere la data attuale in millisecondi
-					 todaysDate.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli();
-					 
+					 Long todaysDateinMillis=todaysDate.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli();
 					
+					 //se la differenza tra la data attuale e la data dell'ultima modifica è minore del filtro, allora aggiungo la revisione al vettore filteredRevision
+					 if(todaysDateinMillis-revision.getLastClientModify().getTimeInMillis()<periodOfTime) {
+						 filteredRevision.add(revision);
+					 }
 				}
 				
+				//vado a vedere 
 				
 				//vado a vedere se onlyDownloadable mi viene richiesto come filtro
 				if(onlyDownloadable) {
@@ -41,6 +47,8 @@ public class RevisionFilter implements Filter{
 						filteredRevision.add(revision);
 					}
 				}
+				
+				
 			}
 			
 		return null;
