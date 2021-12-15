@@ -3,6 +3,9 @@ package it.univpm.DropboxAnalyzer.filter;
 import java.util.Vector;
 import java.util.function.Predicate;
 
+import org.json.JSONObject;
+
+import it.univpm.DropboxAnalyzer.Model.Content;
 import it.univpm.DropboxAnalyzer.Model.File;
 import it.univpm.DropboxAnalyzer.Model.Revision;
 
@@ -11,34 +14,40 @@ public class FileFilter implements Filter{
 	private String fileExtension;
 	private boolean onlyDownloadable;
 
-	private Vector<File> files;
+	private Vector<Content> contents;
 
 	
 	
-	public FileFilter(Vector<File> files) {
-		this.files=files;
+	public FileFilter(Vector<Content> contents) {
+		this.contents=contents;
 	}
 	
+	@Override
+	public void applyFilters() {
+		//Dato che in contents ci sono sia folder che files,
+		//rimuovo prima tutti gli elementi di contents che non sono istanza
+		//della classe File
+		contents.removeIf(p -> !(p instanceof File));
+		if(fileExtension != null) contents.removeIf(notRightExtension());
+		if(onlyDownloadable != false) contents.removeIf(isNotDownloadable());
+	}
 	
-	public Vector<File> filter() {
-		if(fileExtension != null) files.removeIf(notRightExtension());
-		if(onlyDownloadable != false) files.removeIf(isNotDownloadable());
-				
-		return files;		
-		}
+	@Override
+	public void setFilters(JSONObject jsonFilters) {
+		// TODO Auto-generated method stub
+		
+	}
 	
-	private Predicate<File> notRightExtension(){
+	private Predicate<Content> notRightExtension(){
+		
 		//se l'estensione del file non è la stessa del filtro, la elimino
-		return p -> (!p.getExtension().equals(fileExtension));
+		return p -> (!((File) p).getExtension().equals(fileExtension));
 	}
 
-	private Predicate<File> isNotDownloadable(){
+	private Predicate<Content> isNotDownloadable(){
 		//se getIsDownloadable mi ritorna falso, lo elimino
-		return p -> (!p.getIsDownloadable());
+		return p -> (!((File) p).getIsDownloadable());
 	}
-	
-	
-
 	
 	//getter e setter
 	public String getFileExtension() {
@@ -57,12 +66,12 @@ public class FileFilter implements Filter{
 		this.onlyDownloadable = onlyDownloadable;
 	}
 
-	public Vector<File> getFiles() {
-		return files;
+	public Vector<Content> getContents() {
+		return contents;
 	}
 
-	public void setFiles(Vector<File> files) {
-		this.files = files;
+	public void setContents(Vector<Content> contents) {
+		this.contents = contents;
 	}
 	
 	

@@ -19,11 +19,15 @@ public class RevisionFilter implements Filter{
 	//questo metodo mi deve restituire un lista di revisioni filtrate
 	
 	@Override
-	public Vector<Revision> filter() {
-	if(revisionsThreshold != null) revisions.removeIf(aboveThreshold());
-	if(periodOfTime != null) revisions.removeIf(notInRange());
-				
-	return revisions;		
+	public void setFilters(JSONObject jsonFilters) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void applyFilters() {
+		if(revisionsThreshold != null) revisions.removeIf(aboveThreshold());
+		if(periodOfTime != null) revisions.removeIf(notInRange());	
 	}
 	
 	//Metodi che restituiscono il filtro da passare come parametro al metodo RemoveIf()
@@ -46,30 +50,10 @@ public class RevisionFilter implements Filter{
     }
 	
 	
-	
-	
-	public RevisionFilter(Vector<Revision> revisions, long periodOfTime, int revisionsThreshold) {
-		this.revisions = revisions;
-		this.periodOfTime = periodOfTime;
-		this.revisionsThreshold = revisionsThreshold;
-	}
-	
-	public RevisionFilter(Vector<Revision> revisions, long periodOfTime) {
-		this.revisions = revisions;
-		this.periodOfTime = periodOfTime;
-		this.revisionsThreshold = null;
-	}
-	
-	public RevisionFilter(Vector<Revision> revisions, int revisionsThreshold) {
-		this.revisions = revisions;
-		this.periodOfTime = null;
-		this.revisionsThreshold = revisionsThreshold;
-	}
+	//Getters e setters
 	
 	public RevisionFilter(Vector<Revision> revisions) {
 		this.revisions = revisions;
-		this.periodOfTime = null;
-		this.revisionsThreshold = null;
 	}
 	
 	public long getPeriodOfTime() {
@@ -84,36 +68,12 @@ public class RevisionFilter implements Filter{
 	public void setRevisionsThreshold(int revisionsThreshold) {
 		this.revisionsThreshold = revisionsThreshold;
 	}
+	public Vector<Revision> getRevisions() {
+		return revisions;
+	}
+	public void setRevisions(Vector<Revision> revisions) {
+		this.revisions = revisions;
+	}
 	
-	/*
-	 * for(Revision revision: revisions) {
-				
-				//vado a vedere se mi viene richiesto un periodo temporale
-				if(periodOfTime!=null) {
-					
-					//vedo qual è la data attuale
-					 LocalDate todaysDate = LocalDate.now();
-					 
-					 //vado a prendere la data attuale in millisecondi
-					 Long todaysDateinMillis=todaysDate.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli();
-					
-					 //se la differenza tra la data attuale e la data dell'ultima modifica è minore del filtro, allora aggiungo la revisione al vettore filteredRevision
-					 if(todaysDateinMillis-revision.getLastClientModify().getTimeInMillis()<periodOfTime) {
-						 filteredRevisions.add(revision);
-					 }
-					 
-				}
-				
-				//vado a filtrare gli elementi per dimensione (piazzo una soglia)
-				if (revisionsThreshold!=null) {
-					
-					//controllo che il file non superi la soglia richiesta
-					if(revision.getSize()-revisionsThreshold>=0) {
-						filteredRevisions.add(revision);
-					}
-				}
-				
-			}
-	 */
 	
 }
