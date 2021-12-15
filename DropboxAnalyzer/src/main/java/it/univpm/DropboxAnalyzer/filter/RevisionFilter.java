@@ -42,14 +42,6 @@ public class RevisionFilter implements Filter{
 					 
 				}
 				
-				
-				//vado a vedere se onlyDownloadable mi viene richiesto come filtro
-				if(onlyDownloadable) {
-					if(revision.getIsDownloadable()) {
-						filteredRevisions.add(revision);
-					}
-				}
-				
 				//vado a filtrare gli elementi per dimensione (piazzo una soglia)
 				if (revisionsThreshold!=null) {
 					
@@ -58,6 +50,7 @@ public class RevisionFilter implements Filter{
 						filteredRevisions.add(revision);
 					}
 				}
+				
 			}
 			
 			return filteredRevisions;		
