@@ -1,14 +1,48 @@
 package it.univpm.DropboxAnalyzer.filter;
 
+import java.time.LocalDate;
+import java.time.ZoneOffset;
+import java.util.Vector;
+
+import org.json.JSONObject;
+
+import it.univpm.DropboxAnalyzer.Model.Revision;
+
 public class RevisionFilter implements Filter{
 	private Long periodOfTime;
 	private String fileExtension;
 	private boolean onlyDownloadable;
 	private Integer revisionsThreshold;
+	private Vector<Revision> revisions;
+	private Vector<Revision> filteredRevision;
 	
+	
+	//questo metodo mi deve restituire un lista di oggetti filtrati
 	@Override
 	public Object filter() {
-		// TODO Implementare metodo che restituisce la lista di oggetti filtrati
+		
+		//vedo quali filtri sono nulli
+			for(Revision revision: revisions) {
+				
+				//vado a vedere se mi viene richiesto un periodo temporale
+				if(periodOfTime!=null) {
+					 LocalDate todaysDate = LocalDate.now();
+					 
+					 //vado a prendere la data attuale in millisecondi
+					 todaysDate.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli();
+					 
+					
+				}
+				
+				
+				//vado a vedere se onlyDownloadable mi viene richiesto come filtro
+				if(onlyDownloadable) {
+					if(revision.getIsDownloadable()) {
+						filteredRevision.add(revision);
+					}
+				}
+			}
+			
 		return null;
 	}
 	
@@ -66,5 +100,7 @@ public class RevisionFilter implements Filter{
 	public void setRevisionsThreshold(int revisionsThreshold) {
 		this.revisionsThreshold = revisionsThreshold;
 	}
+	
+	
 	
 }
