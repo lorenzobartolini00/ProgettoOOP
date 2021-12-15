@@ -38,7 +38,9 @@ public class ContentController {
 	{
 		Configuration config = new Configuration("https://api.dropboxapi.com/2/files/list_revisions", new ListRevisionsBody("/Uni/Generali.docx", 10), "POST", token);
 		Vector<Revision> revisions = fileService.getRevisionList(httpsReq.rootCall(config));
-		Vector<Revision> filteredRevisions = new RevisionFilter(revisions, 12164).filter();
+		
+		RevisionFilter revisionFilter = new RevisionFilter(revisions);
+		Vector<Revision> filteredRevisions = revisionFilter.filter();
 		return new RevisionStatistics(filteredRevisions);
 	}
 	

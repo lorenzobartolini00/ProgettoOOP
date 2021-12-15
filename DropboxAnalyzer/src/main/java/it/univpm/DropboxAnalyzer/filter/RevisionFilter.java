@@ -42,7 +42,7 @@ public class RevisionFilter implements Filter{
 	private Predicate<Revision> aboveThreshold() {
 		//L'elemento viene rimosso se se la seguente condizione è verificata,
 		//ovvero se la dimensione dell'elemento è maggiore o uguale alla soglia
-        return p -> (p.getSize() - revisionsThreshold >= 0) && revisionsThreshold!=null;
+        return p -> ((p.getSize() - revisionsThreshold) >= 0) && revisionsThreshold!=null;
     }
 	
 	
