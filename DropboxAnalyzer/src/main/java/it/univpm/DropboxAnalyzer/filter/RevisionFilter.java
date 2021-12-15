@@ -18,7 +18,8 @@ public class RevisionFilter implements Filter{
 	private Vector<Revision> filteredRevisions;
 	
 	
-	//questo metodo mi deve restituire un lista di oggetti filtrati
+	//questo metodo mi deve restituire un lista di revisioni filtrate
+	
 	@Override
 	public Vector<Revision> filter() {
 		
