@@ -20,11 +20,11 @@ public class RevisionFilter implements Filter{
 	
 	@Override
 	public Vector<Revision> filter() {
-		if(periodOfTime != null) revisions.removeIf(notInRange());
-		if(revisionsThreshold != null) revisions.removeIf(aboveThreshold());
+	if(revisionsThreshold != null) revisions.removeIf(aboveThreshold());
+	if(periodOfTime != null) revisions.removeIf(notInRange());
 				
-		return revisions;		
-		}
+	return revisions;		
+	}
 	
 	//Metodi che restituiscono il filtro da passare come parametro al metodo RemoveIf()
 	private Predicate<Revision> notInRange() {
@@ -44,6 +44,8 @@ public class RevisionFilter implements Filter{
 		//ovvero se la dimensione dell'elemento è maggiore o uguale alla soglia
         return p -> ((p.getSize() - revisionsThreshold) >= 0) && revisionsThreshold!=null;
     }
+	
+	
 	
 	
 	public RevisionFilter(Vector<Revision> revisions, long periodOfTime, int revisionsThreshold) {

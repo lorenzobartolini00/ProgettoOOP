@@ -24,6 +24,7 @@ import it.univpm.DropboxAnalyzer.configuration.Configuration;
 import it.univpm.DropboxAnalyzer.configuration.GetMetadataBody;
 import it.univpm.DropboxAnalyzer.configuration.ListFolderBody;
 import it.univpm.DropboxAnalyzer.configuration.ListRevisionsBody;
+import it.univpm.DropboxAnalyzer.filter.FileFilter;
 import it.univpm.DropboxAnalyzer.filter.RevisionFilter;
 
 @Controller
@@ -34,7 +35,7 @@ public class ContentController {
 	private HTTPSRequest httpsReq;
 	
 	@GetMapping("/get_revision_statistics")
-	public @ResponseBody RevisionStatistics POSTRevisionStatistics(@RequestParam(name="token") String token) throws MalformedURLException
+	public @ResponseBody RevisionStatistics POSTRevisionStatistics(@RequestParam(name="filter_type", required = false, defaultValue = "none") String filterType, @RequestParam(name="token") String token) throws MalformedURLException
 	{
 		Configuration config = new Configuration("https://api.dropboxapi.com/2/files/list_revisions", new ListRevisionsBody("/Uni/Generali.docx", 10), "POST", token);
 		Vector<Revision> revisions = fileService.getRevisionList(httpsReq.rootCall(config));
@@ -46,12 +47,15 @@ public class ContentController {
 	
 	//"list-folder API call
 	@GetMapping("/list_folder")
-	public @ResponseBody Content POSTListFolder(@RequestParam(name="token") String token) throws MalformedURLException
+	public @ResponseBody Vector<Content> POSTListFolder(@RequestParam(name="filter_type", required = false, defaultValue = "none") String filterType, @RequestParam(name="token") String token) throws MalformedURLException
 	{
 		Configuration config = new Configuration("https://api.dropboxapi.com/2/files/list_folder", new ListFolderBody("/Uni", true), "POST", token);
 		Vector<Content> contents = fileService.getContentList(httpsReq.rootCall(config));
+		FileFilter fileFilter = new FileFilter(contents);
 		
-		return contents.get(4);
+		Vector<Revision> filteredRevisions = fileFilter.filter();
+		
+		return contents;
 	}
 	
 	//get-metadata API call
