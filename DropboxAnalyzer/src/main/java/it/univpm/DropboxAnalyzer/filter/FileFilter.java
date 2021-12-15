@@ -1,8 +1,10 @@
 package it.univpm.DropboxAnalyzer.filter;
 
 import java.util.Vector;
+import java.util.function.Predicate;
 
 import it.univpm.DropboxAnalyzer.Model.File;
+import it.univpm.DropboxAnalyzer.Model.Revision;
 
 public class FileFilter implements Filter{
 	
@@ -10,37 +12,32 @@ public class FileFilter implements Filter{
 	private boolean onlyDownloadable;
 
 	private Vector<File> files;
-	private Vector<File> filteredFiles;
+
 	
 	
-	public FileFilter(String fileExtension, boolean onlyDownloadable) {
-		this.fileExtension = fileExtension;
-		this.onlyDownloadable = onlyDownloadable;
+	public FileFilter(Vector<File> files) {
+		this.files=files;
+	}
+	
+	
+	public Vector<File> filter() {
+		if(fileExtension != null) files.removeIf(notRightExtension());
+		if(onlyDownloadable != false) files.removeIf(isNotDownloadable());
+				
+		return files;		
+		}
+	
+	private Predicate<File> notRightExtension(){
+		//se l'estensione del file non è la stessa del filtro, la elimino
+		return p -> (!p.getExtension().equals(fileExtension));
 	}
 
-	//questo metodo mi deve restituire un lista di file filtrati
+	private Predicate<File> isNotDownloadable(){
+		//se getIsDownloadable mi ritorna falso, lo elimino
+		return p -> (!p.getIsDownloadable());
+	}
 	
-	@Override
-	public Vector<File> filter() {
-		
-		
-		for(File file: files) {
-			
-		//vado a vedere se onlyDownloadable mi viene richiesto come filtro
-		
-			if(onlyDownloadable) {
-				if(file.getIsDownloadable()) filteredFiles.add(file);
-			}
-			
-		//vado a filtrare per estensione
-			
-			if(fileExtension!=null) {
-				if(file.getExtension().equals(fileExtension)) filteredFiles.add(file);
-			}
-	}
-		
-		return filteredFiles;
-	}
+	
 
 	
 	//getter e setter
@@ -66,14 +63,6 @@ public class FileFilter implements Filter{
 
 	public void setFiles(Vector<File> files) {
 		this.files = files;
-	}
-
-	public Vector<File> getFilteredFiles() {
-		return filteredFiles;
-	}
-
-	public void setFilteredFiles(Vector<File> filteredFiles) {
-		this.filteredFiles = filteredFiles;
 	}
 	
 	
