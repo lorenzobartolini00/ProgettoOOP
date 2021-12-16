@@ -9,9 +9,9 @@ import java.util.function.Predicate;
 import org.json.JSONObject;
 
 import it.univpm.DropboxAnalyzer.Model.Revision;
-import it.univpm.DropboxAnalyzer.Service.BadFormatException;
 import it.univpm.DropboxAnalyzer.configuration.Configuration;
 import it.univpm.DropboxAnalyzer.configuration.ListRevisionsConfiguration;
+import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 
 public class RevisionFilter implements Filter{
 	private Long periodOfTime;

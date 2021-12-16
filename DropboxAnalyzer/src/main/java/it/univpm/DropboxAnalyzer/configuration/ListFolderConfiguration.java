@@ -5,7 +5,7 @@ import java.util.Map;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
-import it.univpm.DropboxAnalyzer.Service.BadFormatException;
+import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 
 @Service
 public class ListFolderConfiguration implements Configuration {
@@ -27,6 +27,12 @@ public class ListFolderConfiguration implements Configuration {
 		{
 			throw new BadFormatException("No info found");
 		}
+	}
+
+	@Override
+	public boolean checkFormat() throws BadFormatException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	

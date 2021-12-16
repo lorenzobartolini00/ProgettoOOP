@@ -22,6 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import it.univpm.DropboxAnalyzer.configuration.Configuration;
+import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
+
 import org.json.JSONObject;
 
 @Service
@@ -37,20 +39,8 @@ public class HTTPSRequest{
 		String url = (String) parameters.get("url");
 		String type = (String) parameters.get("type");
 		String token = (String) parameters.get("token");
-		String body = null;
-		
-		try
-		{
-			body = this.getParamString((Map<String, String>) parameters.get("info"));
-		}
-		catch(BadFormatException e)
-		{
-			System.out.println(e.getMessage());
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
+		@SuppressWarnings("unchecked")
+		String body = this.getParamString((Map<String, String>) parameters.get("info"));
 		
 		HttpURLConnection openConnection = null;
 		try 
@@ -101,19 +91,9 @@ public class HTTPSRequest{
 		return jsonObject;
 	}
 	
-	private String getParamString(Map<String, String> bodyParams) throws BadFormatException
+	private String getParamString(Map<String, String> bodyParams)
 	{
-		if(!isCorrectFormat(bodyParams)) 
-		{
-			throw new BadFormatException("Invalid body");
-		}
-		
         return new JSONObject(bodyParams).toString();
-	}
-	
-	private boolean isCorrectFormat(Map<String, String> bodyParams)
-	{
-		return true;
 	}
 	
 }

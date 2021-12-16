@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
-import it.univpm.DropboxAnalyzer.Service.BadFormatException;
+import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 
 public class ListFileMembersConfiguration implements Configuration{
 
@@ -24,6 +24,12 @@ public class ListFileMembersConfiguration implements Configuration{
 			throw new BadFormatException("No info found");
 		}
 		
+	}
+
+	@Override
+	public boolean checkFormat() throws BadFormatException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	
