@@ -1,5 +1,6 @@
 package it.univpm.DropboxAnalyzer.filter;
 
+import java.util.Map;
 import java.util.Vector;
 import java.util.function.Predicate;
 
@@ -34,8 +35,25 @@ public class FileFilter implements Filter{
 	}
 	
 	@Override
-	public void setFilters(Configuration config) {
-		// TODO Auto-generated method stub
+	public void setFilters(Map<String, Object> parameters) {
+		if(parameters.containsKey("filters"))
+		{
+			Map<String, Object> filters = (Map<String, Object>) parameters.get("filters");
+			
+			if(filters.containsKey("only_type"))
+			{
+				this.setFileExtension((String)filters.get("only_type"));
+			}
+			
+			if(filters.containsKey("only_downloadable"))
+			{
+				this.setOnlyDownloadable((Boolean)filters.get("only_downloadable")) ;
+			}
+			else
+			{
+				this.setOnlyDownloadable(false);
+			}
+		}
 		
 	}
 	
