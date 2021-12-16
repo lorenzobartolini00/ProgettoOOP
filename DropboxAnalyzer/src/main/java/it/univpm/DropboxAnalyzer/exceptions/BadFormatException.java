@@ -6,8 +6,8 @@ public class BadFormatException extends Exception {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public BadFormatException(String context, String cause)
+	public BadFormatException(String context, String cause, String type)
 	{
-		super("Invalid data in " + context + ": "+ cause + " is missing"); 
+		super("Invalid data in " + context + ": "+ "'"+ cause +"' "+ type); 
 	}
 }

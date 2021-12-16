@@ -52,7 +52,9 @@ public class ContentController {
 			revisionConfig.checkFormat(parameters);
 			revisionConfig.setDefault(parameters);
 		} catch (BadFormatException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+			//Nel caso in cui venga lanciata l'eccezione, oltre al messaggio di errore, viene
+			//dichiarato che lo stato Http 400 BAD REQUEST
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST );
 		}
 		
 		//Ottengo la lista di revisioni su cui fare statistiche
@@ -72,14 +74,16 @@ public class ContentController {
 	
 	//"list-folder API call
 	@GetMapping("/list_files")
-	public @ResponseBody Vector<Content> POSTListFolder(@RequestBody Map<String, Object> parameters, @RequestParam(name="token") String token) throws MalformedURLException
+	public ResponseEntity<Object> POSTListFolder(@RequestBody Map<String, Object> parameters, @RequestParam(name="token") String token) throws MalformedURLException
 	{
 		parameters.put("token", token);
 		try {
+			folderConfig.checkFormat(parameters);
 			folderConfig.setDefault(parameters);
-			folderConfig.checkFormat();
 		} catch (BadFormatException e) {
-			System.out.println(e.getMessage());
+			//Nel caso in cui venga lanciata l'eccezione, oltre al messaggio di errore, viene
+			//dichiarato che lo stato Http 400 BAD REQUEST
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST );
 		}
 		
 		//Ottengo la lista di revisioni su cui fare statistiche
@@ -91,7 +95,7 @@ public class ContentController {
 		fileFilter.applyFilters();
 		
 		//Ritorno lista di file filtrata
-		return contents;
+		return new ResponseEntity<>(contents, HttpStatus.OK);
 	}
 	
 	/*
