@@ -2,16 +2,20 @@ package it.univpm.DropboxAnalyzer.filter;
 
 import java.time.LocalDate;
 import java.time.ZoneOffset;
+import java.util.Map;
 import java.util.Vector;
 import java.util.function.Predicate;
 
 import org.json.JSONObject;
 
 import it.univpm.DropboxAnalyzer.Model.Revision;
+import it.univpm.DropboxAnalyzer.Service.BadFormatException;
+import it.univpm.DropboxAnalyzer.configuration.Configuration;
+import it.univpm.DropboxAnalyzer.configuration.ListRevisionsConfiguration;
 
 public class RevisionFilter implements Filter{
 	private Long periodOfTime;
-	private Integer revisionsThreshold;
+	private Long revisionsThreshold;
 	
 	private Vector<Revision> revisions;
 	
@@ -19,9 +23,21 @@ public class RevisionFilter implements Filter{
 	//questo metodo mi deve restituire un lista di revisioni filtrate
 	
 	@Override
-	public void setFilters(JSONObject jsonFilters) {
-		// TODO Auto-generated method stub
-		
+	public void setFilters(Map<String, Object> parameters) {
+		if(parameters.containsKey("filters"))
+		{
+			Map<String, Object> filters = (Map<String, Object>) parameters.get("filters");
+			
+			if(filters.containsKey("time_filter"))
+			{
+				this.setPeriodOfTime((String)filters.get("time_filter"));
+			}
+			
+			if(filters.containsKey("size_filter"))
+			{
+				this.setRevisionsThreshold(Integer.toUnsignedLong((Integer)filters.get("size_filter"))) ;
+			}
+		}
 	}
 	
 	@Override
@@ -46,7 +62,7 @@ public class RevisionFilter implements Filter{
 	private Predicate<Revision> aboveThreshold() {
 		//L'elemento viene rimosso se se la seguente condizione è verificata,
 		//ovvero se la dimensione dell'elemento è maggiore o uguale alla soglia
-        return p -> ((p.getSize() - revisionsThreshold) >= 0);
+        return p -> ((p.getSize() - revisionsThreshold) > 0);
     }
 	
 	
@@ -62,10 +78,33 @@ public class RevisionFilter implements Filter{
 	public void setPeriodOfTime(long periodOfTime) {
 		this.periodOfTime = periodOfTime;
 	}
-	public int getRevisionsThreshold() {
+	public void setPeriodOfTime(String periodOfTime) {
+		if(periodOfTime != null)
+		{
+			switch(periodOfTime)
+			{
+			case "last_week":
+			{
+				this.setPeriodOfTime(604800000);
+				break;
+			}
+			case "last_day":
+			{
+				this.setPeriodOfTime(86400000);
+				break;
+			}
+			case "last_hour":
+			{
+				this.setPeriodOfTime(3600000);
+				break;
+			}
+			}
+		}
+	}
+	public Long getRevisionsThreshold() {
 		return revisionsThreshold;
 	}
-	public void setRevisionsThreshold(int revisionsThreshold) {
+	public void setRevisionsThreshold(Long revisionsThreshold) {
 		this.revisionsThreshold = revisionsThreshold;
 	}
 	public Vector<Revision> getRevisions() {

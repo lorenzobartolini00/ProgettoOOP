@@ -2,11 +2,14 @@ package it.univpm.DropboxAnalyzer.Controller;
 
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URLEncoder;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Vector;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,15 +18,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import it.univpm.DropboxAnalyzer.Model.Content;
 import it.univpm.DropboxAnalyzer.Model.Revision;
+import it.univpm.DropboxAnalyzer.Service.BadFormatException;
 import it.univpm.DropboxAnalyzer.Service.FileService;
 import it.univpm.DropboxAnalyzer.Service.HTTPSRequest;
 import it.univpm.DropboxAnalyzer.Statistics.RevisionStatistics;
 import it.univpm.DropboxAnalyzer.Statistics.Statistics;
-import it.univpm.DropboxAnalyzer.configuration.Body;
 import it.univpm.DropboxAnalyzer.configuration.Configuration;
 import it.univpm.DropboxAnalyzer.configuration.GetMetadataBody;
-import it.univpm.DropboxAnalyzer.configuration.ListFolderBody;
-import it.univpm.DropboxAnalyzer.configuration.ListRevisionsBody;
+import it.univpm.DropboxAnalyzer.configuration.ListFolderConfiguration;
+import it.univpm.DropboxAnalyzer.configuration.ListRevisionsConfiguration;
 import it.univpm.DropboxAnalyzer.filter.FileFilter;
 import it.univpm.DropboxAnalyzer.filter.RevisionFilter;
 
@@ -33,36 +36,61 @@ public class ContentController {
 	private FileService fileService;
 	@Autowired
 	private HTTPSRequest httpsReq;
+	@Autowired
+	private ListRevisionsConfiguration revisionConfig;
+	@Autowired
+	private ListFolderConfiguration folderConfig;
+	
 	
 	@GetMapping("/revision_statistics")
-	public @ResponseBody RevisionStatistics POSTRevisionStatistics(@RequestParam(name="filter_type", required = false, defaultValue = "none") String filterType, @RequestParam(name="token") String token) throws MalformedURLException
+	public @ResponseBody RevisionStatistics POSTRevisionStatistics(@RequestBody Map<String, Object> parameters, @RequestParam(name="token") String token) throws MalformedURLException
 	{
-		Configuration config = new Configuration("https://api.dropboxapi.com/2/files/list_revisions", new ListRevisionsBody("/Uni/Generali.docx", 10), "POST", token);
-		Vector<Revision> revisions = fileService.getRevisionList(httpsReq.rootCall(config));
+		parameters.put("token", token);
 		
-		JSONObject jsonFilter = new JSONObject();
-		jsonFilter.put("", false);
+		try {
+			revisionConfig.setDefault(parameters);
+		} catch (BadFormatException e) {
+			System.out.println(e.getMessage());
+		}
 		
+		//Ottengo la lista di revisioni su cui fare statistiche
+		Vector<Revision> revisions = fileService.getRevisionList(httpsReq.rootCall(parameters));
+		
+		//Imposto i filtri tramite classe Filter e li applico alla lista di revisioni
 		RevisionFilter revisionFilter = new RevisionFilter(revisions);
-		revisionFilter.setFilters(jsonFilter);
+		revisionFilter.setFilters(parameters);
 		revisionFilter.applyFilters();
-		Vector<Revision> filteredRevisions = revisionFilter.getRevisions();
-		return new RevisionStatistics(filteredRevisions);
+		
+		//Eseguo statistiche sulla lista filtrata
+		return new RevisionStatistics(revisions);
 	}
 	
+	
+	
 	//"list-folder API call
-	@GetMapping("/list_folder")
-	public @ResponseBody Vector<Content> POSTListFolder(@RequestParam(name="filter_type", required = false, defaultValue = "none") String filterType, @RequestParam(name="token") String token) throws MalformedURLException
+	@GetMapping("/list_files")
+	public @ResponseBody Vector<Content> POSTListFolder(@RequestBody Map<String, Object> parameters, @RequestParam(name="token") String token) throws MalformedURLException
 	{
-		Configuration config = new Configuration("https://api.dropboxapi.com/2/files/list_folder", new ListFolderBody("/Uni", true), "POST", token);
-		Vector<Content> contents = fileService.getContentList(httpsReq.rootCall(config));
-		FileFilter fileFilter = new FileFilter(contents);
-		fileFilter.applyFilters();
-		Vector<Content> filteredRevisions = fileFilter.getContents();
-				
+		parameters.put("token", token);
+		try {
+			folderConfig.setDefault(parameters);
+		} catch (BadFormatException e) {
+			System.out.println(e.getMessage());
+		}
 		
+		//Ottengo la lista di revisioni su cui fare statistiche
+		Vector<Content> contents = fileService.getContentList(httpsReq.rootCall(parameters));
+		
+		//Imposto i filtri tramite classe Filter e li applico alla lista di revisioni
+		FileFilter fileFilter = new FileFilter(contents);
+		fileFilter.setFilters(parameters);
+		fileFilter.applyFilters();
+		
+		//Ritorno lista di file filtrata
 		return contents;
 	}
+	
+	/*
 	
 	//get-metadata API call
 	@GetMapping("/get_metadata")
@@ -78,11 +106,11 @@ public class ContentController {
 	@GetMapping("/get_list_revisions")
 	public @ResponseBody Revision POSTGetListRevision(@RequestParam(name="token") String token) throws MalformedURLException
 	{
-		Configuration config = new Configuration("https://api.dropboxapi.com/2/files/list_revisions", new ListRevisionsBody("/Uni/Appunti.paper",10), "POST", token);
+		Configuration config = new Configuration("https://api.dropboxapi.com/2/files/list_revisions", new ListRevisionsConfiguration("/Uni/Appunti.paper",10), "POST", token);
 		Vector<Revision> revisions = fileService.getRevisionList(httpsReq.rootCall(config));
 		return revisions.get(1);
 		//Stringa per prova
 	}
-	
+	*/
 	
 }
