@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import it.univpm.DropboxAnalyzer.Model.Content;
 import it.univpm.DropboxAnalyzer.Model.Revision;
+import it.univpm.DropboxAnalyzer.Service.BadFormatException;
 import it.univpm.DropboxAnalyzer.Service.FileService;
 import it.univpm.DropboxAnalyzer.Service.HTTPSRequest;
 import it.univpm.DropboxAnalyzer.Statistics.RevisionStatistics;
 import it.univpm.DropboxAnalyzer.Statistics.Statistics;
-import it.univpm.DropboxAnalyzer.configuration.Body;
 import it.univpm.DropboxAnalyzer.configuration.Configuration;
 import it.univpm.DropboxAnalyzer.configuration.GetMetadataBody;
-import it.univpm.DropboxAnalyzer.configuration.ListFolderBody;
+import it.univpm.DropboxAnalyzer.configuration.ListFolderConfiguration;
 import it.univpm.DropboxAnalyzer.configuration.ListRevisionsConfiguration;
 import it.univpm.DropboxAnalyzer.filter.FileFilter;
 import it.univpm.DropboxAnalyzer.filter.RevisionFilter;
@@ -37,13 +37,21 @@ public class ContentController {
 	@Autowired
 	private HTTPSRequest httpsReq;
 	@Autowired
-	private ListRevisionsConfiguration config;
+	private ListRevisionsConfiguration revisionConfig;
+	@Autowired
+	private ListFolderConfiguration folderConfig;
+	
 	
 	@GetMapping("/revision_statistics")
 	public @ResponseBody RevisionStatistics POSTRevisionStatistics(@RequestBody Map<String, Object> parameters, @RequestParam(name="token") String token) throws MalformedURLException
 	{
 		parameters.put("token", token);
-		config.setDefault(parameters);
+		
+		try {
+			revisionConfig.setDefault(parameters);
+		} catch (BadFormatException e) {
+			System.out.println(e.getMessage());
+		}
 		
 		//Ottengo la lista di revisioni su cui fare statistiche
 		Vector<Revision> revisions = fileService.getRevisionList(httpsReq.rootCall(parameters));
@@ -53,42 +61,36 @@ public class ContentController {
 		revisionFilter.setFilters(parameters);
 		revisionFilter.applyFilters();
 		
-		//Ottengo la lista filtrata di revisioni
-		Vector<Revision> filteredRevisions = revisionFilter.getRevisions();
-		
 		//Eseguo statistiche sulla lista filtrata
-		return new RevisionStatistics(filteredRevisions);
-	}
-	
-	/*
-	
-	@GetMapping("/test_config")
-	public @ResponseBody String test(@RequestBody Map<String, Object> parameters)
-	{
-		parameters.putIfAbsent("url", "https://api.dropboxapi.com/2/files/list_revisions");
-		parameters.putIfAbsent("type", "POST");
-		
-		@SuppressWarnings("unchecked")
-		Map<String, String> jsonBody =  (Map<String, String>) parameters.get("body");
-		
-		
+		return new RevisionStatistics(revisions);
 	}
 	
 	
-	/*
+	
 	//"list-folder API call
-	@GetMapping("/list_folder")
-	public @ResponseBody Vector<Content> POSTListFolder(@RequestParam(name="filter_type", required = false, defaultValue = "none") String filterType, @RequestParam(name="token") String token) throws MalformedURLException
+	@GetMapping("/list_files")
+	public @ResponseBody Vector<Content> POSTListFolder(@RequestBody Map<String, Object> parameters, @RequestParam(name="token") String token) throws MalformedURLException
 	{
-		Configuration config = new Configuration("https://api.dropboxapi.com/2/files/list_folder", new ListFolderBody("/Uni", true), "POST", token);
-		Vector<Content> contents = fileService.getContentList(httpsReq.rootCall(config));
-		FileFilter fileFilter = new FileFilter(contents);
-		fileFilter.applyFilters();
-		Vector<Content> filteredRevisions = fileFilter.getContents();
-				
+		parameters.put("token", token);
+		try {
+			folderConfig.setDefault(parameters);
+		} catch (BadFormatException e) {
+			System.out.println(e.getMessage());
+		}
 		
+		//Ottengo la lista di revisioni su cui fare statistiche
+		Vector<Content> contents = fileService.getContentList(httpsReq.rootCall(parameters));
+		
+		//Imposto i filtri tramite classe Filter e li applico alla lista di revisioni
+		FileFilter fileFilter = new FileFilter(contents);
+		fileFilter.setFilters(parameters);
+		fileFilter.applyFilters();
+		
+		//Ritorno lista di file filtrata
 		return contents;
 	}
+	
+	/*
 	
 	//get-metadata API call
 	@GetMapping("/get_metadata")

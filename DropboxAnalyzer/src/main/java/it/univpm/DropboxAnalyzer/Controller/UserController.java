@@ -11,7 +11,7 @@ import it.univpm.DropboxAnalyzer.Model.User;
 import it.univpm.DropboxAnalyzer.Service.HTTPSRequest;
 import it.univpm.DropboxAnalyzer.Service.UserService;
 import it.univpm.DropboxAnalyzer.configuration.Configuration;
-import it.univpm.DropboxAnalyzer.configuration.ListFileMembersBody;
+import it.univpm.DropboxAnalyzer.configuration.ListFileMembersConfiguration;
 
 public class UserController {
 	@Autowired
@@ -24,7 +24,7 @@ public class UserController {
 	@GetMapping("/list_file_members")
 	public String POSTGetListFileMembers(@RequestParam(name="token") String token) throws MalformedURLException{
 		
-		Configuration config = new Configuration("https://api.dropboxapi.com/2/sharing/list_file_members", new ListFileMembersBody("/Uni",10), "POST", token);
+		Configuration config = new Configuration("https://api.dropboxapi.com/2/sharing/list_file_members", new ListFileMembersConfiguration("/Uni",10), "POST", token);
 		Vector<User> users=userService.getUserList(httpsReq.rootCall(config));
 		return users.get(1).getEmail();
 		

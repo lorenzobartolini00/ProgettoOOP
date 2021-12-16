@@ -41,7 +41,7 @@ public class HTTPSRequest{
 		
 		try
 		{
-			body = this.getParamString((Map<String, String>) parameters.get("body"));
+			body = this.getParamString((Map<String, String>) parameters.get("info"));
 		}
 		catch(BadFormatException e)
 		{
@@ -105,7 +105,7 @@ public class HTTPSRequest{
 	{
 		if(!isCorrectFormat(bodyParams)) 
 		{
-			throw new BadFormatException("Inser valid information!");
+			throw new BadFormatException("Invalid body");
 		}
 		
         return new JSONObject(bodyParams).toString();
