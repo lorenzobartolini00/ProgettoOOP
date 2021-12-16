@@ -20,8 +20,9 @@ public class File extends Content{
 	}
 
 	private String toExtension(String pathLower) {
-		ArrayList<String> strings = new ArrayList<String>(Arrays.asList(pathLower.split(".")));
-		return "." + strings.get(strings.size() - 1);
+		String[] s = pathLower.split("\\.");
+		ArrayList<String> strings = new ArrayList<String>(Arrays.asList(s));
+		return strings.get(strings.size() - 1);
 	}
 
 	//getter e setter

@@ -1,47 +1,72 @@
 package it.univpm.DropboxAnalyzer.filter;
 
+import java.util.Map;
 import java.util.Vector;
+import java.util.function.Predicate;
 
+import org.json.JSONObject;
+
+import it.univpm.DropboxAnalyzer.Model.Content;
 import it.univpm.DropboxAnalyzer.Model.File;
+import it.univpm.DropboxAnalyzer.Model.Revision;
+import it.univpm.DropboxAnalyzer.configuration.Configuration;
 
 public class FileFilter implements Filter{
 	
 	private String fileExtension;
 	private boolean onlyDownloadable;
 
-	private Vector<File> files;
-	private Vector<File> filteredFiles;
-	
-	
-	public FileFilter(String fileExtension, boolean onlyDownloadable) {
-		this.fileExtension = fileExtension;
-		this.onlyDownloadable = onlyDownloadable;
-	}
+	private Vector<Content> contents;
 
-	//questo metodo mi deve restituire un lista di file filtrati
+	
+	
+	public FileFilter(Vector<Content> contents) {
+		this.contents=contents;
+	}
 	
 	@Override
-	public Vector<File> filter() {
-		
-		
-		for(File file: files) {
-			
-		//vado a vedere se onlyDownloadable mi viene richiesto come filtro
-		
-			if(onlyDownloadable) {
-				if(file.getIsDownloadable()) filteredFiles.add(file);
-			}
-			
-		//vado a filtrare per estensione
-			
-			if(fileExtension!=null) {
-				if(file.getExtension().equals(fileExtension)) filteredFiles.add(file);
-			}
+	public void applyFilters() {
+		//Dato che in contents ci sono sia folder che files,
+		//rimuovo prima tutti gli elementi di contents che non sono istanza
+		//della classe File
+		contents.removeIf(p -> !(p instanceof File));
+		if(fileExtension != null) contents.removeIf(notRightExtension());
+		if(onlyDownloadable != false) contents.removeIf(isNotDownloadable());
 	}
+	
+	@Override
+	public void setFilters(Map<String, Object> parameters) {
+		if(parameters.containsKey("filters"))
+		{
+			Map<String, Object> filters = (Map<String, Object>) parameters.get("filters");
+			
+			if(filters.containsKey("only_type"))
+			{
+				this.setFileExtension((String)filters.get("only_type"));
+			}
+			
+			if(filters.containsKey("only_downloadable"))
+			{
+				this.setOnlyDownloadable((Boolean)filters.get("only_downloadable")) ;
+			}
+			else
+			{
+				this.setOnlyDownloadable(false);
+			}
+		}
 		
-		return filteredFiles;
+	}
+	
+	private Predicate<Content> notRightExtension(){
+		
+		//se l'estensione del file non è la stessa del filtro, la elimino
+		return p -> (!((File) p).getExtension().equals(fileExtension));
 	}
 
+	private Predicate<Content> isNotDownloadable(){
+		//se getIsDownloadable mi ritorna falso, lo elimino
+		return p -> (!((File) p).getIsDownloadable());
+	}
 	
 	//getter e setter
 	public String getFileExtension() {
@@ -60,20 +85,12 @@ public class FileFilter implements Filter{
 		this.onlyDownloadable = onlyDownloadable;
 	}
 
-	public Vector<File> getFiles() {
-		return files;
+	public Vector<Content> getContents() {
+		return contents;
 	}
 
-	public void setFiles(Vector<File> files) {
-		this.files = files;
-	}
-
-	public Vector<File> getFilteredFiles() {
-		return filteredFiles;
-	}
-
-	public void setFilteredFiles(Vector<File> filteredFiles) {
-		this.filteredFiles = filteredFiles;
+	public void setContents(Vector<Content> contents) {
+		this.contents = contents;
 	}
 	
 	
