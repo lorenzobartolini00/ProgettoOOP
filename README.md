@@ -12,6 +12,6 @@ Dropbox analyser permette di effettuare statistiche sulle revisioni dei file di 
 ## Installazione
 La nostra applicazione può essere installata direttamente dal Prompt dei Comandi, scrivendo:
 ```
-git clone https://github.com/FedericaParlapiano/WeatherProva 
+git clone https://github.com/lorenzobartolini00/ProgettoOOP.git
 ```
 <a name="config"></a>
