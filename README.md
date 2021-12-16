@@ -21,6 +21,7 @@ git clone https://github.com/lorenzobartolini00/ProgettoOOP.git
 ## Rotte
 
 N° | Tipo | Rotta | Descrizione
+----- | ------------ | -------------------- | ----------------------
 [1](#1) | ' GET ' | ' /revision_statistics ' | *Restituisce un JSONObject con all'interno statistiche, opportunamente filtrate, sulle revisioni di un file*
 
 <a name="autor"></a>
