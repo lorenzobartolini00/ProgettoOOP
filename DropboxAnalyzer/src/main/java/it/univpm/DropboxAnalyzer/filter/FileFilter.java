@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import it.univpm.DropboxAnalyzer.Model.Content;
 import it.univpm.DropboxAnalyzer.Model.File;
 import it.univpm.DropboxAnalyzer.Model.Revision;
+import it.univpm.DropboxAnalyzer.configuration.Configuration;
 
 public class FileFilter implements Filter{
 	
@@ -33,7 +34,7 @@ public class FileFilter implements Filter{
 	}
 	
 	@Override
-	public void setFilters(JSONObject jsonFilters) {
+	public void setFilters(Configuration config) {
 		// TODO Auto-generated method stub
 		
 	}

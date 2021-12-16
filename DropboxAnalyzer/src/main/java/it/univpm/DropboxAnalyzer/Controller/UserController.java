@@ -19,6 +19,7 @@ public class UserController {
 	@Autowired
 	private HTTPSRequest httpsReq;
 	
+	/*
 	//list-file-member API call
 	@GetMapping("/list_file_members")
 	public String POSTGetListFileMembers(@RequestParam(name="token") String token) throws MalformedURLException{
@@ -28,4 +29,5 @@ public class UserController {
 		return users.get(1).getEmail();
 		
 	}
+	*/
 }
