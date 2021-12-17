@@ -16,6 +16,7 @@ public class ListFolderConfiguration extends Configuration {
 	public void setDefault(Map<String, Object> parameters) throws BadFormatException{
 		parameters.putIfAbsent("url", "https://api.dropboxapi.com/2/files/list_folder");
 		parameters.putIfAbsent("type", "POST");
+		@SuppressWarnings("unchecked")
 		Map<String, Object> info = (Map<String, Object>) parameters.get("info");
 		info.putIfAbsent("recursive", false);
 		info.putIfAbsent("include_media_info", false);
@@ -28,8 +29,8 @@ public class ListFolderConfiguration extends Configuration {
 	@Override
 	public void checkFormat(Map<String, Object> parameters) throws BadFormatException {
 		Vector<Property> properties = new Vector<Property>();
-		properties.add(new Property("path", true));
-		properties.add(new Property("recursive", false));
+		properties.add(new Property("path", true, 0));
+		properties.add(new Property("recursive", false, 1));
 		
 		Map<String, String> errors = null;
 		if((errors = getErrors(parameters, properties)) != null)

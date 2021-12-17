@@ -40,7 +40,7 @@ public class HTTPSRequest{
 		String type = (String) parameters.get("type");
 		String token = (String) parameters.get("token");
 		@SuppressWarnings("unchecked")
-		String body = this.getParamString((Map<String, String>) parameters.get("info"));
+		String info = this.getParamString((Map<String, Object>) parameters.get("info"));
 		
 		HttpURLConnection openConnection = null;
 		try 
@@ -55,7 +55,7 @@ public class HTTPSRequest{
 			//Passo attraverso il DataOutputStream il body per poter utilizzare l'API messa a disposizione da Dropbox
 			try( OutputStream os = openConnection.getOutputStream())
 			{
-				byte[] input = body.getBytes("utf-8");
+				byte[] input = info.getBytes("utf-8");
 				os.write(input, 0, input.length);
 			}
 		}
@@ -91,7 +91,7 @@ public class HTTPSRequest{
 		return jsonObject;
 	}
 	
-	private String getParamString(Map<String, String> bodyParams)
+	private String getParamString(Map<String, Object> bodyParams)
 	{
         return new JSONObject(bodyParams).toString();
 	}

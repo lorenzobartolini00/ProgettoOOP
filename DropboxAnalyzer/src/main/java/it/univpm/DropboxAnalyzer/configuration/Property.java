@@ -1,18 +1,20 @@
 package it.univpm.DropboxAnalyzer.configuration;
 
 public class Property {
-	private String property;
+	private String propertyName;
 	private boolean isRequired;
-	public Property(String property, boolean isRequired) {
+	private int type;
+	public Property(String propertyName, boolean isRequired, int type) {
 		super();
-		this.property = property;
+		this.propertyName = propertyName;
 		this.isRequired = isRequired;
+		this.type = type;
 	}
-	public String getProperty() {
-		return property;
+	public String getPropertyName() {
+		return propertyName;
 	}
-	public void setProperty(String property) {
-		this.property = property;
+	public void setPropertyName(String propertyName) {
+		this.propertyName = propertyName;
 	}
 	public boolean isRequired() {
 		return isRequired;
@@ -20,6 +22,11 @@ public class Property {
 	public void setRequired(boolean isRequired) {
 		this.isRequired = isRequired;
 	}
-	
+	public int getType() {
+		return type;
+	}
+	public void setType(int type) {
+		this.type = type;
+	}
 	
 }

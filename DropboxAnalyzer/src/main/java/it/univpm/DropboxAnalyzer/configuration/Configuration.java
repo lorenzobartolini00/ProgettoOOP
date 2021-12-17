@@ -2,10 +2,7 @@ package it.univpm.DropboxAnalyzer.configuration;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.Vector;
-
-import org.json.JSONObject;
 
 import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 
@@ -34,24 +31,71 @@ public abstract class Configuration {
 		}
 		else
 		{
+			//Trovare soluzione migliore
 			@SuppressWarnings("unchecked")
-			Map<String, Object> info = (Map<String, Object>) parameters.get("info");
+			Map<String, Object> info = (Map<String, Object>) parameters.get(header);
+			
+			//Estraggo prima dal vettore di Property, una collection di stringhe contenente i nomi di tutte le properties
+			Vector<String> stringProperties = new Vector<String>();
+			properties.forEach(property -> stringProperties.add(property.getPropertyName()));
 			
 			//Se sono presenti dei parametri superflui, vengono eliminati
-			Vector<String> stringProperties = new Vector<String>();
-			properties.forEach(property -> stringProperties.add(property.getProperty()));
 			info.keySet().retainAll(stringProperties);
 			
-			//Nel caso in cui dovesse mancare una delle properties e questa fosse anche required, allora 
-			//si genera un'eccezione
+			
 			for(Property property : properties)
 			{
-				if(!info.containsKey(property.getProperty()) && property.isRequired() )
+				Object myProperty = null;
+				
+				//Nel caso in cui dovesse mancare una delle properties e questa fosse anche required, allora 
+				//si genera un'eccezione
+				if(!info.containsKey(property.getPropertyName()) && property.isRequired() )
 				{
 					errorContext = "body/" + header;
-					errorCause = property.getProperty();
+					errorCause = property.getPropertyName();
 					errorType = "is missing";
 					errorFound = true;
+				}
+				
+				myProperty = info.get(property.getPropertyName());
+				
+				//Nel caso in cui nella Map fosse presente la key associata a quella property, ma
+				//il suo value fosse di un tipo errato, viene generata l'eccezione
+				switch(property.getType())
+				{
+				case 0:
+				{
+					if(!(myProperty instanceof String))
+					{
+						errorContext = "body/" + header;
+						errorCause = property.getPropertyName();
+						errorType = "wrong type";
+						errorFound = true;
+					}
+					break;
+				}
+				case 1:
+				{
+					if(!(myProperty instanceof Boolean))
+					{
+						errorContext = "body/" + header;
+						errorCause = property.getPropertyName();
+						errorType = "wrong type";
+						errorFound = true;
+					}
+					break;
+				}
+				case 2:
+				{
+					if(!(myProperty instanceof Integer))
+					{
+						errorContext = "body/" + header;
+						errorCause = property.getPropertyName();
+						errorType = "wrong type";
+						errorFound = true;
+					}
+					break;
+				}
 				}
 			}
 			
