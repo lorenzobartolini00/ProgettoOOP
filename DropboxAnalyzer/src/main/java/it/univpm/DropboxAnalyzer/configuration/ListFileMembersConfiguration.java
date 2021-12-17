@@ -23,8 +23,8 @@ public class ListFileMembersConfiguration extends Configuration{
 	@Override
 	public void checkFormat(Map<String, Object> parameters) throws BadFormatException {
 		Vector<Property> properties = new Vector<Property>();
-		properties.add(new Property("file", true));
-		properties.add(new Property("limit", false));
+		properties.add(new Property("file", true, 0));
+		properties.add(new Property("limit", false, 2));
 		
 		Map<String, String> errors = null;
 		if((errors = getErrors(parameters, properties)) != null)

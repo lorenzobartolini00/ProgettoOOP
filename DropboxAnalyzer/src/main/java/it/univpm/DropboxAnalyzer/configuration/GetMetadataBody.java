@@ -23,7 +23,7 @@ public class GetMetadataBody extends Configuration {
 	@Override
 	public void checkFormat(Map<String, Object> parameters) throws BadFormatException {
 		Vector<Property> properties = new Vector<Property>();
-		properties.add(new Property("path", true));
+		properties.add(new Property("path", true, 0));
 		
 		Map<String, String> errors = null;
 		if((errors = getErrors(parameters, properties)) != null)

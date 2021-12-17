@@ -1,11 +1,8 @@
 package it.univpm.DropboxAnalyzer.configuration;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.Vector;
 
-import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
@@ -24,8 +21,8 @@ public class ListRevisionsConfiguration extends Configuration {
 	@Override
 	public void checkFormat(Map<String, Object> parameters) throws BadFormatException {
 		Vector<Property> properties = new Vector<Property>();
-		properties.add(new Property("path", true));
-		properties.add(new Property("limit", false));
+		properties.add(new Property("path", true, 0));
+		properties.add(new Property("limit", false, 2));
 		
 		Map<String, String> errors = null;
 		if((errors = getErrors(parameters, properties)) != null)

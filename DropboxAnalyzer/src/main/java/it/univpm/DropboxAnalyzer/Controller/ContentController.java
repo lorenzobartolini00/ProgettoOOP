@@ -86,6 +86,7 @@ public class ContentController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST );
 		}
 		
+		
 		//Ottengo la lista di revisioni su cui fare statistiche
 		Vector<Content> contents = fileService.getContentList(httpsReq.rootCall(parameters));
 		
