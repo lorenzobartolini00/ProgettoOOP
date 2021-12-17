@@ -1,4 +1,9 @@
-# ProgettoOOP
+<p align="center">
+<img src="DropBox aNALYSER.png" width="30%" height="30%">
+</p>
+
+
+
 <h1 align="center"> Progetto per il corso di Programmazione Ad Oggetti 2021/2022 - Dropbox Analyser </h1>
 
 <p align="center">
@@ -16,13 +21,21 @@ Dropbox analyser permette di effettuare statistiche sulle revisioni dei file di 
 DropboxAnalyser è stata pensata principalmente per effetuare statistiche sulle revisioni effetuate di un file, con la possibilità di utilizzare uno o pià filtri, ma può anche effettuare statistiche rigurdanti più file, analizzandone i metadati.
 
 * **STATISTICHE** 
-  * *[](#1):* 
-  * *[](#2):* 
-  * *[](#3):* 
+  * *[Asolute Size Percentage Increment]:* Incremento percentuale tra la prima e l'ultima revisione visulizzata
+  * *[Average Size Increment Per Revision]:* Incremento medio per ogni revisione 
+  * *[Hour Per Revision]:* Periodo che in media trascorre tra una revisione e l'altra 
+  * *[Avarage Size Percentage Increment Per Revision]:* Incremento percentuale tra una revisione e l'altra
+  * *[Number Of Revisions]:* Numero di revisioni visulizzate
+  * *[Absolute Size Increment]:* Incremento totale tra la prima e l'ultima revisione visulizzata
 
-* **FILTRI** 
-  * *[Periodo](#4):* vengono restituite le statistiche per il periodo scelto (es. oggi, ultima settimana, ...).
-  * *[Soglia](#5):* vengono restituite le statistiche per una determinata soglia di revisioni (es. ultime 3 revisioni, ...)
+* **FILTRI - REVISIONI** 
+  * *[Time Filter]:* filtra in base al periodo temporale scelto (es. oggi, ultima settimana, ...).
+  * *[Size Filter]:* imposta la dimensione massima dei file da visualizzare
+
+
+* **FILTRI - REVISIONI** 
+  * *[Only Type]:* filtra in base all'estensione di un file
+  * *[Only Downloadable]:* filtra in base ai file scaricabili
 
 <a name="install"></a>
 ## Installazione
