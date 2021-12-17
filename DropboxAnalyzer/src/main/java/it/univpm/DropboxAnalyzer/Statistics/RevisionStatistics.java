@@ -19,7 +19,7 @@ public class RevisionStatistics implements Statistics{
 	private double hourPerRevision;
 	private long averageSizeIncrementPerRevision;
 	private double averageSizePercentageIncrementPerRevision;
-	private double absoluteSizeIncrement;
+	private long absoluteSizeIncrement;
 	private double absoluteSizePercentageIncrement;
 	private int numberOfRevisons;
 	
@@ -36,6 +36,7 @@ public class RevisionStatistics implements Statistics{
 		setHourPerRevision(getHourPerRevision());
 		setAverageSizeIncrementPerRevision(getAverageSizeIncrementPerRevision());
 		setAverageSizePercentageIncrementPerRevision(getAverageSizePercentageIncrementPerRevision());
+		setAbsoluteSizeIncrement(getAbsoluteSizeIncrement());
 		setAbsoluteSizePercentageIncrement(getAbsoluteSizePercentageIncrement());
 		setNumberOfRevisons(getNumberOfRevisons());
 	}
@@ -65,6 +66,23 @@ public class RevisionStatistics implements Statistics{
 
 	public void setAverageSizePercentageIncrementPerRevision(double sizeIncrementalPercentage) {
 		this.averageSizePercentageIncrementPerRevision = sizeIncrementalPercentage;
+	}
+
+	public long getAbsoluteSizeIncrement() {
+		int index = revisions.size();
+		if(index != 0)
+		{
+			return revisions.get(0).getSize() - revisions.get(index-1).getSize();
+		}
+		else
+		{
+			return 0;
+		}
+		
+	}
+
+	public void setAbsoluteSizeIncrement(long absoluteSizeIncrement) {
+		this.absoluteSizeIncrement = absoluteSizeIncrement;
 	}
 
 	public double getAbsoluteSizePercentageIncrement() {
@@ -125,8 +143,6 @@ public class RevisionStatistics implements Statistics{
 		}
 			
 	}
-	
-	
 	/**
 	 * Metodo che da millisecondi mi restituisce le ore
 	 * @param timeInMilliseconds
@@ -135,89 +151,19 @@ public class RevisionStatistics implements Statistics{
 	private double toHour(double timeInMilliseconds) {
 		return timeInMilliseconds/1000/60/60;
 	}
-	
-	
-	/**
-	 * Metodo che mi permette di convertire parametri in stringa
-	 * @param numero da convertire in stringa
-	 * @return numero convertito in stringa
-	 */
-	 private String doubleToString(double numero){
-	  	String s=String.valueOf(numero); 
-	  	return s;
-	 }
-	 
-	
-	/**
-	 * Metodo che mi permette di prendere solo le prime due cifre dopo la virgola del parametro double inserito
-	 * @param numero double da arrotondare
-	 */
-	private double roudDouble(double numero){ 
-	  	numero = Math.round(numero*100.0)/100.0;
-	  	return numero;
-	  }
-	
-	
-	
-	private String toHours(double ore) {
-		
-		int oreInt = (int) ore;
-		double minDouble = (ore-oreInt)*60;
-		int minInt = (int) minDouble;
-		return oreInt+"h,"+minInt+"m";
-		
-	}
 
 	
-	/**
-	 * Metodo che mi permette di convertire i bytes in un formato leggibile dall'uomo
-	 * @param bytes da convertire
-	 * @return bytes convertiti sotto forma di stringa
-	 */
-	private static String humanReadableByteCountBin(long bytes) {
-    long absB = bytes == Long.MIN_VALUE ? Long.MAX_VALUE : Math.abs(bytes);
-    if (absB < 1024) {
-        return bytes + " B";
-    }
-    long value = absB;
-    CharacterIterator ci = new StringCharacterIterator("KMGTPE");
-    for (int i = 40; i >= 0 && absB > 0xfffccccccccccccL >> i; i -= 10) {
-        value >>= 10;
-        ci.next();
-    }
-    value *= Long.signum(bytes);
-    return String.format("%.1f %ciB", value / 1024.0, ci.current());
-}
-	 
-	public Map<String, Object> toMap() {
+	public Map<String, Object> formatData() {
+		Map<String, Object> data = new HashMap<String, Object>();
 		
-		JSONObject jo=new JSONObject();
+		data.put("hour_per_revision", Parser.humanReadableTime(this.hourPerRevision));
+		data.put("average_size_increment_per_revision", Parser.humanReadableBytes(this.averageSizeIncrementPerRevision));
+		data.put("average_size_percentage_increment_per_revision", Parser.toPercentage(Parser.round(averageSizePercentageIncrementPerRevision, 2)));
+		data.put("absolute_size_increment", Parser.humanReadableBytes(absoluteSizeIncrement));
+		data.put("absolute_size_percentage_increment", Parser.toPercentage(Parser.round(absoluteSizePercentageIncrement, 2)));
+		data.put("numbers_of_revisions", this.numberOfRevisons);
 		
-		String hpr=toHours(hourPerRevision);
-		jo.put("hour_per_revision", hpr);
-		
-		String asipr =humanReadableByteCountBin(averageSizeIncrementPerRevision);
-		jo.put("average_size_increment_per_revision", asipr);
-		
-		String aspipr= doubleToString(roudDouble(averageSizePercentageIncrementPerRevision));
-		jo.put("average_size_percentage_increment_per_revision", aspipr);
-		
-		jo.put("absolute_size_increment", this.absoluteSizeIncrement);
-		
-		String aspi = doubleToString(roudDouble(absoluteSizePercentageIncrement));
-		jo.put("ablolute_size_percentage_increment", aspi);
-		
-		jo.put("numbers_of_revisions", this.numberOfRevisons);
-		
-		Map<String, Object> result=null;
-		
-		try {
-			result= new ObjectMapper().readValue(jo.toString(), HashMap.class);
-		} catch (JsonProcessingException e) {
-			
-			e.printStackTrace();
-		}
-		return result;
+		return data;
 	}
 	
 }
