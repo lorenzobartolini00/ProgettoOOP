@@ -6,12 +6,7 @@ import java.util.Map;
 import java.util.Vector;
 import java.util.function.Predicate;
 
-import org.json.JSONObject;
-
 import it.univpm.DropboxAnalyzer.Model.Revision;
-import it.univpm.DropboxAnalyzer.configuration.Configuration;
-import it.univpm.DropboxAnalyzer.configuration.ListRevisionsConfiguration;
-import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 
 public class RevisionFilter implements Filter{
 	private Long periodOfTime;
@@ -20,8 +15,10 @@ public class RevisionFilter implements Filter{
 	private Vector<Revision> revisions;
 	
 	
-	//questo metodo mi deve restituire un lista di revisioni filtrate
 	
+	/**
+	 * Metodo che mi deve restituisce una lista di revisioni filtrate
+	 */
 	@Override
 	public void setFilters(Map<String, Object> parameters) {
 		if(parameters.containsKey("filters"))
@@ -30,16 +27,30 @@ public class RevisionFilter implements Filter{
 			
 			if(filters.containsKey("time_filter"))
 			{
-				this.setPeriodOfTime((String)filters.get("time_filter"));
+				try {
+					this.setPeriodOfTime((String)filters.get("time_filter"));
+				}
+				catch (ClassCastException e) {
+					 e.printStackTrace();
+				}
 			}
 			
 			if(filters.containsKey("size_filter"))
 			{
+				try {
 				this.setRevisionsThreshold(Integer.toUnsignedLong((Integer)filters.get("size_filter"))) ;
+				}
+				catch (ClassCastException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
 	
+	
+	/**
+	 * Metodo che applica i  filtri
+	 */
 	@Override
 	public void applyFilters() {
 		if(revisionsThreshold != null) revisions.removeIf(aboveThreshold());
@@ -67,7 +78,6 @@ public class RevisionFilter implements Filter{
 	
 	
 	//Getters e setters
-	
 	public RevisionFilter(Vector<Revision> revisions) {
 		this.revisions = revisions;
 	}
