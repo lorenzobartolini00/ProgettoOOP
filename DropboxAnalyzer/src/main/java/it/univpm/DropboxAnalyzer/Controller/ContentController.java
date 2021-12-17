@@ -144,16 +144,38 @@ public class ContentController {
 		Content content = fileService.getMetadata(httpsReq.rootCall(config));
 		return content;
 	}
-	
+	*/
 	//list-revision API call
 	@GetMapping("/get_list_revisions")
-	public @ResponseBody Revision POSTGetListRevision(@RequestParam(name="token") String token) throws MalformedURLException
+	public ResponseEntity<Object> POSTGetListRevision(@RequestBody Map<String, Object> parameters, @RequestParam(name="token") String token) throws MalformedURLException
 	{
-		Configuration config = new Configuration("https://api.dropboxapi.com/2/files/list_revisions", new ListRevisionsConfiguration("/Uni/Appunti.paper",10), "POST", token);
-		Vector<Revision> revisions = fileService.getRevisionList(httpsReq.rootCall(config));
-		return revisions.get(1);
-		//Stringa per prova
+		parameters.put("token", token);
+		
+		try {
+			revisionConfig.checkFormat(parameters);
+			revisionConfig.setDefault(parameters);
+		} catch (BadFormatException e) {
+			//Nel caso in cui venga lanciata l'eccezione, oltre al messaggio di errore, viene
+			//dichiarato che lo stato Http 400 BAD REQUEST
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST );
+		}
+		
+		//Ottengo la lista di revisioni su cui fare statistiche
+		Vector<Revision> revisions = fileService.getRevisionList(httpsReq.rootCall(parameters));
+		
+		//Imposto i filtri tramite classe Filter e li applico alla lista di revisioni
+		RevisionFilter revisionFilter = new RevisionFilter(revisions);
+		try
+		{
+			revisionFilter.setFilters(parameters);
+		}
+		catch(ClassCastException e)
+		{
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST );
+		}
+		revisionFilter.applyFilters();
+		return new ResponseEntity<>(revisions, HttpStatus.OK);
 	}
-	*/
+	
 	
 }
