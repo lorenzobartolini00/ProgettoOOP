@@ -11,7 +11,8 @@ import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 
 public class RevisionFilter implements Filter{
 	private Long periodOfTime;
-	private Long revisionsThreshold;
+	private Long minSize;
+	private Long maxSize;
 	
 	private Vector<Revision> revisions;
 	
@@ -32,9 +33,13 @@ public class RevisionFilter implements Filter{
 				this.setPeriodOfTime((String)filters.get("time_filter"));
 			}
 			
-			if(filters.containsKey("size_filter"))
+			if(filters.containsKey("min_size"))
 			{
-				this.setRevisionsThreshold(Integer.toUnsignedLong((Integer)filters.get("size_filter"))) ;
+				this.setMinSize(Integer.toUnsignedLong((Integer)filters.get("min_size"))) ;
+			}
+			if(filters.containsKey("max_size"))
+			{
+				this.setMaxSize(Integer.toUnsignedLong((Integer)filters.get("max_size"))) ;
 			}
 		}
 	}
@@ -45,7 +50,8 @@ public class RevisionFilter implements Filter{
 	 */
 	@Override
 	public void applyFilters() {
-		if(revisionsThreshold != null) revisions.removeIf(aboveThreshold());
+		if(maxSize != null) revisions.removeIf(aboveThreshold());
+		if(minSize != null) revisions.removeIf(belowThreshold());
 		if(periodOfTime != null) revisions.removeIf(notInRange());	
 	}
 	
@@ -64,8 +70,14 @@ public class RevisionFilter implements Filter{
 	
 	private Predicate<Revision> aboveThreshold() {
 		//L'elemento viene rimosso se se la seguente condizione è verificata,
-		//ovvero se la dimensione dell'elemento è maggiore o uguale alla soglia
-        return p -> ((p.getSize() - revisionsThreshold) > 0);
+		//ovvero se la dimensione dell'elemento è maggiore alla soglia
+        return p -> (p.getSize() > maxSize);
+    }
+	
+	private Predicate<Revision> belowThreshold() {
+		//L'elemento viene rimosso se se la seguente condizione è verificata,
+		//ovvero se la dimensione dell'elemento è minore o uguale alla soglia
+        return p -> (p.getSize() <= minSize);
     }
 	
 	
@@ -103,12 +115,23 @@ public class RevisionFilter implements Filter{
 			}
 		}
 	}
-	public Long getRevisionsThreshold() {
-		return revisionsThreshold;
+	public Long getMinSize() {
+		return minSize;
 	}
-	public void setRevisionsThreshold(Long revisionsThreshold) {
-		this.revisionsThreshold = revisionsThreshold;
+	public void setMinSize(Long revisionsThreshold) {
+		this.minSize = revisionsThreshold;
 	}
+	
+	public Long getMaxSize() {
+		return maxSize;
+	}
+
+
+	public void setMaxSize(Long maxSize) {
+		this.maxSize = maxSize;
+	}
+
+
 	public Vector<Revision> getRevisions() {
 		return revisions;
 	}

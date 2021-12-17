@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -57,8 +58,8 @@ public class ContentController {
 	 * @return Ritorna un ResponseEntity di tipo Object
 	 * @throws MalformedURLException Generato per indicare che si è verificato un URL non valido
 	 */
-	@GetMapping("/revision_statistics")
-	public ResponseEntity<Object> POSTRevisionStatistics(@RequestBody Map<String, Object> parameters, @RequestParam(name="token") String token) throws MalformedURLException
+	@GetMapping("/revision_statistics/{statistic_type}")
+	public ResponseEntity<Object> POSTRevisionStatistics(@RequestBody Map<String, Object> parameters, @PathVariable(value="statistic_type") String statisticType, @RequestParam(name="token") String token) throws MalformedURLException
 	{
 		parameters.put("token", token);
 		
@@ -88,7 +89,16 @@ public class ContentController {
 		
 		//Eseguo statistiche sulla lista filtrata
 		RevisionStatistics stats = new RevisionStatistics(revisions);
-		return new ResponseEntity<>(stats.formatData(), HttpStatus.OK);
+		ResponseEntity<Object> output = null;
+		try
+		{
+			output = new ResponseEntity<>(stats.formatData(statisticType), HttpStatus.OK);
+		}
+		catch(BadFormatException e)
+		{
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST );
+		}
+		return output;
 	}
 	
 	
@@ -144,16 +154,38 @@ public class ContentController {
 		Content content = fileService.getMetadata(httpsReq.rootCall(config));
 		return content;
 	}
-	
+	*/
 	//list-revision API call
 	@GetMapping("/get_list_revisions")
-	public @ResponseBody Revision POSTGetListRevision(@RequestParam(name="token") String token) throws MalformedURLException
+	public ResponseEntity<Object> POSTGetListRevision(@RequestBody Map<String, Object> parameters, @RequestParam(name="token") String token) throws MalformedURLException
 	{
-		Configuration config = new Configuration("https://api.dropboxapi.com/2/files/list_revisions", new ListRevisionsConfiguration("/Uni/Appunti.paper",10), "POST", token);
-		Vector<Revision> revisions = fileService.getRevisionList(httpsReq.rootCall(config));
-		return revisions.get(1);
-		//Stringa per prova
+		parameters.put("token", token);
+		
+		try {
+			revisionConfig.checkFormat(parameters);
+			revisionConfig.setDefault(parameters);
+		} catch (BadFormatException e) {
+			//Nel caso in cui venga lanciata l'eccezione, oltre al messaggio di errore, viene
+			//dichiarato che lo stato Http 400 BAD REQUEST
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST );
+		}
+		
+		//Ottengo la lista di revisioni su cui fare statistiche
+		Vector<Revision> revisions = fileService.getRevisionList(httpsReq.rootCall(parameters));
+		
+		//Imposto i filtri tramite classe Filter e li applico alla lista di revisioni
+		RevisionFilter revisionFilter = new RevisionFilter(revisions);
+		try
+		{
+			revisionFilter.setFilters(parameters);
+		}
+		catch(ClassCastException e)
+		{
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST );
+		}
+		revisionFilter.applyFilters();
+		return new ResponseEntity<>(revisions, HttpStatus.OK);
 	}
-	*/
+	
 	
 }
