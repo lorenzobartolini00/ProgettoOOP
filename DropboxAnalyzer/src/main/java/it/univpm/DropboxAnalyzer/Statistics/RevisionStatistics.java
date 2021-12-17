@@ -1,17 +1,25 @@
 package it.univpm.DropboxAnalyzer.Statistics;
 
+import java.text.CharacterIterator;
+import java.text.StringCharacterIterator;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.TransformerUtils;
+import org.json.JSONObject;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import it.univpm.DropboxAnalyzer.Model.Revision;
 
 public class RevisionStatistics implements Statistics{
 	private double hourPerRevision;
-	private double averageSizeIncrementPerRevision;
+	private long averageSizeIncrementPerRevision;
 	private double averageSizePercentageIncrementPerRevision;
-	private double absoluteSizeIncrement;
+	private long absoluteSizeIncrement;
 	private double absoluteSizePercentageIncrement;
 	private int numberOfRevisons;
 	
@@ -28,6 +36,7 @@ public class RevisionStatistics implements Statistics{
 		setHourPerRevision(getHourPerRevision());
 		setAverageSizeIncrementPerRevision(getAverageSizeIncrementPerRevision());
 		setAverageSizePercentageIncrementPerRevision(getAverageSizePercentageIncrementPerRevision());
+		setAbsoluteSizeIncrement(getAbsoluteSizeIncrement());
 		setAbsoluteSizePercentageIncrement(getAbsoluteSizePercentageIncrement());
 		setNumberOfRevisons(getNumberOfRevisons());
 	}
@@ -43,11 +52,11 @@ public class RevisionStatistics implements Statistics{
 		this.hourPerRevision = hourPerRevision;
 	}
 
-	public double getAverageSizeIncrementPerRevision() {
-		return getAverage(revisions, "getSize", false);
+	public long getAverageSizeIncrementPerRevision() {
+		return (long) getAverage(revisions, "getSize", false);
 	}
 
-	public void setAverageSizeIncrementPerRevision(double sizeIncrementalAbsolute) {
+	public void setAverageSizeIncrementPerRevision(long sizeIncrementalAbsolute) {
 		this.averageSizeIncrementPerRevision = sizeIncrementalAbsolute;
 	}
 
@@ -57,6 +66,23 @@ public class RevisionStatistics implements Statistics{
 
 	public void setAverageSizePercentageIncrementPerRevision(double sizeIncrementalPercentage) {
 		this.averageSizePercentageIncrementPerRevision = sizeIncrementalPercentage;
+	}
+
+	public long getAbsoluteSizeIncrement() {
+		int index = revisions.size();
+		if(index != 0)
+		{
+			return revisions.get(0).getSize() - revisions.get(index-1).getSize();
+		}
+		else
+		{
+			return 0;
+		}
+		
+	}
+
+	public void setAbsoluteSizeIncrement(long absoluteSizeIncrement) {
+		this.absoluteSizeIncrement = absoluteSizeIncrement;
 	}
 
 	public double getAbsoluteSizePercentageIncrement() {
@@ -117,13 +143,27 @@ public class RevisionStatistics implements Statistics{
 		}
 			
 	}
-		
-	
-
-
-
+	/**
+	 * Metodo che da millisecondi mi restituisce le ore
+	 * @param timeInMilliseconds
+	 * @return tempo convertito in ore
+	 */
 	private double toHour(double timeInMilliseconds) {
 		return timeInMilliseconds/1000/60/60;
+	}
+
+	
+	public Map<String, Object> formatData() {
+		Map<String, Object> data = new HashMap<String, Object>();
+		
+		data.put("hour_per_revision", Parser.humanReadableTime(this.hourPerRevision));
+		data.put("average_size_increment_per_revision", Parser.humanReadableBytes(this.averageSizeIncrementPerRevision));
+		data.put("average_size_percentage_increment_per_revision", Parser.toPercentage(Parser.round(averageSizePercentageIncrementPerRevision, 2)));
+		data.put("absolute_size_increment", Parser.humanReadableBytes(absoluteSizeIncrement));
+		data.put("absolute_size_percentage_increment", Parser.toPercentage(Parser.round(absoluteSizePercentageIncrement, 2)));
+		data.put("numbers_of_revisions", this.numberOfRevisons);
+		
+		return data;
 	}
 	
 }

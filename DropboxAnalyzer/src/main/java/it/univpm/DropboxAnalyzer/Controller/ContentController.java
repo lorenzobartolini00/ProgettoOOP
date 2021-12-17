@@ -9,6 +9,7 @@ import java.util.Vector;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import it.univpm.DropboxAnalyzer.Model.Content;
 import it.univpm.DropboxAnalyzer.Model.Revision;
-import it.univpm.DropboxAnalyzer.Service.BadFormatException;
 import it.univpm.DropboxAnalyzer.Service.FileService;
 import it.univpm.DropboxAnalyzer.Service.HTTPSRequest;
 import it.univpm.DropboxAnalyzer.Statistics.RevisionStatistics;
@@ -27,8 +27,17 @@ import it.univpm.DropboxAnalyzer.configuration.Configuration;
 import it.univpm.DropboxAnalyzer.configuration.GetMetadataBody;
 import it.univpm.DropboxAnalyzer.configuration.ListFolderConfiguration;
 import it.univpm.DropboxAnalyzer.configuration.ListRevisionsConfiguration;
+import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 import it.univpm.DropboxAnalyzer.filter.FileFilter;
 import it.univpm.DropboxAnalyzer.filter.RevisionFilter;
+
+/**
+ * Gestisce le chiamate delle rotte
+ * 
+ * @author Lorenzo Bartolini
+ * @author Francesco Pio Cecca
+ *
+ */
 
 @Controller
 public class ContentController {
@@ -41,16 +50,25 @@ public class ContentController {
 	@Autowired
 	private ListFolderConfiguration folderConfig;
 	
-	
+	/**
+	 * Risponde alla chiamata HTTP restituendo statistiche, opportunamente filtrate, sulle revisioni 
+	 * @param parameters Map con all'interno i parametri di configurazione
+	 * @param token Codice d'accesso per l'autenticazione DropBox
+	 * @return Ritorna un ResponseEntity di tipo Object
+	 * @throws MalformedURLException Generato per indicare che si è verificato un URL non valido
+	 */
 	@GetMapping("/revision_statistics")
-	public @ResponseBody RevisionStatistics POSTRevisionStatistics(@RequestBody Map<String, Object> parameters, @RequestParam(name="token") String token) throws MalformedURLException
+	public ResponseEntity<Object> POSTRevisionStatistics(@RequestBody Map<String, Object> parameters, @RequestParam(name="token") String token) throws MalformedURLException
 	{
 		parameters.put("token", token);
 		
 		try {
+			revisionConfig.checkFormat(parameters);
 			revisionConfig.setDefault(parameters);
 		} catch (BadFormatException e) {
-			System.out.println(e.getMessage());
+			//Nel caso in cui venga lanciata l'eccezione, oltre al messaggio di errore, viene
+			//dichiarato che lo stato Http 400 BAD REQUEST
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST );
 		}
 		
 		//Ottengo la lista di revisioni su cui fare statistiche
@@ -58,36 +76,61 @@ public class ContentController {
 		
 		//Imposto i filtri tramite classe Filter e li applico alla lista di revisioni
 		RevisionFilter revisionFilter = new RevisionFilter(revisions);
-		revisionFilter.setFilters(parameters);
+		try
+		{
+			revisionFilter.setFilters(parameters);
+		}
+		catch(ClassCastException e)
+		{
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST );
+		}
 		revisionFilter.applyFilters();
 		
 		//Eseguo statistiche sulla lista filtrata
-		return new RevisionStatistics(revisions);
+		RevisionStatistics stats = new RevisionStatistics(revisions);
+		return new ResponseEntity<>(stats.formatData(), HttpStatus.OK);
 	}
 	
 	
 	
-	//"list-folder API call
+	/**
+	 * Risponde alla chiamata HTTP restituendo una lista, opportunamente filtrata, di file
+	 * @param parameters Map con all'interno i parametri di configurazione
+	 * @param token Codice d'accesso per l'autenticazione DropBox
+	 * @return Ritorna un ResponseEntity di tipo Object
+	 * @throws MalformedURLException Generato per indicare che si è verificato un URL non valido
+	 */
 	@GetMapping("/list_files")
-	public @ResponseBody Vector<Content> POSTListFolder(@RequestBody Map<String, Object> parameters, @RequestParam(name="token") String token) throws MalformedURLException
+	public ResponseEntity<Object> POSTListFolder(@RequestBody Map<String, Object> parameters, @RequestParam(name="token") String token) throws MalformedURLException
 	{
 		parameters.put("token", token);
 		try {
+			folderConfig.checkFormat(parameters);
 			folderConfig.setDefault(parameters);
 		} catch (BadFormatException e) {
-			System.out.println(e.getMessage());
+			//Nel caso in cui venga lanciata l'eccezione, oltre al messaggio di errore, viene
+			//dichiarato che lo stato Http 400 BAD REQUEST
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST );
 		}
+		
 		
 		//Ottengo la lista di revisioni su cui fare statistiche
 		Vector<Content> contents = fileService.getContentList(httpsReq.rootCall(parameters));
 		
 		//Imposto i filtri tramite classe Filter e li applico alla lista di revisioni
 		FileFilter fileFilter = new FileFilter(contents);
-		fileFilter.setFilters(parameters);
+		try
+		{
+			fileFilter.setFilters(parameters);
+		}
+		catch(ClassCastException e)
+		{
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST );
+		}
 		fileFilter.applyFilters();
 		
 		//Ritorno lista di file filtrata
-		return contents;
+		return new ResponseEntity<>(contents, HttpStatus.OK);
 	}
 	
 	/*

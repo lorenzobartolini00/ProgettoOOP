@@ -22,6 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import it.univpm.DropboxAnalyzer.configuration.Configuration;
+import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
+
 import org.json.JSONObject;
 
 @Service
@@ -37,20 +39,8 @@ public class HTTPSRequest{
 		String url = (String) parameters.get("url");
 		String type = (String) parameters.get("type");
 		String token = (String) parameters.get("token");
-		String body = null;
-		
-		try
-		{
-			body = this.getParamString((Map<String, String>) parameters.get("info"));
-		}
-		catch(BadFormatException e)
-		{
-			System.out.println(e.getMessage());
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
+		@SuppressWarnings("unchecked")
+		String info = this.getParamString((Map<String, Object>) parameters.get("info"));
 		
 		HttpURLConnection openConnection = null;
 		try 
@@ -65,7 +55,7 @@ public class HTTPSRequest{
 			//Passo attraverso il DataOutputStream il body per poter utilizzare l'API messa a disposizione da Dropbox
 			try( OutputStream os = openConnection.getOutputStream())
 			{
-				byte[] input = body.getBytes("utf-8");
+				byte[] input = info.getBytes("utf-8");
 				os.write(input, 0, input.length);
 			}
 		}
@@ -101,19 +91,9 @@ public class HTTPSRequest{
 		return jsonObject;
 	}
 	
-	private String getParamString(Map<String, String> bodyParams) throws BadFormatException
+	private String getParamString(Map<String, Object> bodyParams)
 	{
-		if(!isCorrectFormat(bodyParams)) 
-		{
-			throw new BadFormatException("Invalid body");
-		}
-		
         return new JSONObject(bodyParams).toString();
-	}
-	
-	private boolean isCorrectFormat(Map<String, String> bodyParams)
-	{
-		return true;
 	}
 	
 }
