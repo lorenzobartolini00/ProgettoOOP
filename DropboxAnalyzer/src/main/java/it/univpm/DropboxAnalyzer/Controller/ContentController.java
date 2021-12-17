@@ -76,7 +76,14 @@ public class ContentController {
 		
 		//Imposto i filtri tramite classe Filter e li applico alla lista di revisioni
 		RevisionFilter revisionFilter = new RevisionFilter(revisions);
-		revisionFilter.setFilters(parameters);
+		try
+		{
+			revisionFilter.setFilters(parameters);
+		}
+		catch(ClassCastException e)
+		{
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST );
+		}
 		revisionFilter.applyFilters();
 		
 		//Eseguo statistiche sulla lista filtrata
@@ -112,7 +119,14 @@ public class ContentController {
 		
 		//Imposto i filtri tramite classe Filter e li applico alla lista di revisioni
 		FileFilter fileFilter = new FileFilter(contents);
-		fileFilter.setFilters(parameters);
+		try
+		{
+			fileFilter.setFilters(parameters);
+		}
+		catch(ClassCastException e)
+		{
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST );
+		}
 		fileFilter.applyFilters();
 		
 		//Ritorno lista di file filtrata

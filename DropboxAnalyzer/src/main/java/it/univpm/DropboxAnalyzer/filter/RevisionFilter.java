@@ -7,6 +7,7 @@ import java.util.Vector;
 import java.util.function.Predicate;
 
 import it.univpm.DropboxAnalyzer.Model.Revision;
+import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 
 public class RevisionFilter implements Filter{
 	private Long periodOfTime;
@@ -20,29 +21,20 @@ public class RevisionFilter implements Filter{
 	 * Metodo che mi deve restituisce una lista di revisioni filtrate
 	 */
 	@Override
-	public void setFilters(Map<String, Object> parameters) {
+	public void setFilters(Map<String, Object> parameters){
 		if(parameters.containsKey("filters"))
 		{
+			@SuppressWarnings("unchecked")
 			Map<String, Object> filters = (Map<String, Object>) parameters.get("filters");
 			
 			if(filters.containsKey("time_filter"))
 			{
-				try {
-					this.setPeriodOfTime((String)filters.get("time_filter"));
-				}
-				catch (ClassCastException e) {
-					 e.printStackTrace();
-				}
+				this.setPeriodOfTime((String)filters.get("time_filter"));
 			}
 			
 			if(filters.containsKey("size_filter"))
 			{
-				try {
 				this.setRevisionsThreshold(Integer.toUnsignedLong((Integer)filters.get("size_filter"))) ;
-				}
-				catch (ClassCastException e) {
-					e.printStackTrace();
-				}
 			}
 		}
 	}
