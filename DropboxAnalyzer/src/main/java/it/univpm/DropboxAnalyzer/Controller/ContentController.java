@@ -67,7 +67,7 @@ public class ContentController {
 		
 		//Eseguo statistiche sulla lista filtrata
 		RevisionStatistics stats = new RevisionStatistics(revisions);
-		return new ResponseEntity<>(stats, HttpStatus.OK);
+		return new ResponseEntity<>(stats.toMap(), HttpStatus.OK);
 	}
 	
 	
