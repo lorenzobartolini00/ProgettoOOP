@@ -14,6 +14,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import it.univpm.DropboxAnalyzer.Model.Revision;
+import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 
 public class RevisionStatistics implements Statistics{
 	private double hourPerRevision;
@@ -153,17 +154,56 @@ public class RevisionStatistics implements Statistics{
 	}
 
 	
-	public Map<String, Object> formatData() {
-		Map<String, Object> data = new HashMap<String, Object>();
+	public Map<String, Object> formatData(String statisticType) throws BadFormatException {
+		if((statisticType.equals("time")) || (statisticType.equals("size")) || (statisticType.equals("both")))
+		{
+			Map<String, Object> data = new HashMap<String, Object>();
+			Map<String, Object> sizeData = new HashMap<String, Object>();
+			Map<String, Object> timeData = new HashMap<String, Object>();
+			Map<String, Object> generalData = new HashMap<String, Object>();
+			
+			generalData.put("numbers_of_revisions", this.numberOfRevisons);
+			
+			switch(statisticType)
+			{
+			case "time":
+			{
+				timeData.put("hour_per_revision", Parser.humanReadableTime(this.hourPerRevision));
+				data.put("time_statistics", timeData);
+				break;
+			}
+			case "size":
+			{
+				sizeData.put("average_size_increment_per_revision", Parser.humanReadableBytes(this.averageSizeIncrementPerRevision));
+				sizeData.put("average_size_percentage_increment_per_revision", Parser.toPercentage(Parser.round(averageSizePercentageIncrementPerRevision, 2)));
+				sizeData.put("absolute_size_increment", Parser.humanReadableBytes(absoluteSizeIncrement));
+				sizeData.put("absolute_size_percentage_increment", Parser.toPercentage(Parser.round(absoluteSizePercentageIncrement, 2)));
+				data.put("size_statistics", sizeData);
+				break;
+			}
+			case "both":
+			{
+				timeData.put("hour_per_revision", Parser.humanReadableTime(this.hourPerRevision));
+				sizeData.put("average_size_increment_per_revision", Parser.humanReadableBytes(this.averageSizeIncrementPerRevision));
+				sizeData.put("average_size_percentage_increment_per_revision", Parser.toPercentage(Parser.round(averageSizePercentageIncrementPerRevision, 2)));
+				sizeData.put("absolute_size_increment", Parser.humanReadableBytes(absoluteSizeIncrement));
+				sizeData.put("absolute_size_percentage_increment", Parser.toPercentage(Parser.round(absoluteSizePercentageIncrement, 2)));
+				data.put("size_statistics", sizeData);
+				data.put("time_statistics", timeData);
+				break;
+			}
+			}
+			
+			data.put("general", generalData);
+			
+			return data;
+		}
+		else
+		{
+			throw new BadFormatException("url", statisticType, "is not a valid statistic type");
+		}
 		
-		data.put("hour_per_revision", Parser.humanReadableTime(this.hourPerRevision));
-		data.put("average_size_increment_per_revision", Parser.humanReadableBytes(this.averageSizeIncrementPerRevision));
-		data.put("average_size_percentage_increment_per_revision", Parser.toPercentage(Parser.round(averageSizePercentageIncrementPerRevision, 2)));
-		data.put("absolute_size_increment", Parser.humanReadableBytes(absoluteSizeIncrement));
-		data.put("absolute_size_percentage_increment", Parser.toPercentage(Parser.round(absoluteSizePercentageIncrement, 2)));
-		data.put("numbers_of_revisions", this.numberOfRevisons);
 		
-		return data;
 	}
 	
 }
