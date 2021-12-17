@@ -31,6 +31,14 @@ import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 import it.univpm.DropboxAnalyzer.filter.FileFilter;
 import it.univpm.DropboxAnalyzer.filter.RevisionFilter;
 
+/**
+ * Gestisce le chiamate delle rotte
+ * 
+ * @author Lorenzo Bartolini
+ * @author Francesco Pio Cecca
+ *
+ */
+
 @Controller
 public class ContentController {
 	@Autowired
@@ -42,7 +50,13 @@ public class ContentController {
 	@Autowired
 	private ListFolderConfiguration folderConfig;
 	
-	
+	/**
+	 * Risponde alla chiamata HTTP restituendo statistiche, opportunamente filtrate, sulle revisioni 
+	 * @param parameters Map con all'interno i parametri di configurazione
+	 * @param token Codice d'accesso per l'autenticazione DropBox
+	 * @return Ritorna un ResponseEntity di tipo Object
+	 * @throws MalformedURLException Generato per indicare che si è verificato un URL non valido
+	 */
 	@GetMapping("/revision_statistics")
 	public ResponseEntity<Object> POSTRevisionStatistics(@RequestBody Map<String, Object> parameters, @RequestParam(name="token") String token) throws MalformedURLException
 	{
@@ -72,7 +86,13 @@ public class ContentController {
 	
 	
 	
-	//"list-folder API call
+	/**
+	 * Risponde alla chiamata HTTP restituendo una lista, opportunamente filtrata, di file
+	 * @param parameters Map con all'interno i parametri di configurazione
+	 * @param token Codice d'accesso per l'autenticazione DropBox
+	 * @return Ritorna un ResponseEntity di tipo Object
+	 * @throws MalformedURLException Generato per indicare che si è verificato un URL non valido
+	 */
 	@GetMapping("/list_files")
 	public ResponseEntity<Object> POSTListFolder(@RequestBody Map<String, Object> parameters, @RequestParam(name="token") String token) throws MalformedURLException
 	{
