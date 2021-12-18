@@ -11,11 +11,9 @@ import it.univpm.DropboxAnalyzer.Model.File;
 import it.univpm.DropboxAnalyzer.Model.Revision;
 import it.univpm.DropboxAnalyzer.configuration.Configuration;
 
-public class FileFilter implements Filter{
+public class FileFilter extends FilterImpl implements Filter{
 	
 	private String fileExtension;
-	private Long minSize;
-	private Long maxSize;
 	private boolean onlyDownloadable;
 
 	private Vector<Content> contents;
@@ -23,6 +21,7 @@ public class FileFilter implements Filter{
 	
 	
 	public FileFilter(Vector<Content> contents) {
+		super();
 		this.contents=contents;
 	}
 	
@@ -42,6 +41,7 @@ public class FileFilter implements Filter{
 	public void setFilters(Map<String, Object> parameters) {
 		if(parameters.containsKey("filters"))
 		{
+			super.setFilters(parameters);
 			Map<String, Object> filters = (Map<String, Object>) parameters.get("filters");
 			
 			if(filters.containsKey("file_extensions"))
@@ -56,14 +56,6 @@ public class FileFilter implements Filter{
 			else
 			{
 				this.setOnlyDownloadable(false);
-			}
-			if(filters.containsKey("min_size"))
-			{
-				this.setMinSize(Integer.toUnsignedLong((Integer)filters.get("min_size"))) ;
-			}
-			if(filters.containsKey("max_size"))
-			{
-				this.setMaxSize(Integer.toUnsignedLong((Integer)filters.get("max_size"))) ;
 			}
 		}
 		
@@ -107,22 +99,6 @@ public class FileFilter implements Filter{
 
 	public void setOnlyDownloadable(boolean onlyDownloadable) {
 		this.onlyDownloadable = onlyDownloadable;
-	}
-
-	public long getMinSize() {
-		return minSize;
-	}
-
-	public void setMinSize(long minSize) {
-		this.minSize = minSize;
-	}
-
-	public long getMaxSize() {
-		return maxSize;
-	}
-
-	public void setMaxSize(long maxSize) {
-		this.maxSize = maxSize;
 	}
 
 	public Vector<Content> getContents() {

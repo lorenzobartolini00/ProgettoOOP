@@ -194,7 +194,7 @@ public class RevisionStatistics implements Statistics{
 			}
 			}
 			
-			data.put("general", generalData);
+			data.put("generic", generalData);
 			
 			return data;
 		}

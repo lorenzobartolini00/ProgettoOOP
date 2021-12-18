@@ -9,14 +9,10 @@ import java.util.function.Predicate;
 import it.univpm.DropboxAnalyzer.Model.Revision;
 import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 
-public class RevisionFilter implements Filter{
+public class RevisionFilter extends FilterImpl implements Filter{
 	private Long periodOfTime;
-	private Long minSize;
-	private Long maxSize;
 	
 	private Vector<Revision> revisions;
-	
-	
 	
 	/**
 	 * Metodo che mi deve restituisce una lista di revisioni filtrate
@@ -25,21 +21,13 @@ public class RevisionFilter implements Filter{
 	public void setFilters(Map<String, Object> parameters){
 		if(parameters.containsKey("filters"))
 		{
+			super.setFilters(parameters);
 			@SuppressWarnings("unchecked")
 			Map<String, Object> filters = (Map<String, Object>) parameters.get("filters");
 			
 			if(filters.containsKey("time_filter"))
 			{
 				this.setPeriodOfTime((String)filters.get("time_filter"));
-			}
-			
-			if(filters.containsKey("min_size"))
-			{
-				this.setMinSize(Integer.toUnsignedLong((Integer)filters.get("min_size"))) ;
-			}
-			if(filters.containsKey("max_size"))
-			{
-				this.setMaxSize(Integer.toUnsignedLong((Integer)filters.get("max_size"))) ;
 			}
 		}
 	}
@@ -115,22 +103,6 @@ public class RevisionFilter implements Filter{
 			}
 		}
 	}
-	public Long getMinSize() {
-		return minSize;
-	}
-	public void setMinSize(Long revisionsThreshold) {
-		this.minSize = revisionsThreshold;
-	}
-	
-	public Long getMaxSize() {
-		return maxSize;
-	}
-
-
-	public void setMaxSize(Long maxSize) {
-		this.maxSize = maxSize;
-	}
-
 
 	public Vector<Revision> getRevisions() {
 		return revisions;
