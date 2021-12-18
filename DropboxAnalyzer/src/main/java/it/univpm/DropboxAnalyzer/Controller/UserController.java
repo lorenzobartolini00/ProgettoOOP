@@ -59,10 +59,14 @@ public class UserController {
 		Vector<User> users;
 		
 		try {
-			users=userService.getUserList(httpsReq.rootCall(parameters));
+			users = userService.getUserList(httpsReq.rootCall(parameters));
 		}
 		catch (NullPointerException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		catch(Exception e)
+		{
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST );
 		}
 		return new ResponseEntity<>(users, HttpStatus.OK);
 	}

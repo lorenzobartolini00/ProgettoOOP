@@ -72,7 +72,14 @@ public class ContentController {
 		}
 		
 		//Ottengo la lista di revisioni su cui fare statistiche
-		Vector<Revision> revisions = fileService.getRevisionList(httpsReq.rootCall(parameters));
+		Vector<Revision> revisions = null;
+		try {
+			revisions = fileService.getRevisionList(httpsReq.rootCall(parameters));
+		}
+		catch (NullPointerException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		
 		
 		//Imposto i filtri tramite classe Filter e li applico alla lista di revisioni
 		RevisionFilter revisionFilter = new RevisionFilter(revisions);
@@ -81,6 +88,10 @@ public class ContentController {
 			revisionFilter.setFilters(parameters);
 		}
 		catch(ClassCastException e)
+		{
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST );
+		}
+		catch(Exception e)
 		{
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST );
 		}
@@ -124,7 +135,14 @@ public class ContentController {
 		
 		
 		//Ottengo la lista di revisioni su cui fare statistiche
-		Vector<Content> contents = fileService.getContentList(httpsReq.rootCall(parameters));
+		Vector<Content> contents = null;
+		try {
+			contents = fileService.getContentList(httpsReq.rootCall(parameters));
+		}
+		catch (NullPointerException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		
 		
 		//Imposto i filtri tramite classe Filter e li applico alla lista di revisioni
 		FileFilter fileFilter = new FileFilter(contents);
@@ -141,19 +159,6 @@ public class ContentController {
 		//Ritorno lista di file filtrata
 		return new ResponseEntity<>(contents, HttpStatus.OK);
 	}
-	
-	/*
-	
-	//get-metadata API call
-	@GetMapping("/get_metadata")
-	public @ResponseBody Content POSTGetMetadata(@RequestParam(name="token") String token) throws MalformedURLException
-	{
-		
-		Configuration config = new Configuration("https://api.dropboxapi.com/2/files/get_metadata", new GetMetadataBody("/Uni",true,true,true), "POST", token);
-		Content content = fileService.getMetadata(httpsReq.rootCall(config));
-		return content;
-	}
-	*/
 	
 	
 	/**
@@ -178,7 +183,14 @@ public class ContentController {
 		}
 		
 		//Ottengo la lista di revisioni su cui fare statistiche
-		Vector<Revision> revisions = fileService.getRevisionList(httpsReq.rootCall(parameters));
+		Vector<Revision> revisions = null;
+		try {
+			revisions = fileService.getRevisionList(httpsReq.rootCall(parameters));
+		}
+		catch (NullPointerException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		
 		
 		//Imposto i filtri tramite classe Filter e li applico alla lista di revisioni
 		RevisionFilter revisionFilter = new RevisionFilter(revisions);
