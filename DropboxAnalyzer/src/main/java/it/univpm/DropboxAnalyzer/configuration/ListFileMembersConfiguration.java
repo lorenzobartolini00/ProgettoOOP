@@ -5,9 +5,11 @@ import java.util.Set;
 import java.util.Vector;
 
 import org.json.JSONObject;
+import org.springframework.stereotype.Service;
 
 import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 
+@Service
 public class ListFileMembersConfiguration extends Configuration{
 
 	@Override
