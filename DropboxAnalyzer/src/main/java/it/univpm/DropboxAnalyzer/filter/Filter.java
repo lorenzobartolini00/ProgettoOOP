@@ -11,5 +11,5 @@ import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 
 public interface Filter {
 	public void applyFilters();
-	public void setFilters(Map<String,  Object> parameters) throws BadFormatException;
+	public void setFilters(Map<String,  Object> parameters);
 }

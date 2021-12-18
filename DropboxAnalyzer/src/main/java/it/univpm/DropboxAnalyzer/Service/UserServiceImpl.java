@@ -5,7 +5,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
-import it.univpm.DropboxAnalyzer.Model.Editor;
+import it.univpm.DropboxAnalyzer.Model.Viewer;
 import it.univpm.DropboxAnalyzer.Model.File;
 import it.univpm.DropboxAnalyzer.Model.Folder;
 import it.univpm.DropboxAnalyzer.Model.Owner;
@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService{
 	        
 	        //Per ogni JSONObject dentro il jsonArray estraggo i 3 valori che mi interessano e li uso per inizializzare una nuova
 	        //istanza della classe Revision
-	        for(Object jsonObjectUser : jsonArrayUsers)
+	       for(Object jsonObjectUser : jsonArrayUsers)
 	        {
 	        	JSONObject jsonAccesType = ((JSONObject) jsonObjectUser).getJSONObject("access_type");
 	        	JSONObject jsonUser = ((JSONObject) jsonObjectUser).getJSONObject("user");
@@ -34,19 +34,18 @@ public class UserServiceImpl implements UserService{
 	        	String displayName = ((JSONObject) jsonUser).getString("display_name");
 	        	
 	        	User user = null;
-	        	//In base all'attributo tag, decido se si tratta di un Editor o un Owner
-	        	if(((JSONObject) jsonAccesType).getString(".tag").equals("editor"))
+	        	//In base all'attributo tag, decido se si tratta di un Viewer o un Owner
+	        	if(((JSONObject) jsonAccesType).getString(".tag").equals("viewer"))
 	        	{
 	        		//TODO: Gestire eccezioni
-	        		user = new Editor(accountId, email, displayName);
+	        		user = new Viewer(accountId, email, displayName);
 	        	}
-	        	else if(((JSONObject) jsonObjectUser).getString(".tag").equals("owner"))
+	        	else if(((JSONObject) jsonAccesType).getString(".tag").equals("owner"))
 	        	{
 	        		user = new Owner(accountId, email, displayName);
 	        	}
 	        	
 	        	if(user != null) userList.add(user);
-	        	userList.add(user);
 	        }
 			return userList;
 		

@@ -6,8 +6,18 @@ import java.util.Vector;
 
 import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 
+/**
+ * Classe astratta che si occupa della configurazione delle varie rotte
+ * @author Lorenzo Bartolini
+ * @author Francesco Pio Cecca
+ */
 public abstract class Configuration {
 	public abstract void setDefault(Map<String, Object> parameters) throws BadFormatException;
+	
+	/**
+	 * Si occupa di vedere se il body inserito dall'utente è formattato 
+	 * correttamente e di controllare se i parametri sono corretti 
+	 */
 	public abstract void checkFormat(Map<String, Object> parameters) throws BadFormatException;
 	
 	public Map<String, String> getErrors(Map<String, Object> parameters, Vector<Property> properties) 

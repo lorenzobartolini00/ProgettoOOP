@@ -5,7 +5,7 @@ import java.util.Vector;
 import it.univpm.DropboxAnalyzer.Model.File;
 import it.univpm.DropboxAnalyzer.Model.User;
 
-public class UserStatistics {
+public class UserStatistics implements Statistics{
 
 	private double usersEverage;
 	private Vector<User> users;
@@ -29,5 +29,11 @@ public class UserStatistics {
 		for(User user:users) {
 			
 		}
+	}
+
+	@Override
+	public void updateStatistics() {
+		// TODO Auto-generated method stub
+		
 	}
 }

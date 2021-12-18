@@ -7,6 +7,11 @@ import org.springframework.stereotype.Service;
 
 import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 
+/**
+ * Si occupa della configurazione delle chiamate "/revision_statistics/{statistic_type}" e "/get_list_revisions"
+ * @author Lorenzo Bartolini
+ * @author Francesco Pio Cecca
+ */
 @Service
 public class ListRevisionsConfiguration extends Configuration {
 	
@@ -18,6 +23,7 @@ public class ListRevisionsConfiguration extends Configuration {
 		info.putIfAbsent("mode", "path");
 	}
 
+	
 	@Override
 	public void checkFormat(Map<String, Object> parameters) throws BadFormatException {
 		Vector<Property> properties = new Vector<Property>();
