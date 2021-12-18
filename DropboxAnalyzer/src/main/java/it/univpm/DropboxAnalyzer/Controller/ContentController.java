@@ -34,7 +34,6 @@ import it.univpm.DropboxAnalyzer.filter.RevisionFilter;
 
 /**
  * Gestisce le chiamate delle rotte
- * 
  * @author Lorenzo Bartolini
  * @author Francesco Pio Cecca
  *
@@ -155,7 +154,15 @@ public class ContentController {
 		return content;
 	}
 	*/
-	//list-revision API call
+	
+	
+	/**
+	 * Risponde alla chiamata HTTP restituendo una lista di revisioni opportunamente filtrate
+	 * @param parameters Map con all'interno i parametri di configurazione
+	 * @param token Codice d'accesso per l'autenticazione DropBox
+	 * @return Ritorna un ResponseEntity di tipo Object
+	 * @throws MalformedURLException Generato per indicare che si è verificato un URL non valido
+	 */
 	@GetMapping("/get_list_revisions")
 	public ResponseEntity<Object> POSTGetListRevision(@RequestBody Map<String, Object> parameters, @RequestParam(name="token") String token) throws MalformedURLException
 	{

@@ -9,6 +9,11 @@ import org.springframework.stereotype.Service;
 
 import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 
+/**
+ * Si occupa della configurazione della chiamata "/list_files"
+ * @author Lorenzo Bartolini
+ * @author Francesc Pio Cecca
+ */
 @Service
 public class ListFolderConfiguration extends Configuration {
 
