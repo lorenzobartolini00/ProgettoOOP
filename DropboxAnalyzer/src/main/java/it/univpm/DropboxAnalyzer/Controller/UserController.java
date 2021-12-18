@@ -17,6 +17,12 @@ import it.univpm.DropboxAnalyzer.Service.UserService;
 import it.univpm.DropboxAnalyzer.configuration.ListFileMembersConfiguration;
 import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 
+
+/**
+ * Gestisce le chiamate delle rotte
+ * @author Lorenzo Bartolini
+ * @author Francesco Pio Cecca
+ */
 @Controller
 public class UserController {
 	@Autowired
@@ -26,6 +32,13 @@ public class UserController {
 	@Autowired
 	private ListFileMembersConfiguration membersConfig;
 	
+	/**
+	 * Risponde alla chiamata HTTP restituendo la lista degli utenti che possono accedere ad un determinato file
+	 * @param parametersMap con all'interno i parametri di configurazione
+	 * @param token Codice d'accesso per l'autenticazione DropBox
+	 * @return Ritorna un ResponseEntity di tipo Object
+	 * @throws MalformedURLException Generato per indicare che si è verificato un URL non valido
+	 */
 	//list-file-member API call
 	@GetMapping("/list_file_members")
 	public ResponseEntity<Object> POSTListFileMember(@RequestBody Map<String, Object> parameters, @RequestParam(name="token") String token) throws MalformedURLException{

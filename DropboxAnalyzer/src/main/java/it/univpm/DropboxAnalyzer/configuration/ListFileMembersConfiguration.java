@@ -15,7 +15,7 @@ public class ListFileMembersConfiguration extends Configuration{
 	@Override
 	public void setDefault(Map<String, Object> parameters) throws BadFormatException
 	{
-		parameters.putIfAbsent("url", "https://api.dropboxapi.com/2/files/list_file_members");
+		parameters.putIfAbsent("url", "https://api.dropboxapi.com/2/sharing/list_file_members");
 		parameters.putIfAbsent("type", "POST");
 		Map<String, Object> info = (Map<String, Object>) parameters.get("info");
 		info.putIfAbsent("include_inherited", true);

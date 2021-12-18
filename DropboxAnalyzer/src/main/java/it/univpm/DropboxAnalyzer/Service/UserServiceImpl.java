@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService{
 	        
 	        //Per ogni JSONObject dentro il jsonArray estraggo i 3 valori che mi interessano e li uso per inizializzare una nuova
 	        //istanza della classe Revision
-	        for(Object jsonObjectUser : jsonArrayUsers)
+	       for(Object jsonObjectUser : jsonArrayUsers)
 	        {
 	        	JSONObject jsonAccesType = ((JSONObject) jsonObjectUser).getJSONObject("access_type");
 	        	JSONObject jsonUser = ((JSONObject) jsonObjectUser).getJSONObject("user");
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService{
 	        		//TODO: Gestire eccezioni
 	        		user = new Editor(accountId, email, displayName);
 	        	}
-	        	else if(((JSONObject) jsonObjectUser).getString(".tag").equals("owner"))
+	        	else if(((JSONObject) jsonAccesType).getString(".tag").equals("owner"))
 	        	{
 	        		user = new Owner(accountId, email, displayName);
 	        	}
