@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 
 /**
- * Si occupa della configurazione della la chiamata "/list_file_members"
+ * Classe che estende {@link Configuration} e si occupa della configurazione della la chiamata "/list_file_members"
  * @author Lorenzo Bartolini
  * @author Francesco Pio Cecca
  */

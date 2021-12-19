@@ -1,7 +1,7 @@
 package it.univpm.DropboxAnalyzer.Model;
 
 /**
- * Questa classe descrive le proprietà di ogni file
+ * Questa classe estende {@link User} e descrive le proprietà di ogni viewer
  * @author Lorenzo Bartolini
  * @author Francesco Pio Cecca
  */

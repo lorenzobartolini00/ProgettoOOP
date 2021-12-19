@@ -7,12 +7,21 @@ import java.util.Vector;
 import it.univpm.DropboxAnalyzer.Model.Revision;
 import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 
+/**
+ * Classe che estende {@link RevisionStatistics}
+ * @author Lorenzo Bartolini
+ * @author Francesco Pio Cecca
+ */
 public class RevisionSizeStatistics extends RevisionStatistics implements Statistics{
 	private long averageSizeIncrementPerRevision;
 	private double averageSizePercentageIncrementPerRevision;
 	private long absoluteSizeIncrement;
 	private double absoluteSizePercentageIncrement;
 	
+	/**
+	 * Costruttore
+	 * @param revisions Vettore delle revisioni
+	 */
 	public RevisionSizeStatistics(Vector<Revision> revisions) {
 		super(revisions);
 		updateStatistics();

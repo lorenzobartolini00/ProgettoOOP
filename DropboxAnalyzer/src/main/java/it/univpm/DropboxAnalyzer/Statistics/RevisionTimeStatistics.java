@@ -7,9 +7,18 @@ import java.util.Vector;
 import it.univpm.DropboxAnalyzer.Model.Revision;
 import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 
+/**
+ * Classe che estende {@link RevisionStatistics} 
+ * @author Lorenzo Bartolini
+ * @author Francesco Pio Cecca
+ */
 public class RevisionTimeStatistics extends RevisionStatistics implements Statistics{
 	protected double hourPerRevision;
 	
+	/**
+	 * Costruttore
+	 * @param revisions Vettore delle revisioni
+	 */
 	public RevisionTimeStatistics(Vector<Revision> revisions) {
 		super(revisions);
 		updateStatistics();
@@ -30,6 +39,7 @@ public class RevisionTimeStatistics extends RevisionStatistics implements Statis
 		return data;
 	}
 	
+	//getter e setter
 	public double getHourPerRevision() {
 		double timeInMilliseconds = getAverage(revisions, "getLastClientModifyInMilliseconds", false);
 		return toHour(timeInMilliseconds);

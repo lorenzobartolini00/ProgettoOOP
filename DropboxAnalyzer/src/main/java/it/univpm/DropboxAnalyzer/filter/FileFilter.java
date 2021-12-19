@@ -12,7 +12,7 @@ import it.univpm.DropboxAnalyzer.Model.Revision;
 import it.univpm.DropboxAnalyzer.configuration.Configuration;
 
 /**
- * Classe che estende FilterImpl e contiene i metodi per il filtraggio dei file
+ * Classe che estende {@link FilterImpl} e contiene i metodi per il filtraggio dei file
  * @author Lorenzo Bartolini
  * @author Francesco Pio Cecca
  */

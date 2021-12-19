@@ -16,6 +16,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.univpm.DropboxAnalyzer.Model.Revision;
 import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 
+/**
+ * Classe che implementa l'interfaccia {@link Statistics}
+ * @author Lorenzo Bartolini
+ * @author Francesco Pio Cecca
+ */
 public class RevisionStatistics implements Statistics{
 	protected int numberOfRevisons;
 	

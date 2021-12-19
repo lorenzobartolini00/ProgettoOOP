@@ -10,7 +10,7 @@ import it.univpm.DropboxAnalyzer.Model.Revision;
 import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 
 /**
- * Classe che estende FilterImpl e contiene i metodi per il filtraggio delle revisioni
+ * Classe che estende {@link FilterImpl} e contiene i metodi per il filtraggio delle revisioni
  * @author Lorenzo Bartolini
  * @author Francesco Pio Cecca
  */

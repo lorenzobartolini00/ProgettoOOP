@@ -10,7 +10,7 @@ import org.json.JSONObject;
 import it.univpm.DropboxAnalyzer.filter.RevisionFilter;
 
 /**
- * Questa classe descrive le proprietà di ogni file
+ * Questa classe descrive le proprietà di ogni revisione
  * @author Lorenzo Bartolini
  * @author Francesco Pio Cecca
  */

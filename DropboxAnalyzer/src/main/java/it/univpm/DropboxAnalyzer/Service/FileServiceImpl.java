@@ -13,7 +13,10 @@ import it.univpm.DropboxAnalyzer.Model.File;
 import it.univpm.DropboxAnalyzer.Model.Folder;
 import it.univpm.DropboxAnalyzer.Model.Revision;
 
-
+/**Classe che implementa l'interfaccia {@link FileService}
+ * @author Lorenzo Bartolini
+ * @author Francesco Pio Cecca
+ */
 @Service
 public class FileServiceImpl implements FileService {
 

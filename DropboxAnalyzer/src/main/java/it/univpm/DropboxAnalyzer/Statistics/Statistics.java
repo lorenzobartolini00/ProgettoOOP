@@ -14,6 +14,14 @@ import it.univpm.DropboxAnalyzer.filter.RevisionFilter;
  */
 public interface Statistics {
 
+	/**
+	 * 
+	 */
 	public void updateStatistics();
+	/**
+	 * 
+	 * @param data
+	 * @return
+	 */
 	public Map<String, Object> addStatistic(Map<String, Object> data);
 }

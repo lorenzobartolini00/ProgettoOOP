@@ -7,6 +7,11 @@ import it.univpm.DropboxAnalyzer.Model.File;
 import it.univpm.DropboxAnalyzer.Model.User;
 import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 
+/**
+ * Classe che implementa l'interfaccia {@link Statistics}
+ * @author Lorenzo Bartolini
+ * @author Francesco Pio Cecca
+ */
 public class UserStatistics implements Statistics{
 
 	private double usersEverage;

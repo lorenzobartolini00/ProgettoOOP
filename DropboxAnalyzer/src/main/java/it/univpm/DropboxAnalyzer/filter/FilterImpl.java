@@ -9,7 +9,7 @@ import it.univpm.DropboxAnalyzer.Model.File;
 import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 
 /**
- * Classe astratta che implementa l'interfaccia filter
+ * Classe astratta che implementa l'interfaccia {@link Filter}
  * @author Lorenzo Bartolini
  * @author Francesco Pio Cecca
  */

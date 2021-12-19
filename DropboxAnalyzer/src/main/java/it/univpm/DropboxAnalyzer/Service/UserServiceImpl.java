@@ -12,6 +12,11 @@ import it.univpm.DropboxAnalyzer.Model.Owner;
 import it.univpm.DropboxAnalyzer.Model.Revision;
 import it.univpm.DropboxAnalyzer.Model.User;
 
+/**
+ * Classe che implementa l'interfaccia {@link UserService}
+ * @author Lorenzo Bartolini
+ * @author Francesco Pio Cecca
+ */
 @Service
 public class UserServiceImpl implements UserService{
 

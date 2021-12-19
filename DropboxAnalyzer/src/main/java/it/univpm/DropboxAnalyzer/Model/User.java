@@ -1,7 +1,7 @@
 package it.univpm.DropboxAnalyzer.Model;
 
 /**
- * Questa classe descrive le proprietà di ogni file
+ * Questa classe descrive le proprietà di ogni utente
  * @author Lorenzo Bartolini
  * @author Francesco Pio Cecca
  */

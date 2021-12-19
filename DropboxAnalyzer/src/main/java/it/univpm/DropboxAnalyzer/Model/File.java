@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Vector;
 
 /**
- * Questa classe descrive le proprietà di ogni file
+ * Questa classe estende {@link Content} e descrive le proprietà di ogni file
  * @author Lorenzo Bartolini
  * @author Francesco Pio Cecca
  */
