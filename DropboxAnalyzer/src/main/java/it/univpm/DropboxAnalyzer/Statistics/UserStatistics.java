@@ -1,9 +1,11 @@
 package it.univpm.DropboxAnalyzer.Statistics;
 
+import java.util.Map;
 import java.util.Vector;
 
 import it.univpm.DropboxAnalyzer.Model.File;
 import it.univpm.DropboxAnalyzer.Model.User;
+import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 
 public class UserStatistics implements Statistics{
 
@@ -35,5 +37,11 @@ public class UserStatistics implements Statistics{
 	public void updateStatistics() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Map<String, Object> addStatistic(Map<String, Object> data) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

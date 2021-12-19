@@ -3,7 +3,9 @@ package it.univpm.DropboxAnalyzer.Controller;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -22,7 +24,9 @@ import it.univpm.DropboxAnalyzer.Model.Content;
 import it.univpm.DropboxAnalyzer.Model.Revision;
 import it.univpm.DropboxAnalyzer.Service.FileService;
 import it.univpm.DropboxAnalyzer.Service.HTTPSRequest;
+import it.univpm.DropboxAnalyzer.Statistics.RevisionSizeStatistics;
 import it.univpm.DropboxAnalyzer.Statistics.RevisionStatistics;
+import it.univpm.DropboxAnalyzer.Statistics.RevisionTimeStatistics;
 import it.univpm.DropboxAnalyzer.Statistics.Statistics;
 import it.univpm.DropboxAnalyzer.configuration.Configuration;
 import it.univpm.DropboxAnalyzer.configuration.GetMetadataBody;
@@ -57,8 +61,8 @@ public class ContentController {
 	 * @return Ritorna un ResponseEntity di tipo Object
 	 * @throws MalformedURLException Generato per indicare che si è verificato un URL non valido
 	 */
-	@GetMapping("/revision_statistics/{statistic_type}")
-	public ResponseEntity<Object> POSTRevisionStatistics(@RequestBody Map<String, Object> parameters, @PathVariable(value="statistic_type") String statisticType, @RequestParam(name="token") String token) throws MalformedURLException
+	@GetMapping( value = {"/revision_statistics/{statistic_type}", "/revision_statistics"} )
+	public ResponseEntity<Object> POSTRevisionStatistics(@RequestBody Map<String, Object> parameters, @PathVariable(value="statistic_type", required = false) Optional<String> statisticType, @RequestParam(name="token") String token) throws MalformedURLException
 	{
 		parameters.put("token", token);
 		
@@ -98,13 +102,43 @@ public class ContentController {
 		revisionFilter.applyFilters();
 		
 		//Eseguo statistiche sulla lista filtrata
-		RevisionStatistics stats = new RevisionStatistics(revisions);
 		ResponseEntity<Object> output = null;
+		Map<String, Object> data = new HashMap<String, Object>();
 		try
 		{
-			output = new ResponseEntity<>(stats.formatData(statisticType), HttpStatus.OK);
+			//Mi assicuro che l'utente abbia inserito il parametro statistic_type, nel caso contrario, setto
+			//un valore di default
+			String type = null;
+			if(statisticType.isPresent())
+			{
+				type = statisticType.get();
+			}
+			else
+			{
+				//Valore di default per statistic_type
+				type = "all";
+			}
+			
+			//l'oggetto "data" è la mappa che contiene le statistiche sulle revisioni, divise per tipologia
+			if(type.equals("time") || type.equals("all"))
+			{
+				RevisionTimeStatistics timeStats = new RevisionTimeStatistics(revisions);
+				data = timeStats.addStatistic(data);
+			}
+			if(type.equals("size") || type.equals("all"))
+			{
+				RevisionSizeStatistics sizeStats = new RevisionSizeStatistics(revisions);
+				data = sizeStats.addStatistic(data);
+			}
+			RevisionStatistics genericStats = new RevisionStatistics(revisions);
+			data = genericStats.addStatistic(data);
+			output = new ResponseEntity<>(data, HttpStatus.OK);
 		}
-		catch(BadFormatException e)
+		catch(NullPointerException e)
+		{
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST );
+		}
+		catch(Exception e)
 		{
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST );
 		}
