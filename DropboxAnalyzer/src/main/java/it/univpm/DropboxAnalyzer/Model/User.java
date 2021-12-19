@@ -1,19 +1,29 @@
 package it.univpm.DropboxAnalyzer.Model;
 
+/**
+ * Questa classe descrive le proprietà di ogni file
+ * @author Lorenzo Bartolini
+ * @author Francesco Pio Cecca
+ */
 public class User {
 
-	//attributi
 	private String accountId;
 	private String email;
 	private String displayName;
 	
-	//costruttore
+	/**
+	 * Costruttore
+	 * @param accountId Id dell'utente
+	 * @param email email dell'utente
+	 * @param displayName nome visualizzato dell'utente
+	 */
 	public User(String accountId, String email, String displayName) {
 		this.accountId = accountId;
 		this.email = email;
 		this.displayName = displayName;
 	}
 
+	//getter e setter
 	public String getAccountId() {
 		return accountId;
 	}

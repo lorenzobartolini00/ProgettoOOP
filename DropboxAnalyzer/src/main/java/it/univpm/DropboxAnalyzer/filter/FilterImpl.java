@@ -8,6 +8,11 @@ import it.univpm.DropboxAnalyzer.Model.Content;
 import it.univpm.DropboxAnalyzer.Model.File;
 import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 
+/**
+ * Classe astratta che implementa l'interfaccia filter
+ * @author Lorenzo Bartolini
+ * @author Francesco Pio Cecca
+ */
 public abstract class FilterImpl implements Filter {
 	protected Long minSize;
 	protected Long maxSize;

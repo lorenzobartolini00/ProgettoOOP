@@ -9,6 +9,11 @@ import org.json.JSONObject;
 
 import it.univpm.DropboxAnalyzer.filter.RevisionFilter;
 
+/**
+ * Questa classe descrive le proprietà di ogni file
+ * @author Lorenzo Bartolini
+ * @author Francesco Pio Cecca
+ */
 public class Revision {
 	private Calendar lastClientModify;
 	private Calendar lastServerModify;
@@ -16,7 +21,14 @@ public class Revision {
 	private Long size;
 	private Boolean isDownloadable;
 	
-
+	/**
+	 * Costruttore
+	 * @param lastClientModify (Calendar) Tempo di modifica impostato dal client desktop quando il file è stato aggiunto a Dropbox
+	 * @param lastServerModify (Calendar) L'ultima volta che il file è stato modificato su Dropbox
+	 * @param revisionId Id della revisione
+	 * @param size dimensione del file nella revisione corrente
+	 * @param isDownloadable Boolean che mi dice se il contenuto è scaricabile
+	 */
 	public Revision(Calendar lastClientModify, Calendar lastServerModify, String revisionId, Long size,
 			Boolean isDownloadable) {
 		this.lastClientModify = lastClientModify;
@@ -26,7 +38,14 @@ public class Revision {
 		this.isDownloadable = isDownloadable;
 	}
 	
-	
+	/**
+	 * Costruttore
+	 * @param lastClientModify (String) Tempo di modifica impostato dal client desktop quando il file è stato aggiunto a Dropbox
+	 * @param lastServerModify (String) L'ultima volta che il file è stato modificato su Dropbox
+	 * @param revisionId Id della revisione
+	 * @param size dimensione del file nella revisione corrente
+	 * @param isDownloadable Boolean che mi dice se il contenuto è scaricabile
+	 */
 	public Revision(String lastClientModify, String lastServerModify, String revisionId, Long size,
 			Boolean isDownloadable) {
 		this.lastClientModify = toCalendar(lastClientModify);
@@ -36,7 +55,11 @@ public class Revision {
 		this.isDownloadable = isDownloadable;
 	}
 	
-	//Metodo che converte da stringa a calendar
+	/**
+	 * Metodo che converte da String a Calendar
+	 * @param stringDate Data sotto forma di stringa
+	 * @return Data sotto forma di Calendar
+	 */
 	private Calendar toCalendar(String stringDate)
 	{
 		DateTime dateTime = new DateTime(stringDate);
@@ -45,6 +68,7 @@ public class Revision {
 		return calendar;
 	}
 	
+	//getter e setter
 	public Long getSize() {
 		return size;
 	}

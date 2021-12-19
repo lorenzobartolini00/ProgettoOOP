@@ -17,8 +17,8 @@ public class Content {
 	/**
 	 * Costruttore
 	 * @param name Nome del contentuto
-	 * @param pathLower 
-	 * @param pathDisplay
+	 * @param pathLower Percorso completo in minuscolo
+	 * @param pathDisplay Percorso con maiuscole e minuscole da utilizzare solo a scopo di visualizzazione
 	 * @param id Id del contenuto
 	 */
 	public Content(String name, String pathLower, String pathDisplay, String id) {

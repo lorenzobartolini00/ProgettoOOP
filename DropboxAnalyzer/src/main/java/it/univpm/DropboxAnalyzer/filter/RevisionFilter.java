@@ -9,6 +9,11 @@ import java.util.function.Predicate;
 import it.univpm.DropboxAnalyzer.Model.Revision;
 import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 
+/**
+ * Classe che estende FilterImpl e contiene i metodi per il filtraggio delle revisioni
+ * @author Lorenzo Bartolini
+ * @author Francesco Pio Cecca
+ */
 public class RevisionFilter extends FilterImpl implements Filter{
 	private Long periodOfTime;
 	
@@ -43,7 +48,12 @@ public class RevisionFilter extends FilterImpl implements Filter{
 		if(periodOfTime != null) revisions.removeIf(notInRange());	
 	}
 	
-	//Metodi che restituiscono il filtro da passare come parametro al metodo RemoveIf()
+	/**
+	 * Metodo che restituisce il filtro da passare come parametro al metodo RemoveIf()
+	 * L'elemento viene rimosso se la distanza temporale tra la data odierna
+	 * e quella della modifica è maggiore di un certo range.
+	 * @return Funzione a valore booleana p
+	 */
 	private Predicate<Revision> notInRange() {
 		//vedo qual è la data attuale
 		 LocalDate todaysDate = LocalDate.now();
@@ -51,20 +61,26 @@ public class RevisionFilter extends FilterImpl implements Filter{
 		 //vado a prendere la data attuale in millisecondi
 		 Long todaysDateinMillis=todaysDate.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli();
 		 
-		 //L'elemento viene rimosso se se la seguente condizione è verificata, ovvero se la distanza temporale tra la data odierna
-		 //e quella della modifica è maggiore di un certo range.
         return p -> (( todaysDateinMillis - p.getLastClientModifyInMilliseconds() ) > periodOfTime);
     }
 	
+	/**
+	 * Metodo che restituisce il filtro da passare come parametro al metodo RemoveIf()
+	 * L'elemento viene rimosso se la dimensione dell'elemento è maggiore alla soglia
+	 * @return Funzione a valore booleana p
+	 */
 	private Predicate<Revision> aboveThreshold() {
-		//L'elemento viene rimosso se se la seguente condizione è verificata,
-		//ovvero se la dimensione dell'elemento è maggiore alla soglia
+		
         return p -> (p.getSize() > maxSize);
     }
 	
+	/**
+	 * Metodo che restituisce il filtro da passare come parametro al metodo RemoveIf()
+	 * L'elemento viene rimosso la dimensione dell'elemento è minore o uguale alla soglia
+	 * @return Funzione a valore booleana p
+	 */
 	private Predicate<Revision> belowThreshold() {
-		//L'elemento viene rimosso se se la seguente condizione è verificata,
-		//ovvero se la dimensione dell'elemento è minore o uguale alla soglia
+		
         return p -> (p.getSize() <= minSize);
     }
 	

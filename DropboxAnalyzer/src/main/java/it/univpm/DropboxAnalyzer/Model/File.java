@@ -19,11 +19,11 @@ public class File extends Content{
 	/**
 	 * Costruttore
 	 * @param name Nome del contentuto
-	 * @param pathLower 
-	 * @param pathDisplay
+	 * @param pathLower Percorso completo in minuscolo
+	 * @param pathDisplay Percorso con maiuscole e minuscole da utilizzare solo a scopo di visualizzazione
 	 * @param id Id del contenuto
-	 * @param size dimensione del contenuto
-	 * @param isDownloadable mi dice se il contenuto è scaricabile
+	 * @param size Dimensione del contenuto
+	 * @param isDownloadable Boolean che mi dice se il contenuto è scaricabile
 	 */
 	public File(String name, String pathLower, String pathDisplay, String id, Long size, Boolean isDownloadable) {
 		super(name, pathLower, pathDisplay, id);

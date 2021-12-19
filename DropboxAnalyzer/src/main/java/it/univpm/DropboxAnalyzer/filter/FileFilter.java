@@ -11,15 +11,21 @@ import it.univpm.DropboxAnalyzer.Model.File;
 import it.univpm.DropboxAnalyzer.Model.Revision;
 import it.univpm.DropboxAnalyzer.configuration.Configuration;
 
+/**
+ * Classe che estende FilterImpl e contiene i metodi per il filtraggio dei file
+ * @author Lorenzo Bartolini
+ * @author Francesco Pio Cecca
+ */
 public class FileFilter extends FilterImpl implements Filter{
 	
 	private String fileExtension;
 	private boolean onlyDownloadable;
-
 	private Vector<Content> contents;
-
 	
-	
+	/**
+	 * Costruttore
+	 * @param contents Vettore di contenuti (file, folder)
+	 */
 	public FileFilter(Vector<Content> contents) {
 		super();
 		this.contents=contents;
@@ -61,26 +67,39 @@ public class FileFilter extends FilterImpl implements Filter{
 		
 	}
 	
+	/**
+	 * Metodo che restituisce il filtro da passare come parametro al metodo RemoveIf()
+	 * Elimino il file se non ha la stessa estensione del filtro
+	 * @return Funzione a valore booleana p
+	 */
 	private Predicate<Content> notRightExtension(){
 		
 		//se l'estensione del file non è la stessa del filtro, la elimino
 		return p -> (!((File) p).getExtension().equals(fileExtension));
 	}
 
+	/**
+	 * Metodo che restituisce il filtro da passare come parametro al metodo RemoveIf()
+	 * Elimino il file se getIsDownloadable mi ritorna falso
+	 * @return Funzione a valore booleana p
+	 */
 	private Predicate<Content> isNotDownloadable(){
-		//se getIsDownloadable mi ritorna falso, lo elimino
+		
 		return p -> (!((File) p).getIsDownloadable());
 	}
 	
 	private Predicate<Content> aboveThreshold() {
-		//L'elemento viene rimosso se se la seguente condizione è verificata,
-		//ovvero se la dimensione dell'elemento è maggiore alla soglia
+		
         return p -> (((File) p).getSize() > maxSize);
     }
 	
+	/**
+	 * Metodo che restituisce il filtro da passare come parametro al metodo RemoveIf()
+	 * L'elemento viene rimosso se la dimensione dell'elemento è minore o uguale alla soglia
+	 * @return Funzione a valore booleana p
+	 */
 	private Predicate<Content> belowThreshold() {
-		//L'elemento viene rimosso se se la seguente condizione è verificata,
-		//ovvero se la dimensione dell'elemento è minore o uguale alla soglia
+		
         return p -> (((File) p).getSize() <= minSize);
     }
 	

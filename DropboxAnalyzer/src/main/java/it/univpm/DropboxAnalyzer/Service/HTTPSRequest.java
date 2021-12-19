@@ -26,6 +26,11 @@ import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 
 import org.json.JSONObject;
 
+/**
+ * Classe che mi permette fare una chiamata HTTP
+ * @author Lorenzo Bartolini
+ * @author Francesco Pio Cecca
+ */
 @Service
 public class HTTPSRequest{
 	public JSONObject rootCall(Map<String, Object> parameters)
@@ -33,7 +38,12 @@ public class HTTPSRequest{
 		return getJson(connectionSetUp(parameters));
 	}
 	
-	//Metodo per fare chimata HTTP
+	//
+	/**
+	 * Metodo che mi permette di fare una chiamata HTTP
+	 * @param parameters Map con all'interno i parametri di configurazione
+	 * @return Risposta alla chiamta HTTP
+	 */
 	private HttpURLConnection connectionSetUp(Map<String, Object> parameters)
 	{
 		String url = (String) parameters.get("url");
@@ -65,7 +75,12 @@ public class HTTPSRequest{
 		return openConnection;
 	}
 	
-	//Salva su un JSONObject la risposta alla chiamata HTTP
+	
+	/**
+	 * Metodo che salva su un JSONObject la risposta alla chiamata HTTP
+	 * @param openConnection Risposta alla chiamta HTTP
+	 * @return JSONObject
+	 */
 	private JSONObject getJson(HttpURLConnection openConnection)
 	{
 		JSONObject jsonObject = null;
@@ -91,6 +106,7 @@ public class HTTPSRequest{
 		return jsonObject;
 	}
 	
+
 	private String getParamString(Map<String, Object> bodyParams)
 	{
         return new JSONObject(bodyParams).toString();
