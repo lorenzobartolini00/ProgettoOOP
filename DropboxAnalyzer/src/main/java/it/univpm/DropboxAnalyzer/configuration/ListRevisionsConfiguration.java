@@ -28,6 +28,7 @@ public class ListRevisionsConfiguration extends Configuration {
 	public void checkFormat(Map<String, Object> parameters) throws BadFormatException {
 		Vector<Property> properties = new Vector<Property>();
 		properties.add(new Property("path", true, 0));
+		properties.add(new Property("mode", false, 0));
 		properties.add(new Property("limit", false, 2));
 		
 		Map<String, String> errors = null;
