@@ -7,7 +7,7 @@
 <h1 align="center"> Progetto per il corso di Programmazione Ad Oggetti 2021/2022 - Dropbox Analyzer </h1>
 
 <p align="center">
-Dropbox analyser permette di effettuare statistiche sulle revisioni dei file di una cartella Dropbox, anche in base a filtraggi per periodo temporale con tempi medi tra le revisioni e numero minimo di revisioni
+Abbiamo sviluppato un'applicazione Java che mette a disposizione dell'utente delle API personalizzate, sfruttando le API di DropBox, grazie alle potenzialità di SpringBoot. 
 </p>
 
 ## **Scaletta dei contenuti** :mag_right:
@@ -21,7 +21,12 @@ Dropbox analyser permette di effettuare statistiche sulle revisioni dei file di 
 
 <a name="intro"></a>
 ## Introduzione :mega:
-DropboxAnalyser è stata pensata principalmente per effetuare statistiche sulle revisioni effetuate di un file, con la possibilità di utilizzare uno o più filtri, ma può anche effettuare statistiche rigurdanti più file, analizzandone i metadati.
+Dropbox Analyzer fornisce all'utente una serie di funzionalità, che possono essere riassunte come segue. 
+E' possibile:
+1. effettuare statistiche sulle revisioni di un file presente in una cartella Dropbox, di cui si deve specificare il percorso. Le revisione possono essere filtrate in base al periodo temporale massimo a cui esse possono risalire e alla dimensione minima e massima. Le statistiche sulle revisioni riguardano due ambiti: ogni quanto si effettuano revisioni su quel file e di quanto il file vari di dimensioni.
+2. ottenere una lista di revisioni, con i relativi metadati. Quest'ultimi riguardano la data della modifica(lato client e lato server) del file, la sua dimensione dopo che esser stato modificato e l'id univoco associato alla particolare revisione.
+3. ottenere una lista di file, con i relativi metadati. Per farlo occorre specificare il percorso e, nel caso in cui l'utente lo desideri, è possibile visualizzare anche i file presenti nelle sottocartelle. La lista di file da visualizzare può essere filtrata in base ad una serie di campi di seguito riportati.
+4. ottenere una lista di utenti che hanno accesso ad un determinato file.
 
 * **STATISTICHE** 
   * ***Asolute Size Percentage Increment**:* Incremento percentuale tra la prima e l'ultima revisione visulizzata
@@ -32,16 +37,16 @@ DropboxAnalyser è stata pensata principalmente per effetuare statistiche sulle 
   * ***Absolute Size Increment**:* Incremento totale tra la prima e l'ultima revisione visulizzata
 
 * **FILTRI - REVISIONI** 
-  * ***Time Filter**:* filtra in base al periodo temporale scelto (es. last_hour, last_day, last_week)
-  * ***Max Size**:* imposta la dimensione massima dei file da visualizzare
-  * ***Min Size**:* imposta la dimensione minima dei file da visualizzare
+  * ***Time Filter**:* filtra in base al periodo temporale scelto ("last_hour", "last_day", "last_week")
+  * ***Max Size**:* imposta la dimensione(espressa in byte) massima dei file da visualizzare
+  * ***Min Size**:* imposta la dimensione(espressa in byte) minima dei file da visualizzare
 
 
 * **FILTRI - FILES** 
-  * ***File Extension**:* filtra in base all'estensione di un file
+  * ***File Extension**:* filtra in base all'estensione di un file("docx", "png",...)
   * ***Only Downloadable**:* filtra solamente i file scaricabili
-  * ***Max Size**:* imposta la dimensione massima dei file da visualizzare
-  * ***Min Size**:* imposta la dimensione minima dei file da visualizzare
+  * ***Max Size**:* imposta la dimensione(espressa in byte) massima dei file da visualizzare
+  * ***Min Size**:* imposta la dimensione(espressa in byte) minima dei file da visualizzare
 
 <a name="install"></a>
 ## Installazione :cd:
@@ -53,25 +58,25 @@ git clone https://github.com/lorenzobartolini00/ProgettoOOP.git
 <a name="rotte"></a>
 ## Rotte :mountain_cableway:
 
-Le richieste che l'utente può effettuare tramite Postman devono essere all'indirizzo
+Per poter effetturare la chiamata della rotta desiderata, l'utente deve anteporre il seguente indirizzo a quello della rotta stessa:
 ```
 http://localhost:8080
 ```
-Le rotte implementate sono le seguenti:
+Le rotte messe a disposizione dall'applicazione sono:
 N° | Tipo | Rotta | Descrizione
 ----- | ------------ | -------------------- | ----------------------
-[1](#1) | ` GET ` | ` /revision_statistics/{statistic_type} ` | *Restituisce un JSONObject con all'interno statistiche sulle revisioni, eventualmente filtrate, di un file*
+[1](#1) | ` GET ` | ` /revision_statistics/{statistic_type} ` | *Restituisce un JSONObject contenente statistiche sulle revisioni, eventualmente filtrate, di un file*
 [2](#2) | ` GET ` | ` /list_files ` | *Restituisce i metadati relitivi ai file, eventualmente filtrati, presenti nella cartella Dropbox*
 [3](#3) | ` GET ` | ` /list_revisions ` | *Restituisce una lista di tutte le revisioni, eventualmente filtrate, relativa ad un file*
 [4](#4) | ` GET ` | ` /list_file_members ` | *Restituisce una lista di utenti che hanno accesso ad un file*
 
 <a name="call"></a>
 ## Chiamate :telephone_receiver:
-Per fare una chiamata da client, (es. Postaman) sarà necessario contattare l'indirizzo:
+Per eseguire con successo la chiamata all'API è necessario specificare tra i parametri, anche il token per accedere al proprio account DropBox:
 ```
 localhost:8080/rotta?token=G4J8eRdP9roAAAAAAAAAAbvWRhutuOx6QkF7rz2VDCjVr5tQMhM3InqV16_tajQB
 ```
-dove al posto della rotta, l'utente andrà ad inserire una delle rotte sopra elencate.
+dove al posto di "rotta", l'utente dovrà specificare una di quelle sopra elencate.
 
 <a name=1></a>
 ### 1. /revision_statistics/{statistic_type}
@@ -81,15 +86,15 @@ La rotta prende come attributo (opzionale) il tipo di statistica da visualizzare
 
 N° | "statistics_type"| Descrizione
 ----- | ------------ | -------------------- 
-1 | time | Statistiche per periodo temporale
-2 | size | Statistiche per dimensione
-3 | all | Statistiche sia per tempo che per dimensione
+1 | "time" | Statistiche per periodo temporale
+2 | "size" | Statistiche per dimensione
+3 | "all" | Statistiche sia per tempo che per dimensione
 
 Nel caso in cui l'attributo venga omesso, ovvero venga chiamata la rotta "revision_statistics", vengono visulizzate tutte le statistiche.
 
-Per effetturare questa chiamata, sarà necessario inserire un body, in linguaggio JSON:
+Per effetturare questa chiamata, è necessario inserire nel body della richiesta i seguenti dati in formato Json:
 
-Come paramentri da inseriere in "info" ci saranno:
+I paramentri da inserire in "info" sono:
 
 N° | "info" | Descrizione | Tipo | Required
 ----- | ------------ | ----------------- | ----- | ---
@@ -97,7 +102,7 @@ N° | "info" | Descrizione | Tipo | Required
 2 | "mode" | Modalità scelta del file (Default = Path) | String | NO 
 3 | "limit" | Numero massimo di revisioni da visualizzare (MAX=100) | int | NO
 
-Come parametri da inserire in "filters" ci saranno:
+I parametri da inserire in "filters" sono:
 
 N° | "filters" | Descrizione | Tipo
 ----- | ------------ | ----------------- | -----
@@ -108,7 +113,7 @@ N° | "filters" | Descrizione | Tipo
 
 
 
-Un esempio di chiamata è:
+Un esempio di chiamata è il seguente:
 
 ```json
 {
@@ -120,14 +125,14 @@ Un esempio di chiamata è:
     },
     "filters" :
     {
-        "size_filter" : 20000,
+        "max_size" : 20000,
         "time_filter" : "last_week"
     }
 }
 
 ```
 
-Il formato restituito sarà:
+Il formato restituito è il seguente:
 
 ```json
 {
@@ -151,16 +156,16 @@ Il formato restituito sarà:
 Questa rotta permette di effettuare statistiche sui file presenti in una cartella.
 La lista di file può essere filtrata per massima e minima dimensione, per estensione e per possibilità di scaricare il file.
 
-Per effetturare questa chiamata, sarà necessario inserire un body, in linguaggio JSON:
+Per effetturare questa chiamata, è necessario inserire nel body della richiesta i seguenti dati in formato Json:
 
-Come paramentri da inseriere in "info" ci saranno:
+I paramentri da inserire in "info" sono:
 
 N° | "info" | Descrizione | Tipo | Required
 ----- | ------------ | ----------------- | ----- | ---
 1 | "path" | Percorso del file | String | SI
 2 | "recursive" | Se true analizza anche i file all'interno delle cartelle | Boolean | NO
 
-Come parametri da inserire in "filters" ci saranno:
+I paramentri da inserire in "filters" sono:
 
 N° | "filters" | Descrizione | Tipo |
 ----- | ------------ | ----------------- | -----
@@ -169,7 +174,7 @@ N° | "filters" | Descrizione | Tipo |
 3 | "min_size" | Filtra per minima dimensione | int
 2 | "file_extensions" | Filtra per estensione dei file | String
 
-Un esempio di chiamata è:
+Un esempio di chiamata è il seguente:
 
 ```json
 {
@@ -188,7 +193,7 @@ Un esempio di chiamata è:
 }
 ```
 
-Il formato restituito sarà:
+Il formato restituito è il seguente:
 
 ```json
 [
@@ -215,12 +220,12 @@ Il formato restituito sarà:
 
 <a name=3></a>
 ### 3. /list_revisions
-Questa rotta mi permette di ottenere la lista di revisioni di un file.
+Questa rotta permette di ottenere la lista di revisioni di un file.
 La lista di revisioni può essere filtrata per periodo temporale o per dimensione.
 
-Per effetturare questa chiamata, sarà necessario inserire un body, in linguaggio JSON, che contenga:
+Per effetturare questa chiamata, è necessario inserire nel body della richiesta i seguenti dati in formato Json:
 
-Come paramentri da inseriere in "info" ci saranno:
+I paramentri da inserire in "info" sono:
 
 N° | "info" | Descrizione | Tipo | Required
 ----- | ------------ | ----------------- | ----- | ---
@@ -228,7 +233,7 @@ N° | "info" | Descrizione | Tipo | Required
 2 | "mode" | Modalità scelta del file (Default = Path) | String | NO 
 3 | "limit" | Numero massimo di revisioni da visualizzare (MAX=100) | int | NO
 
-Come paramentri da inseriere in "filter" ci saranno:
+I paramentri da inserire in "filters" sono:
 
 N° | "filters" | Descrizione | Tipo 
 ----- | ------------ | ----------------- | -----
@@ -236,7 +241,7 @@ N° | "filters" | Descrizione | Tipo
 2 | "min_size" | Dimensione minima delle revisioni | int 
 3 | "time_filter | Filtra per periodo temporale | String
 
-Un esempio di chiamata è:
+Un esempio di chiamata è il seguente:
 
 ```json
 {
@@ -253,7 +258,7 @@ Un esempio di chiamata è:
     }
 }
 ```
-Il formato restituito sarà:
+Il formato restituito è il seguente:
 
 ```json
 [
@@ -307,9 +312,9 @@ Il formato restituito sarà:
 
 <a name=4></a>
 ### 4. /list_file_members
-Questa rotta mi permette di ottenere la lista di utenti che possono accedere ad un file.
+Questa rotta permette di ottenere la lista di utenti che possono accedere ad un file.
 
-Per effetturare questa chiamata, sarà necessario inserire un body, in linguaggio JSON, che contenga:
+Per effetturare questa chiamata, è necessario inserire nel body della richiesta i seguenti dati in formato Json:
 
 N° | "info" | Descrizione | Tipo | Required
 ----- | ------------ | ----------------- | ----- | ---
@@ -353,7 +358,7 @@ Il formato restituito sarà:
 ## Eccezioni :bangbang:
 Oltre alle eccezioni standard, è stata implementata una nuova eccezione:
 
-[BadFormatException](https://github.com/lorenzobartolini00/ProgettoOOP/blob/main/DropboxAnalyzer/src/main/java/it/univpm/DropboxAnalyzer/exceptions/BadFormatException.java) Lanciata se l'utente non inserisce i parametri richiesti o se hanno il tipo errato e restituisce:
+[BadFormatException](https://github.com/lorenzobartolini00/ProgettoOOP/blob/main/DropboxAnalyzer/src/main/java/it/univpm/DropboxAnalyzer/exceptions/BadFormatException.java) Lanciata nel caso in cui l'utente non inserisca i parametri richiesti o se questi hanno un tipo errato. Il messaggio contenuto nell'eccezione è stato così formattato e parametrizzato:
 
 ```
 "Invalid data in " + context + ": "+ "'"+ cause +"' "+ type
@@ -361,7 +366,7 @@ Oltre alle eccezioni standard, è stata implementata una nuova eccezione:
 
 ### Esempio 1
 
-Passando questo body errato (al posto di "info" trovo "infos"):
+Nel caso in cui non sia possibile trovare il campo "info", poichè è assente oppure è stato scritto male, come visualizzato di seguito:
 ```
 {
     "infos" :
@@ -372,33 +377,32 @@ Passando questo body errato (al posto di "info" trovo "infos"):
     }
 }
 ```
-Verrà sollevata l'eccezione e verrà restituito il messaggio:
+viene sollevata un'eccezione e restituito il seguente messaggio:
 ```
 "Invalid data in body: 'info' is missing"
 ```
 
 ### Esempio 2
-Passando questo body errato (al posto di "path" trovo un numero):
+Nel caso in cui uno dei dati richiesti, come ad esempio il numero massimo di file da visualizzare "limit", non venga fornito con il tipo corretto, come visualizzato di seguito:
 
 ```
 {
-    "infos" :
+    "info" :
     {
         "path": "/Uni/Generali.docx",
-        "mode" : 200,
-        "limit": 100
+        "mode" : "path",
+        "limit": true
     }
 }
 ```
 
-Verrà sollevata l'eccezione e verrà restituito il messaggio:
-
+viene sollevata un'eccezione e restituito il seguente messaggio:
 ```
-"Invalid data in body/info: 'mode' has wrong type"
+"Invalid data in body/info: 'limit' has wrong type"
 ```
 
 ### Esempio 3
-Passando questo body errato (elimino "Path" che è paramtro required):
+Nel caso in cui non sia possibile trovare uno dei parametri obbligatori(contrassegnati con "required"), come ad esempio il percorso del file "path", come visualizzato di seguito:
 
 ```
 {
@@ -409,13 +413,29 @@ Passando questo body errato (elimino "Path" che è paramtro required):
     }
 }
 ```
-Verrà sollevata l'eccezione e verrà restituito il messaggio:
+viene sollevata un'eccezione e restituito il seguente messaggio:
 ```
 "Invalid data in body/info: 'path' is missing"
 ```
-ATTENZIONE: Questo non accade se elimino, ad esempio mode, il quale non è un parametro required
+ATTENZIONE: Questo non accade se non viene fornito un parametro non obbligatorio, come, ad esempio, il parametro "mode", in quanto i parametri non obbligatori prevedono un valore di default in caso di assenza.
 
 <a name="doc"></a>
+## JUnit tests
+Per verificare il corretto funzionamento di alcune parti del codice, sono state sviluppate delle classi di test.
+### TestRevision
+Questa classe permette di eseguire un test unitario per la creazione di un'istanza della classe Revision. Una volta creata e inizializzata con dei parametri arbitrari, viene verificato, tramite il metodo assertEquals, se i parametri inseriti e quelli attesi combacino.
+
+### TestStatistic
+Questa classe permette di eseguire tre test unitari per testare i metodi che stanno alla base del calcolo delle statistiche sulle revisioni. 
+1. Il primo test verifica il corretto funzionamento del metodo setDefault(), il quale ha il compito di settare i parametri principali per effettuare la chiamata all'API DropBox, da cui vengono estrapolati i dati. Tramite un assertEquals si verifica che l'url impostato dal metodo setDefault() sia corretto.
+2. Il secondo test riguarda la vera e propria chiamata all'API, attraverso il metodo rootCall() della classe HTTPSRequest. Tramite un assertTrue, si verifica se il JsonObject ritornato dal metodo contenga tutti i parametri che ci aspetta da una revisione.
+3. Il terzo test riguarda la conversione da JsonObject a oggetto Java di tipo Revision effettuata attraverso il metodo getRevisionList() della classe FileServiceImpl, che prende in ingresso direttamente un JsonObject contenente la lista di revisioni. Viene verificato, tramite una serie di assertEquals, che gli attributi della revisione siano stati effettivamente trasferiti all'istanza della classe Revision, andandoli a confrontare con quelli presenti nel Json.
+
+### TestBadFormatException
+Questa classe permette di eseguire due test unitari per testare che venga effettivamente sollevata l'eccezione personalizzata BadFormatException nel caso in cui l'utente non inserisca i parametri obbligatori oppure che questi abbiano il formato errato.
+1. Il primo test verifica, tramite un assertThrows, che venga sollevata l'eccezione BadFormatException, dopo aver appositamente evitato di inserire il parametro obbligatorio "path" nella lista dei parametri. Il test è superato se il metodo chekFormat(), il quale si occupa di controllare la correttezza dei parametri, solleva l'eccezione richiesta. Inoltre viene controllato, tramite assertEquals che il messaggio di errore sia corretto.
+2. Il secondo test è simile al precedente, ma questa volta si inserisce appositamente un parametro con un tipo errato. Il test è superato se si verificano le medesime condizioni del primo test.
+
 ## Documentazione :paperclip:
 Il codice java è interamente documentato nella [Javadoc](https://github.com/lorenzobartolini00/ProgettoOOP/tree/main/DropboxAnalyzer/doc)
 
