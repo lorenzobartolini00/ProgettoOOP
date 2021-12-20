@@ -15,13 +15,13 @@ import it.univpm.DropboxAnalyzer.filter.RevisionFilter;
 public interface Statistics {
 
 	/**
-	 * 
+	 * Metodo che chiama i setter degli attributi della classe
 	 */
 	public void updateStatistics();
 	/**
-	 * 
-	 * @param data
-	 * @return
+	 * Aggiunge alla mappa passata una nuova mappa chiave-valore che associa il nome della statistica ai suoi valori
+	 * @param data Mappa
+	 * @return Mappa chiave-valore
 	 */
 	public Map<String, Object> addStatistic(Map<String, Object> data);
 }

@@ -168,7 +168,7 @@ public class ContentController {
 		}
 		
 		
-		//Ottengo la lista di revisioni su cui fare statistiche
+		//Ottengo la lista di contenuti su cui fare statistiche
 		Vector<Content> contents = null;
 		try {
 			contents = fileService.getContentList(httpsReq.rootCall(parameters));
