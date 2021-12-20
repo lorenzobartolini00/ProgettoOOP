@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.Scanner;
 import java.util.Vector;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,7 +43,6 @@ import it.univpm.DropboxAnalyzer.filter.RevisionFilter;
  * @author Francesco Pio Cecca
  *
  */
-
 @Controller
 public class ContentController {
 	@Autowired
@@ -202,7 +202,7 @@ public class ContentController {
 	 * @return Ritorna un ResponseEntity di tipo Object
 	 * @throws MalformedURLException Generato per indicare che si è verificato un URL non valido
 	 */
-	@GetMapping("/get_list_revisions")
+	@GetMapping("/list_revisions")
 	public ResponseEntity<Object> POSTGetListRevision(@RequestBody Map<String, Object> parameters, @RequestParam(name="token") String token) throws MalformedURLException
 	{
 		parameters.put("token", token);
@@ -237,7 +237,9 @@ public class ContentController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST );
 		}
 		revisionFilter.applyFilters();
-		return new ResponseEntity<>(revisions, HttpStatus.OK);
+		Vector<HashMap<String, Object>> jsonRevisions = new Vector<HashMap<String, Object>>();
+		revisions.forEach(revision -> jsonRevisions.add((HashMap<String, Object>) revision.toMap()));
+		return new ResponseEntity<>(jsonRevisions, HttpStatus.OK);
 	}
 	
 	

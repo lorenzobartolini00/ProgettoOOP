@@ -19,9 +19,9 @@ public interface Statistics {
 	 */
 	public void updateStatistics();
 	/**
-	 * Aggiunge alla mappa passata una nuova mappa chiave-valore che associa il nome della statistica ai suoi valori
+	 * Aggiunge alla mappa passata una nuova chiave contenente la statistica desiderata
 	 * @param data Mappa
-	 * @return Mappa chiave-valore
+	 * @return Mappa aggiornata con la nuova statistica
 	 */
 	public Map<String, Object> addStatistic(Map<String, Object> data);
 }

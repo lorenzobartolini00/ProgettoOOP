@@ -2,11 +2,14 @@ package it.univpm.DropboxAnalyzer.Model;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
 import org.joda.time.DateTime;
 import org.json.JSONObject;
 
+import it.univpm.DropboxAnalyzer.Statistics.Parser;
 import it.univpm.DropboxAnalyzer.filter.RevisionFilter;
 
 /**
@@ -111,6 +114,24 @@ public class Revision {
 	public void setIsDownloadable(Boolean isDownloadable) {
 		this.isDownloadable = isDownloadable;
 	}
+
+	public String toString() {
+		return "Revision [lastClientModify=" + lastClientModify + ", lastServerModify=" + lastServerModify
+				+ ", revisionId=" + revisionId + ", size=" + size + ", isDownloadable=" + isDownloadable + "]";
+	}
 	
+	public Map<String, Object> toMap() {
+		
+		Map<String, Object> map=new HashMap<String, Object>();
+	
+		String stringSize=Parser.humanReadableBytes(size);
+
+		map.put("last_client_modify", lastClientModify.getTime().toString());
+		map.put("last_server_modify", lastServerModify.getTime().toString());
+		map.put("revision_id", this.revisionId);
+		map.put("size", stringSize);
+		
+		return map;
+	}
 	
 }
