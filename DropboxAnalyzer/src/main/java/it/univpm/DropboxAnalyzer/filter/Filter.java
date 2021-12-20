@@ -5,9 +5,9 @@ import java.util.Vector;
 
 import org.json.JSONObject;
 
-import it.univpm.DropboxAnalyzer.Model.Revision;
 import it.univpm.DropboxAnalyzer.configuration.Configuration;
 import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
+import it.univpm.DropboxAnalyzer.model.Revision;
 
 /**
  * Le classi che implementano questa interfaccia devono prevedere un attributo contenente

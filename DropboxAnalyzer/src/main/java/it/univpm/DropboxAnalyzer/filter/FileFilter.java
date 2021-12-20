@@ -6,10 +6,10 @@ import java.util.function.Predicate;
 
 import org.json.JSONObject;
 
-import it.univpm.DropboxAnalyzer.Model.Content;
-import it.univpm.DropboxAnalyzer.Model.File;
-import it.univpm.DropboxAnalyzer.Model.Revision;
 import it.univpm.DropboxAnalyzer.configuration.Configuration;
+import it.univpm.DropboxAnalyzer.model.Content;
+import it.univpm.DropboxAnalyzer.model.File;
+import it.univpm.DropboxAnalyzer.model.Revision;
 
 /**
  * Classe che estende {@link FilterImpl} e contiene i metodi per il filtraggio dei file

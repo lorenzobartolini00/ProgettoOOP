@@ -8,8 +8,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import it.univpm.DropboxAnalyzer.Model.Revision;
 import it.univpm.DropboxAnalyzer.filter.RevisionFilter;
+import it.univpm.DropboxAnalyzer.model.Revision;
 
 class TestRevision {
 	

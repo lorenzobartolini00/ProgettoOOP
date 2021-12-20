@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.Vector;
 import java.util.function.Predicate;
 
-import it.univpm.DropboxAnalyzer.Model.Revision;
 import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
+import it.univpm.DropboxAnalyzer.model.Revision;
 
 /**
  * Classe che estende {@link FilterImpl} e contiene i metodi per il filtraggio delle revisioni

@@ -4,9 +4,9 @@ import java.util.Map;
 import java.util.Vector;
 import java.util.function.Predicate;
 
-import it.univpm.DropboxAnalyzer.Model.Content;
-import it.univpm.DropboxAnalyzer.Model.File;
 import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
+import it.univpm.DropboxAnalyzer.model.Content;
+import it.univpm.DropboxAnalyzer.model.File;
 
 /**
  * Classe astratta che implementa l'interfaccia {@link Filter}

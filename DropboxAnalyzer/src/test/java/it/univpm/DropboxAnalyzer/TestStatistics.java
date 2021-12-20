@@ -13,11 +13,11 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import it.univpm.DropboxAnalyzer.Model.Revision;
-import it.univpm.DropboxAnalyzer.Service.FileService;
-import it.univpm.DropboxAnalyzer.Service.FileServiceImpl;
-import it.univpm.DropboxAnalyzer.Service.HTTPSRequest;
 import it.univpm.DropboxAnalyzer.configuration.ListRevisionsConfiguration;
+import it.univpm.DropboxAnalyzer.model.Revision;
+import it.univpm.DropboxAnalyzer.service.FileService;
+import it.univpm.DropboxAnalyzer.service.FileServiceImpl;
+import it.univpm.DropboxAnalyzer.service.HTTPSRequest;
 
 class TestStatistics {
 	
