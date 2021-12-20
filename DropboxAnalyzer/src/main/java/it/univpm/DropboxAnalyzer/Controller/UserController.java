@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import it.univpm.DropboxAnalyzer.Model.Content;
 import it.univpm.DropboxAnalyzer.Model.User;
 import it.univpm.DropboxAnalyzer.Service.HTTPSRequest;
 import it.univpm.DropboxAnalyzer.Service.UserService;
@@ -19,7 +20,7 @@ import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 
 
 /**
- * Gestisce le chiamate delle rotte
+ * Gestisce le chiamate delle rotte relative relative agli {@link User}
  * @author Lorenzo Bartolini
  * @author Francesco Pio Cecca
  */

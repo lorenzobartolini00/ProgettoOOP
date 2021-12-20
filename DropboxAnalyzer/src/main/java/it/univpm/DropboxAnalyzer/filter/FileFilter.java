@@ -16,7 +16,7 @@ import it.univpm.DropboxAnalyzer.configuration.Configuration;
  * @author Lorenzo Bartolini
  * @author Francesco Pio Cecca
  */
-public class FileFilter extends FilterImpl implements Filter{
+public class FileFilter extends FilterImpl{
 	
 	private String fileExtension;
 	private boolean onlyDownloadable;

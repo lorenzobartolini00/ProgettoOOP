@@ -12,14 +12,28 @@ import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
  * @author Francesco Pio Cecca
  */
 public abstract class Configuration {
-	public abstract void setDefault(Map<String, Object> parameters) throws BadFormatException;
+	/**
+	 * Si occupa di settare i parametri al loro valore di default e di aggiungere quelli non required, nel
+	 * caso non fossero presenti 
+	 * @param parameters Map che contiene i parametri di configurazione
+	 */
+	public abstract void setDefault(Map<String, Object> parameters);
 	
 	/**
-	 * Si occupa di vedere se il body inserito dall'utente è formattato 
-	 * correttamente e di controllare se i parametri sono corretti 
+	 * Si occupa di vedere se il body inserito dall'utente presenta tutti i parametri required
+	 * e di vedere se sono hanno il tipo corretto  
+	 * @param parameters 
 	 */
 	public abstract void checkFormat(Map<String, Object> parameters) throws BadFormatException;
 	
+	/**
+	 * Restituisce una mappa contenente le stringhe con cui inizializzare l'eventuale eccezione 
+	 * sollevata in caso di errore
+	 * @param parameters Map che contiene i parametri di configurazione
+	 * @param properties Lista di Property usate come riferimento per controllare se
+	 * la lista di parametri inseriti dall'utente è corretta
+	 * @return Mappa contenente le stringhe
+	 */
 	public Map<String, String> getErrors(Map<String, Object> parameters, Vector<Property> properties) 
 	{
 		

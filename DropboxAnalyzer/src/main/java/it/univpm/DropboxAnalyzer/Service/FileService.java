@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import it.univpm.DropboxAnalyzer.Model.*;
 
-/**Interfaccia che gestisce i dati del package Model. Essa comunica con le API, che sono al livello superiore.
- * Questa classe descrive le proprietà di ogni file
+/**Le classi che implementano questa interfaccia si occupano di costruire oggetti({@link Content} e {@link Revision}) sulla base
+ * delle informazioni contenute nel file Json passato 
  * @author Lorenzo Bartolini
  * @author Francesco Pio Cecca
  */
@@ -17,16 +17,16 @@ import it.univpm.DropboxAnalyzer.Model.*;
 public interface FileService {
 	
 	/**
-	 * Metodo che da un JSONObject mi restituisce un vettore di revisioni
+	 * Metodo che a partire da un JSONObject costruisce un vettore di {@link Revision}
 	 * @param jsonObjectRevisions JSONObject delle revisioni
-	 * @return vettore di revisioni
+	 * @return Vettore di revisioni
 	 */
 	public Vector<Revision> getRevisionList(JSONObject jsonObjectRevisions);
 	/**
-	 * Metodo che da un JSONObject mi restituisce un vettore di contenuti(file, folder)
-	 * @param jsonObjectFolders JSONObject di contenti
-	 * @return vettore di contenuti 
+	 * Metodo che a partire da un JSONObject costruisce un vettore di {@link Content}({@link File} o {@link Folder})
+	 * @param jsonObjectFolders JSONObject di contenuti
+	 * @return Vettore di contenuti 
 	 */
 	public Vector<Content> getContentList(JSONObject jsonObjectFolders);
-	public Content getMetadata(JSONObject jsonObjectContent); //non è un vettore perchè mi restituisce ciò che riguarda un solo file
+	public Content getMetadata(JSONObject jsonObjectContent);
 }

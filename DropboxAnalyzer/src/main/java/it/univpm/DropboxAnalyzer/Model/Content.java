@@ -1,7 +1,7 @@
 package it.univpm.DropboxAnalyzer.Model;
 
 /**
- * Questa classe descrive le proprietà di ogni contentuto
+ * Questa classe modella il generico contenuto di una cartella DropBox.
  * @author Lorenzo Bartolini
  * @author Francesco Pio Cecca
  */

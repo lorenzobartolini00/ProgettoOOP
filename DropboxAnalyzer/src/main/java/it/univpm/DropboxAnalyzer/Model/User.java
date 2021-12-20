@@ -1,7 +1,7 @@
 package it.univpm.DropboxAnalyzer.Model;
 
 /**
- * Questa classe descrive le proprietà di ogni utente
+ * Questa classe modella un generico Utente di DropBox 
  * @author Lorenzo Bartolini
  * @author Francesco Pio Cecca
  */

@@ -13,7 +13,8 @@ import it.univpm.DropboxAnalyzer.Statistics.Parser;
 import it.univpm.DropboxAnalyzer.filter.RevisionFilter;
 
 /**
- * Questa classe descrive le proprietà di ogni revisione
+ * Questa classe modella una generica revisione di un file DropBox.
+ * Per revisione si intende la versione di un file in un particolare istante di tempo
  * @author Lorenzo Bartolini
  * @author Francesco Pio Cecca
  */
@@ -29,7 +30,7 @@ public class Revision {
 	 * @param lastClientModify (Calendar) Tempo di modifica impostato dal client desktop quando il file è stato aggiunto a Dropbox
 	 * @param lastServerModify (Calendar) L'ultima volta che il file è stato modificato su Dropbox
 	 * @param revisionId Id della revisione
-	 * @param size dimensione del file nella revisione corrente
+	 * @param size Dimensione del file nella revisione corrente
 	 * @param isDownloadable Boolean che mi dice se il contenuto è scaricabile
 	 */
 	public Revision(Calendar lastClientModify, Calendar lastServerModify, String revisionId, Long size,

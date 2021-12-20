@@ -38,7 +38,8 @@ import it.univpm.DropboxAnalyzer.filter.FileFilter;
 import it.univpm.DropboxAnalyzer.filter.RevisionFilter;
 
 /**
- * Gestisce le chiamate delle rotte
+ * Gestisce le chiamate delle rotte relative ai {@link Content}, alle {@link Revision} e alle
+ * {@link RevisionStatistics}
  * @author Lorenzo Bartolini
  * @author Francesco Pio Cecca
  *
@@ -55,11 +56,11 @@ public class ContentController {
 	private ListFolderConfiguration folderConfig;
 	
 	/**
-	 * Risponde alla chiamata HTTP restituendo statistiche, opportunamente filtrate, sulle revisioni 
-	 * @param parameters Map con all'interno i parametri di configurazione
+	 * Risponde alla chiamata HTTP restituendo statistiche sulle revisioni, eventualmente filtrate
+	 * @param parameters Map contenente i parametri di configurazione
 	 * @param token Codice d'accesso per l'autenticazione DropBox
-	 * @return Ritorna un ResponseEntity di tipo Object
-	 * @throws MalformedURLException Generato per indicare che si è verificato un URL non valido
+	 * @return ResponseEntity di tipo Object.
+	 * @throws MalformedURLException Generato per indicare che è stato fornito un URL non valido. Non viene mai lanciata, dato
 	 */
 	@GetMapping( value = {"/revision_statistics/{statistic_type}", "/revision_statistics"} )
 	public ResponseEntity<Object> POSTRevisionStatistics(@RequestBody Map<String, Object> parameters, @PathVariable(value="statistic_type", required = false) Optional<String> statisticType, @RequestParam(name="token") String token) throws MalformedURLException
@@ -148,7 +149,7 @@ public class ContentController {
 	
 	
 	/**
-	 * Risponde alla chiamata HTTP restituendo una lista, opportunamente filtrata, di file
+	 * Risponde alla chiamata HTTP restituendo una lista, eventualmente filtrata, di file
 	 * @param parameters Map con all'interno i parametri di configurazione
 	 * @param token Codice d'accesso per l'autenticazione DropBox
 	 * @return Ritorna un ResponseEntity di tipo Object
@@ -196,8 +197,8 @@ public class ContentController {
 	
 	
 	/**
-	 * Risponde alla chiamata HTTP restituendo una lista di revisioni opportunamente filtrate
-	 * @param parameters Map con all'interno i parametri di configurazione
+	 * Risponde alla chiamata HTTP restituendo una lista di revisioni eventualmente filtrate
+	 * @param parameters Map contenente i parametri di configurazione
 	 * @param token Codice d'accesso per l'autenticazione DropBox
 	 * @return Ritorna un ResponseEntity di tipo Object
 	 * @throws MalformedURLException Generato per indicare che si è verificato un URL non valido

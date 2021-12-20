@@ -41,7 +41,7 @@ public class Parser {
 	}
 	
 	/**
-	 * Metodo che mi permette di convertire parametri in stringa
+	 * Metodo che permette di convertire un numero in una stringa, aggiungendo in coda il simbolo %
 	 * @param numero da convertire in stringa
 	 * @return numero convertito in stringa
 	 */

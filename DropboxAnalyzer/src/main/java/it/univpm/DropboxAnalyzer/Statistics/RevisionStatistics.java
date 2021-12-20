@@ -17,7 +17,8 @@ import it.univpm.DropboxAnalyzer.Model.Revision;
 import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 
 /**
- * Classe che implementa l'interfaccia {@link Statistics}
+ * Classe che implementa l'interfaccia {@link Statistics}, 
+ * specifica per gli oggetti di tipo {@link Revision}
  * @author Lorenzo Bartolini
  * @author Francesco Pio Cecca
  */
@@ -90,11 +91,8 @@ public class RevisionStatistics implements Statistics{
 		}
 			
 	}
-	/**
-	 * Metodo che da millisecondi mi restituisce le ore
-	 * @param timeInMilliseconds
-	 * @return tempo convertito in ore
-	 */
+	
+	
 	protected double toHour(double timeInMilliseconds) {
 		return timeInMilliseconds/1000/60/60;
 	}

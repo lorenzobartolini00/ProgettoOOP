@@ -19,9 +19,6 @@ public class RevisionFilter extends FilterImpl implements Filter{
 	
 	private Vector<Revision> revisions;
 	
-	/**
-	 * Metodo che mi deve restituisce una lista di revisioni filtrate
-	 */
 	@Override
 	public void setFilters(Map<String, Object> parameters){
 		if(parameters.containsKey("filters"))
@@ -37,10 +34,6 @@ public class RevisionFilter extends FilterImpl implements Filter{
 		}
 	}
 	
-	
-	/**
-	 * Metodo che applica i  filtri
-	 */
 	@Override
 	public void applyFilters() {
 		if(maxSize != null) revisions.removeIf(aboveThreshold());
@@ -49,7 +42,7 @@ public class RevisionFilter extends FilterImpl implements Filter{
 	}
 	
 	/**
-	 * Metodo che restituisce il filtro da passare come parametro al metodo RemoveIf()
+	 * Metodo che restituisce il filtro da passare come parametro al metodo RemoveIf().
 	 * L'elemento viene rimosso se la distanza temporale tra la data odierna
 	 * e quella della modifica è maggiore di un certo range.
 	 * @return Funzione a valore booleana p
@@ -65,7 +58,7 @@ public class RevisionFilter extends FilterImpl implements Filter{
     }
 	
 	/**
-	 * Metodo che restituisce il filtro da passare come parametro al metodo RemoveIf()
+	 * Metodo che restituisce il filtro da passare come parametro al metodo RemoveIf().
 	 * L'elemento viene rimosso se la dimensione dell'elemento è maggiore alla soglia
 	 * @return Funzione a valore booleana p
 	 */
@@ -75,7 +68,7 @@ public class RevisionFilter extends FilterImpl implements Filter{
     }
 	
 	/**
-	 * Metodo che restituisce il filtro da passare come parametro al metodo RemoveIf()
+	 * Metodo che restituisce il filtro da passare come parametro al metodo RemoveIf().
 	 * L'elemento viene rimosso la dimensione dell'elemento è minore o uguale alla soglia
 	 * @return Funzione a valore booleana p
 	 */

@@ -4,11 +4,12 @@ import java.util.Map;
 import java.util.Vector;
 
 import it.univpm.DropboxAnalyzer.Model.File;
+import it.univpm.DropboxAnalyzer.Model.Revision;
 import it.univpm.DropboxAnalyzer.Model.User;
 import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 
 /**
- * Classe che implementa l'interfaccia {@link Statistics}
+ * Classe che implementa l'interfaccia {@link Statistics} , specifica per gli oggetti di tipo {@link User}
  * @author Lorenzo Bartolini
  * @author Francesco Pio Cecca
  */

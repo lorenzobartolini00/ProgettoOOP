@@ -18,7 +18,7 @@ import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 public class ListFolderConfiguration extends Configuration {
 
 	@Override
-	public void setDefault(Map<String, Object> parameters) throws BadFormatException{
+	public void setDefault(Map<String, Object> parameters) {
 		parameters.putIfAbsent("url", "https://api.dropboxapi.com/2/files/list_folder");
 		parameters.putIfAbsent("type", "POST");
 		@SuppressWarnings("unchecked")

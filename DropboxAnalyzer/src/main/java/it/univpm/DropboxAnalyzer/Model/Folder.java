@@ -1,7 +1,7 @@
 package it.univpm.DropboxAnalyzer.Model;
 
 /**
- * Questa classe estende {@link Content} e descrive le proprietà di ogni cartella
+ * Questa classe estende {@link Content} e modella una cartella di DropBox.
  * @author Lorenzo Bartolini
  * @author Francesco Pio Cecca
  */

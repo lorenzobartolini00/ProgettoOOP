@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 
 import it.univpm.DropboxAnalyzer.Model.*;
 
-/**Interfaccia che gestisce i dati del package Model. Essa comunica con le API, che sono al livello superiore.
- * Questa classe descrive le proprietà di ogni utente.
+/**Le classi che implementano questa interfaccia si occupano di costruire oggetti({@link User}) sulla base
+ * delle informazioni contenute nel file Json passato 
  * @author Lorenzo Bartolini
  * @author Francesco Pio Cecca
  */
@@ -15,9 +15,9 @@ import it.univpm.DropboxAnalyzer.Model.*;
 public interface UserService {
 
 	/**
-	 * Metodo che da un JSONObject mi restituisce un vettore di utenti
+	 * Metodo che a partire da un JSONObject restituisce un vettore di {@link User}
 	 * @param jsonObjectRevisions JSONObject di utenti
-	 * @return vettore di utenti
+	 * @return vettore di {@link User}
 	 */
 	public Vector<User> getUserList(JSONObject jsonObj);
 }

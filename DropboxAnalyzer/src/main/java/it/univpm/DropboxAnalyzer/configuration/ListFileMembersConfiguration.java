@@ -18,7 +18,7 @@ import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 public class ListFileMembersConfiguration extends Configuration{
 
 	@Override
-	public void setDefault(Map<String, Object> parameters) throws BadFormatException
+	public void setDefault(Map<String, Object> parameters)
 	{
 		parameters.putIfAbsent("url", "https://api.dropboxapi.com/2/sharing/list_file_members");
 		parameters.putIfAbsent("type", "POST");

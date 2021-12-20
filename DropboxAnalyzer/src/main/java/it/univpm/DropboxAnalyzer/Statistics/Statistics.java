@@ -8,14 +8,17 @@ import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 import it.univpm.DropboxAnalyzer.filter.RevisionFilter;
 
 /**
- * Interfaccia che si occupa di fare statistiche
+ * Le classi che implementano questa interfaccia si occupano di generare statistiche
+ * sotto forma di mappa, in cui ogni chiave rappresenta il tipo di statistica e come valore 
+ * una o più statistiche
  * @author Lorenzo Bartolini
  * @author Francesco Pio Cecca
  */
 public interface Statistics {
 
 	/**
-	 * Metodo che chiama i setter degli attributi della classe
+	 * Metodo che calcola ogni statistica prevista dalla classe e ne salva il valore negli attributi
+	 * della classe stessa
 	 */
 	public void updateStatistics();
 	/**

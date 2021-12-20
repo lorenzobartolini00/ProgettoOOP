@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Vector;
 
 /**
- * Questa classe estende {@link Content} e descrive le proprietà di ogni file
+ * Questa classe estende {@link Content} e modella un file di DropBox.
  * @author Lorenzo Bartolini
  * @author Francesco Pio Cecca
  */

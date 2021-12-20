@@ -1,7 +1,7 @@
 package it.univpm.DropboxAnalyzer.Model;
 
 /**
- * Questa classe estende {@link User} e descrive le proprietà del proprietario
+ * Questa classe estende {@link User} e modella il proprietario di un {@link Content}
  * @author Lorenzo Bartolini
  * @author Francesco Pio Cecca
  */

@@ -15,7 +15,7 @@ import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 @Service
 public class ListRevisionsConfiguration extends Configuration {
 	
-	public void setDefault(Map<String, Object> parameters) throws BadFormatException
+	public void setDefault(Map<String, Object> parameters)
 	{
 		parameters.putIfAbsent("url", "https://api.dropboxapi.com/2/files/list_revisions");
 		parameters.putIfAbsent("type", "POST");
