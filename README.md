@@ -1,5 +1,5 @@
 <p align="center">
-<img src="DropBox aNALYSER.png" width="30%" height="30%">
+<img src="Dropbox Analyzer.png" width="30%" height="30%">
 </p>
 
 
@@ -15,7 +15,6 @@ Dropbox analyser permette di effettuare statistiche sulle revisioni dei file di 
 * [Installazione](#install)
 * [Rotte](#rotte)
 * [Chiamate](#call)
-* [Formato Restituito](#formato)
 * [Documentazione](#doc)
 * [Autori](#autor)
 
@@ -33,12 +32,15 @@ DropboxAnalyser è stata pensata principalmente per effetuare statistiche sulle 
 
 * **FILTRI - REVISIONI** 
   * *[Time Filter]:* filtra in base al periodo temporale scelto (es. oggi, ultima settimana, ...).
-  * *[Size Filter]:* imposta la dimensione massima dei file da visualizzare
+  * *[Max Size]:* imposta la dimensione massima dei file da visualizzare
+  * *[Min Size]:* imposta la dimensione minima dei file da visualizzare
 
 
-* **FILTRI - REVISIONI** 
-  * *[Only Type]:* filtra in base all'estensione di un file
-  * *[Only Downloadable]:* filtra in base ai file scaricabili
+* **FILTRI - FILES** 
+  * *[File Extension]:* filtra in base all'estensione di un file
+  * *[Only Downloadable]:* filtra solamente i file scaricabili
+  * *[Max Size]:* imposta la dimensione massima dei file da visualizzare
+  * *[Min Size]:* imposta la dimensione minima dei file da visualizzare
 
 <a name="install"></a>
 ## Installazione
@@ -84,7 +86,7 @@ N° | "statistics_type"| Descrizione
 
 Nel caso in cui l'attributo venga omesso, ovvero venga chiamata la rotta "revision_statistics", vengono visulizzate tutte le statistiche.
 
-Per effetturare questa chiamata, sarà necessario inserire un body, in linguaggio JSON, che contenga:
+Per effetturare questa chiamata, sarà necessario inserire un body, in linguaggio JSON:
 
 Come paramentri da inseriere in "info" ci saranno:
 
@@ -98,8 +100,12 @@ Come parametri da inserire in "filters" ci saranno:
 
 N° | "filters" | Descrizione | Tipo | Required
 ----- | ------------ | ----------------- | ----- | ---
-1 | "size_filter" | Filtra per dimensione | int | NO
-2 | "time_filter | Filtra per periodo temporale | String | NO
+1 | "max_size" | Dimensione massima delle revisioni | int
+2 | "min_size" | Dimensione minima delle revisioni | int 
+3 | "time_filter | Filtra per periodo temporale | String
+
+
+
 
 Un esempio di chiamata è:
 
@@ -120,12 +126,31 @@ Un esempio di chiamata è:
 
 ```
 
+Il formato restituito sarà:
+
+```json
+{
+    "time_statistics": {
+        "hour_per_revision": "14h,38m"
+    },
+    "size_statistics": {
+        "absolute_size_percentage_increment": "8628.54%",
+        "average_size_increment_per_revision": "203,8 KiB",
+        "average_size_percentage_increment_per_revision": "985.97%",
+        "absolute_size_increment": "1019,1 KiB"
+    },
+    "generic_statistics": {
+        "numbers_of_revisions": 5
+    }
+}
+```
+
 <a name=2></a>
 ### 2. /list_files
 Questa rotta permette di effettuare statistiche sui file presenti in una cartella.
 La lista di file può essere filtrata per massima e minima dimensione, per estensione e per possibilità di scaricare il file.
 
-Per effetturare questa chiamata, sarà necessario inserire un body, in linguaggio JSON, che contenga:
+Per effetturare questa chiamata, sarà necessario inserire un body, in linguaggio JSON:
 
 Come paramentri da inseriere in "info" ci saranno:
 
@@ -162,29 +187,8 @@ Un esempio di chiamata è:
 }
 ```
 
-<a name="formato"></a>
-## Formato Restituito
-<a name=1></a>
-### 1. /revision_statistics/{statistic_type}
-```json
-{
-    "time_statistics": {
-        "hour_per_revision": "14h,38m"
-    },
-    "size_statistics": {
-        "absolute_size_percentage_increment": "8628.54%",
-        "average_size_increment_per_revision": "203,8 KiB",
-        "average_size_percentage_increment_per_revision": "985.97%",
-        "absolute_size_increment": "1019,1 KiB"
-    },
-    "generic_statistics": {
-        "numbers_of_revisions": 5
-    }
-}
-```
+Il formato restituito sarà:
 
-<a name=2></a>
-### 2. /list_files
 ```json
 [
     {
@@ -206,6 +210,142 @@ Un esempio di chiamata è:
         "extension": "paper"
     }
 ]
+```
+
+<a name=3></a>
+### 3. /get_list_revisions
+Questa rotta mi permette di ottenere la lista di revisioni di un file.
+La lista di revisioni può essere filtrata per periodo temporale o per dimensione.
+
+Per effetturare questa chiamata, sarà necessario inserire un body, in linguaggio JSON, che contenga:
+
+Come paramentri da inseriere in "info" ci saranno:
+
+N° | "info" | Descrizione | Tipo | Required
+----- | ------------ | ----------------- | ----- | ---
+1 | "path" | Percorso del file | String | SI
+2 | "mode" | Modalità scelta del file (Default = Path) | String | NO 
+3 | "limit" | Numero massimo di revisioni da visualizzare (MAX=100) | int | SI
+
+Come paramentri da inseriere in "filter" ci saranno:
+
+N° | "filters" | Descrizione | Tipo | Required
+----- | ------------ | ----------------- | ----- | ---
+1 | "max_size" | Dimensione massima delle revisioni | int
+2 | "min_size" | Dimensione minima delle revisioni | int 
+3 | "time_filter | Filtra per periodo temporale | String
+
+Un esempio di chiamata è:
+
+```json
+{
+    "info" :
+    {
+        "path": "/Uni/Generali.docx",
+        "mode" : "path",
+        "limit": 100
+    },
+     "filters" :
+    {
+        "size_filter" : 20000,
+        "time_filter" : "last_week"
+    }
+}
+```
+Il formato restituito sarà:
+
+```json
+[
+    {
+        "lastClientModify": "2021-12-17T18:44:29.000+00:00",
+        "lastServerModify": "2021-12-17T18:44:30.000+00:00",
+        "revisionId": "5d35bedefdfb189398f81",
+        "size": 1055630,
+        "isDownloadable": true,
+        "lastServerModifyInMilliseconds": 1639766670000,
+        "lastClientModifyInMilliseconds": 1639766669000
+    },
+    {
+        "lastClientModify": "2021-12-15T10:57:29.000+00:00",
+        "lastServerModify": "2021-12-15T10:57:31.000+00:00",
+        "revisionId": "5d32d2c227dfd89398f81",
+        "size": 1055536,
+        "isDownloadable": true,
+        "lastServerModifyInMilliseconds": 1639565851000,
+        "lastClientModifyInMilliseconds": 1639565849000
+    },
+    {
+        "lastClientModify": "2021-12-14T17:36:57.000+00:00",
+        "lastServerModify": "2021-12-14T17:36:57.000+00:00",
+        "revisionId": "5d31ea2cd798b89398f81",
+        "size": 602569,
+        "isDownloadable": true,
+        "lastServerModifyInMilliseconds": 1639503417000,
+        "lastClientModifyInMilliseconds": 1639503417000
+    },
+    {
+        "lastClientModify": "2021-12-14T17:36:30.000+00:00",
+        "lastServerModify": "2021-12-14T17:36:30.000+00:00",
+        "revisionId": "5d31ea13476b389398f81",
+        "size": 12163,
+        "isDownloadable": true,
+        "lastServerModifyInMilliseconds": 1639503390000,
+        "lastClientModifyInMilliseconds": 1639503390000
+    },
+    {
+        "lastClientModify": "2021-12-14T17:31:51.000+00:00",
+        "lastServerModify": "2021-12-14T17:34:09.000+00:00",
+        "revisionId": "5d31e98cc8bba89398f81",
+        "size": 12094,
+        "isDownloadable": true,
+        "lastServerModifyInMilliseconds": 1639503249000,
+        "lastClientModifyInMilliseconds": 1639503111000
+    }
+]
+```
+
+<a name=4></a>
+### 4. /list_file_members
+Questa rotta mi permette di ottenere la lista di utenti che possono accedere ad un file.
+
+Per effetturare questa chiamata, sarà necessario inserire un body, in linguaggio JSON, che contenga:
+
+N° | "info" | Descrizione | Tipo | Required
+----- | ------------ | ----------------- | ----- | ---
+1 | "path" | Percorso del file | String | SI
+2 | "include_inherited" | Include  | String | NO 
+3 | "limit" | Numero massimo di utenti da visualizzare (MAX=100) | int | SI
+
+Un esempio di chiamata è:
+
+```json
+{
+    "info" :
+    {
+        "file": "id:xjKzQLUfUpAAAAAAAAAADA",
+        "include_inherited": true,
+        "limit": 100
+    }
+}
+```
+
+Il formato restituito sarà:
+
+```json
+
+[
+    {
+        "accountId": "dbid:AABLrI5m5DeORK35nqXp6oLLxAdeXymeL5g",
+        "email": "lori.bartolini06@gmail.com",
+        "displayName": "Lorenzo Bartolini"
+    },
+    {
+        "accountId": "dbid:AADnswjyNc8RS6WimHgG00a7YOlsm_JmrrE",
+        "email": "kekkolino21@gmail.com",
+        "displayName": "Francesco Cecca"
+    }
+]
+
 ```
 
 <a name="doc"></a>
