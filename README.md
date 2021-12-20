@@ -263,49 +263,34 @@ Il formato restituito è il seguente:
 ```json
 [
     {
-        "lastClientModify": "2021-12-17T18:44:29.000+00:00",
-        "lastServerModify": "2021-12-17T18:44:30.000+00:00",
-        "revisionId": "5d35bedefdfb189398f81",
-        "size": 1055630,
-        "isDownloadable": true,
-        "lastServerModifyInMilliseconds": 1639766670000,
-        "lastClientModifyInMilliseconds": 1639766669000
+        "last_server_modify": "Fri Dec 17 19:44:30 CET 2021",
+        "size": "1,0 MiB",
+        "last_client_modify": "Fri Dec 17 19:44:29 CET 2021",
+        "revision_id": "5d35bedefdfb189398f81"
     },
     {
-        "lastClientModify": "2021-12-15T10:57:29.000+00:00",
-        "lastServerModify": "2021-12-15T10:57:31.000+00:00",
-        "revisionId": "5d32d2c227dfd89398f81",
-        "size": 1055536,
-        "isDownloadable": true,
-        "lastServerModifyInMilliseconds": 1639565851000,
-        "lastClientModifyInMilliseconds": 1639565849000
+        "last_server_modify": "Wed Dec 15 11:57:31 CET 2021",
+        "size": "1,0 MiB",
+        "last_client_modify": "Wed Dec 15 11:57:29 CET 2021",
+        "revision_id": "5d32d2c227dfd89398f81"
     },
     {
-        "lastClientModify": "2021-12-14T17:36:57.000+00:00",
-        "lastServerModify": "2021-12-14T17:36:57.000+00:00",
-        "revisionId": "5d31ea2cd798b89398f81",
-        "size": 602569,
-        "isDownloadable": true,
-        "lastServerModifyInMilliseconds": 1639503417000,
-        "lastClientModifyInMilliseconds": 1639503417000
+        "last_server_modify": "Tue Dec 14 18:36:57 CET 2021",
+        "size": "588,4 KiB",
+        "last_client_modify": "Tue Dec 14 18:36:57 CET 2021",
+        "revision_id": "5d31ea2cd798b89398f81"
     },
     {
-        "lastClientModify": "2021-12-14T17:36:30.000+00:00",
-        "lastServerModify": "2021-12-14T17:36:30.000+00:00",
-        "revisionId": "5d31ea13476b389398f81",
-        "size": 12163,
-        "isDownloadable": true,
-        "lastServerModifyInMilliseconds": 1639503390000,
-        "lastClientModifyInMilliseconds": 1639503390000
+        "last_server_modify": "Tue Dec 14 18:36:30 CET 2021",
+        "size": "11,9 KiB",
+        "last_client_modify": "Tue Dec 14 18:36:30 CET 2021",
+        "revision_id": "5d31ea13476b389398f81"
     },
     {
-        "lastClientModify": "2021-12-14T17:31:51.000+00:00",
-        "lastServerModify": "2021-12-14T17:34:09.000+00:00",
-        "revisionId": "5d31e98cc8bba89398f81",
-        "size": 12094,
-        "isDownloadable": true,
-        "lastServerModifyInMilliseconds": 1639503249000,
-        "lastClientModifyInMilliseconds": 1639503111000
+        "last_server_modify": "Tue Dec 14 18:34:09 CET 2021",
+        "size": "11,8 KiB",
+        "last_client_modify": "Tue Dec 14 18:31:51 CET 2021",
+        "revision_id": "5d31e98cc8bba89398f81"
     }
 ]
 ```
