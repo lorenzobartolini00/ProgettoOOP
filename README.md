@@ -14,6 +14,9 @@ Dropbox analyser permette di effettuare statistiche sulle revisioni dei file di 
 * [Introduzione](#intro)
 * [Installazione](#install)
 * [Rotte](#rotte)
+* [Chiamate](#call)
+* [Formato Restituito](#formato)
+* [Documentazione](#doc)
 * [Autori](#autor)
 
 <a name="intro"></a>
@@ -47,13 +50,114 @@ git clone https://github.com/lorenzobartolini00/ProgettoOOP.git
 <a name="rotte"></a>
 ## Rotte
 
+Le richieste che l'utente può effettuare tramite Postman devono essere all'indirizzo
+```
+http://localhost:8080
+```
+Le rotte implementate sono le seguenti:
 N° | Tipo | Rotta | Descrizione
 ----- | ------------ | -------------------- | ----------------------
-[1](#1) | ` GET ` | ` /revision_statistics ` | *Restituisce un JSONObject con all'interno statistiche, opportunamente filtrate, sulle revisioni di un file*
+[1](#1) | ` GET ` | ` /revision_statistics/{statistic_type} ` | *Restituisce un JSONObject con all'interno statistiche, opportunamente filtrate, sulle revisioni di un file*
 [2](#2) | ` GET ` | ` /list_files ` | *Restituisce i metadati relitivi ai file, opportunamente filtrati, presenti nella cartella Dropbox*
-[3](#3) | ` GET ` | ` /get_metadata ` | *Restituisce i metadati relativi ad un singolo file*
-[4](#4) | ` GET ` | ` /get_list_revisions ` | *Restituisce una lista di tutte le revisioni relativa ad un file*
-[5](#5) | ` GET ` | ` /list_file_members ` | *Restituisce una lista di membri di utenti che hanno accesso ad un file*
+[3](#3) | ` GET ` | ` /get_list_revisions ` | *Restituisce una lista di tutte le revisioni relativa ad un file*
+[4](#4) | ` GET ` | ` /list_file_members ` | *Restituisce una lista di membri di utenti che hanno accesso ad un file*
+
+<a name="call"></a>
+## Chiamate
+Per fare una chiamata da client, (es. Postaman) sarà necessario contattare l'indirizzo:
+```
+localhost:8080/rotta?token=G4J8eRdP9roAAAAAAAAAAbvWRhutuOx6QkF7rz2VDCjVr5tQMhM3InqV16_tajQB
+```
+dove al posto della rotta, l'utente andrà ad inserire una delle rotte sopra elencate.
+
+<a name=1></a>
+### 1. /revision_statistics/{statistic_type}
+E' lasciata all'utente la libertà di decidere quali statistiche effettuare. Le {statistic_type} che si possono passare sono **"time_statistics"** e **"size_statistics"**, ma se si decide di non passare alcuna {statistic_type}, verranno restituite entrambe.
+Per effetturare questa chiamata, sarà necessario inserire un body, in linguaggio JSON, così strutturato sul client:
+```json
+{
+    "info" :
+    {
+        "path": "/Uni/Generali.docx",
+        "mode" : "path",
+        "limit": 10
+    },
+    "filters" :
+    {
+        "size_filter" : 20000,
+        "time_filter" : "last_week"
+    }
+}
+
+```
+
+<a name=2></a>
+### 2. /list_files
+Per effetturare questa chiamata, sarà necessario inserire un body, in linguaggio JSON, così strutturato sul client:
+```json
+{
+    "info" :
+    {
+        "path": "/Uni",
+        "recursive": true
+    },
+    "filters":
+    {
+        "only_downloadable" :false,
+        "max_size" : 100000
+    }
+}
+```
+
+<a name="formato"></a>
+## Formato Restituito
+<a name=1></a>
+### 1. /revision_statistics/{statistic_type}
+```json
+{
+    "time_statistics": {
+        "hour_per_revision": "14h,38m"
+    },
+    "size_statistics": {
+        "absolute_size_percentage_increment": "8628.54%",
+        "average_size_increment_per_revision": "203,8 KiB",
+        "average_size_percentage_increment_per_revision": "985.97%",
+        "absolute_size_increment": "1019,1 KiB"
+    },
+    "generic_statistics": {
+        "numbers_of_revisions": 5
+    }
+}
+```
+
+<a name=2></a>
+### 2. /list_files
+```json
+[
+    {
+        "name": "GIT.docx",
+        "pathLower": "/uni/oop/git.docx",
+        "pathDisplay": "/Uni/OOP/GIT.docx",
+        "id": "id:xjKzQLUfUpAAAAAAAAAAIw",
+        "size": 18374,
+        "isDownloadable": true,
+        "extension": "docx"
+    },
+    {
+        "name": "Appunti.paper",
+        "pathLower": "/uni/appunti.paper",
+        "pathDisplay": "/Uni/Appunti.paper",
+        "id": "id:xjKzQLUfUpAAAAAAAAAAFQ",
+        "size": 200,
+        "isDownloadable": false,
+        "extension": "paper"
+    }
+]
+```
+
+<a name="doc"></a>
+## Documentazione
+Il codice java è interamente documentato nella [Javadoc](link alla javadoc)
 
 <a name="autor"></a>
 ## Autori
