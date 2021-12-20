@@ -66,48 +66,52 @@ public abstract class Configuration {
 					errorType = "is missing";
 					errorFound = true;
 				}
+				else if(info.containsKey(property.getPropertyName()))
+				{
+					myProperty = info.get(property.getPropertyName());
+					
+					//Nel caso in cui nella Map fosse presente la key associata a quella property, ma
+					//il suo value fosse di un tipo errato, viene generata l'eccezione
+					switch(property.getType())
+					{
+					case 0:
+					{
+						if(!(myProperty instanceof String))
+						{
+							errorContext = "body/" + header;
+							errorCause = property.getPropertyName();
+							errorType = "has wrong type";
+							errorFound = true;
+						}
+						break;
+					}
+					case 1:
+					{
+						if(!(myProperty instanceof Boolean))
+						{
+							errorContext = "body/" + header;
+							errorCause = property.getPropertyName();
+							errorType = "has wrong type";
+							errorFound = true;
+						}
+						break;
+					}
+					case 2:
+					{
+						if(!(myProperty instanceof Integer))
+						{
+							errorContext = "body/" + header;
+							errorCause = property.getPropertyName();
+							errorType = "has wrong type";
+							errorFound = true;
+						}
+						break;
+					}
+					}
+				}
+				}
 				
-				myProperty = info.get(property.getPropertyName());
 				
-				//Nel caso in cui nella Map fosse presente la key associata a quella property, ma
-				//il suo value fosse di un tipo errato, viene generata l'eccezione
-				switch(property.getType())
-				{
-				case 0:
-				{
-					if(!(myProperty instanceof String))
-					{
-						errorContext = "body/" + header;
-						errorCause = property.getPropertyName();
-						errorType = "wrong type";
-						errorFound = true;
-					}
-					break;
-				}
-				case 1:
-				{
-					if(!(myProperty instanceof Boolean))
-					{
-						errorContext = "body/" + header;
-						errorCause = property.getPropertyName();
-						errorType = "wrong type";
-						errorFound = true;
-					}
-					break;
-				}
-				case 2:
-				{
-					if(!(myProperty instanceof Integer))
-					{
-						errorContext = "body/" + header;
-						errorCause = property.getPropertyName();
-						errorType = "wrong type";
-						errorFound = true;
-					}
-					break;
-				}
-				}
-			}
 			
 		}
 		
