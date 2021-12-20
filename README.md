@@ -21,27 +21,27 @@ Dropbox analyser permette di effettuare statistiche sulle revisioni dei file di 
 
 <a name="intro"></a>
 ## Introduzione :mega:
-DropboxAnalyser è stata pensata principalmente per effetuare statistiche sulle revisioni effetuate di un file, con la possibilità di utilizzare uno o pià filtri, ma può anche effettuare statistiche rigurdanti più file, analizzandone i metadati.
+DropboxAnalyser è stata pensata principalmente per effetuare statistiche sulle revisioni effetuate di un file, con la possibilità di utilizzare uno o più filtri, ma può anche effettuare statistiche rigurdanti più file, analizzandone i metadati.
 
 * **STATISTICHE** 
-  * *[Asolute Size Percentage Increment]:* Incremento percentuale tra la prima e l'ultima revisione visulizzata
-  * *[Average Size Increment Per Revision]:* Incremento medio per ogni revisione 
-  * *[Hour Per Revision]:* Periodo che in media trascorre tra una revisione e l'altra 
-  * *[Avarage Size Percentage Increment Per Revision]:* Incremento percentuale tra una revisione e l'altra
-  * *[Number Of Revisions]:* Numero di revisioni visulizzate
-  * *[Absolute Size Increment]:* Incremento totale tra la prima e l'ultima revisione visulizzata
+  * ***Asolute Size Percentage Increment**:* Incremento percentuale tra la prima e l'ultima revisione visulizzata
+  * ***Average Size Increment Per Revision**:* Incremento medio per ogni revisione 
+  * ***Hour Per Revision**:* Periodo che in media trascorre tra una revisione e l'altra 
+  * ***Avarage Size Percentage Increment Per Revision**:* Incremento percentuale tra una revisione e l'altra
+  * ***Number Of Revisions**:* Numero di revisioni visualizzate
+  * ***Absolute Size Increment**:* Incremento totale tra la prima e l'ultima revisione visulizzata
 
 * **FILTRI - REVISIONI** 
-  * *[Time Filter]:* filtra in base al periodo temporale scelto (es. oggi, ultima settimana, ...).
-  * *[Max Size]:* imposta la dimensione massima dei file da visualizzare
-  * *[Min Size]:* imposta la dimensione minima dei file da visualizzare
+  * ***Time Filter**:* filtra in base al periodo temporale scelto (es. last_hour, last_day, last_week)
+  * ***Max Size**:* imposta la dimensione massima dei file da visualizzare
+  * ***Min Size**:* imposta la dimensione minima dei file da visualizzare
 
 
 * **FILTRI - FILES** 
-  * *[File Extension]:* filtra in base all'estensione di un file
-  * *[Only Downloadable]:* filtra solamente i file scaricabili
-  * *[Max Size]:* imposta la dimensione massima dei file da visualizzare
-  * *[Min Size]:* imposta la dimensione minima dei file da visualizzare
+  * ***File Extension**:* filtra in base all'estensione di un file
+  * ***Only Downloadable**:* filtra solamente i file scaricabili
+  * ***Max Size**:* imposta la dimensione massima dei file da visualizzare
+  * ***Min Size**:* imposta la dimensione minima dei file da visualizzare
 
 <a name="install"></a>
 ## Installazione :cd:
@@ -60,10 +60,10 @@ http://localhost:8080
 Le rotte implementate sono le seguenti:
 N° | Tipo | Rotta | Descrizione
 ----- | ------------ | -------------------- | ----------------------
-[1](#1) | ` GET ` | ` /revision_statistics/{statistic_type} ` | *Restituisce un JSONObject con all'interno statistiche, opportunamente filtrate, sulle revisioni di un file*
-[2](#2) | ` GET ` | ` /list_files ` | *Restituisce i metadati relitivi ai file, opportunamente filtrati, presenti nella cartella Dropbox*
-[3](#3) | ` GET ` | ` /get_list_revisions ` | *Restituisce una lista di tutte le revisioni relativa ad un file*
-[4](#4) | ` GET ` | ` /list_file_members ` | *Restituisce una lista di membri di utenti che hanno accesso ad un file*
+[1](#1) | ` GET ` | ` /revision_statistics/{statistic_type} ` | *Restituisce un JSONObject con all'interno statistiche sulle revisioni, eventualmente filtrate, di un file*
+[2](#2) | ` GET ` | ` /list_files ` | *Restituisce i metadati relitivi ai file, eventualmente filtrati, presenti nella cartella Dropbox*
+[3](#3) | ` GET ` | ` /list_revisions ` | *Restituisce una lista di tutte le revisioni, eventualmente filtrate, relativa ad un file*
+[4](#4) | ` GET ` | ` /list_file_members ` | *Restituisce una lista di utenti che hanno accesso ad un file*
 
 <a name="call"></a>
 ## Chiamate :telephone_receiver:
@@ -417,7 +417,7 @@ ATTENZIONE: Questo non accade se elimino, ad esempio mode, il quale non è un pa
 
 <a name="doc"></a>
 ## Documentazione :paperclip:
-Il codice java è interamente documentato nella [Javadoc](link alla javadoc)
+Il codice java è interamente documentato nella [Javadoc](https://github.com/lorenzobartolini00/ProgettoOOP/tree/main/DropboxAnalyzer/doc)
 
 <a name="autor"></a>
 ## Autori :family:
