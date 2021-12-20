@@ -72,8 +72,37 @@ dove al posto della rotta, l'utente andrà ad inserire una delle rotte sopra ele
 
 <a name=1></a>
 ### 1. /revision_statistics/{statistic_type}
-E' lasciata all'utente la libertà di decidere quali statistiche effettuare. Le {statistic_type} che si possono passare sono **"time_statistics"** e **"size_statistics"**, ma se si decide di non passare alcuna {statistic_type}, verranno restituite entrambe.
-Per effetturare questa chiamata, sarà necessario inserire un body, in linguaggio JSON, così strutturato sul client:
+Questa rotta permette di effettuare statistiche sulle revisioni di un file. 
+La lista di revisioni su cui vengono effettuate le statistiche, può essere filtrata per periodo temporale o per dimensione.
+La rotta prende come attributo (opzionale) il tipo di statistica da visualizzare.
+
+N° | "statistics_type"| Descrizione
+----- | ------------ | -------------------- 
+1 | time | Statistiche per periodo temporale
+2 | size | Statistiche per dimensione
+3 | all | Statistiche sia per tempo che per dimensione
+
+Nel caso in cui l'attributo venga omesso, ovvero venga chiamata la rotta "revision_statistics", vengono visulizzate tutte le statistiche.
+
+Per effetturare questa chiamata, sarà necessario inserire un body, in linguaggio JSON, che contenga:
+
+Come paramentri da inseriere in "info" ci saranno:
+
+N° | "info" | Descrizione | Tipo | Required
+----- | ------------ | ----------------- | ----- | ---
+1 | "path" | Percorso del file | String | SI
+2 | "mode" | Modalità scelta del file (Default = Path) | String | NO 
+3 | "limit" | Numero massimo di revisioni da visualizzare (MAX=100) | int | SI
+
+Come parametri da inserire in "filters" ci saranno:
+
+N° | "filters" | Descrizione | Tipo | Required
+----- | ------------ | ----------------- | ----- | ---
+1 | "size_filter" | Filtra per dimensione | int | NO
+2 | "time_filter | Filtra per periodo temporale | String | NO
+
+Un esempio di chiamata è:
+
 ```json
 {
     "info" :
@@ -93,7 +122,29 @@ Per effetturare questa chiamata, sarà necessario inserire un body, in linguaggi
 
 <a name=2></a>
 ### 2. /list_files
-Per effetturare questa chiamata, sarà necessario inserire un body, in linguaggio JSON, così strutturato sul client:
+Questa rotta permette di effettuare statistiche sui file presenti in una cartella.
+La lista di file può essere filtrata per massima e minima dimensione, per estensione e per possibilità di scaricare il file.
+
+Per effetturare questa chiamata, sarà necessario inserire un body, in linguaggio JSON, che contenga:
+
+Come paramentri da inseriere in "info" ci saranno:
+
+N° | "info" | Descrizione | Tipo | Required
+----- | ------------ | ----------------- | ----- | ---
+1 | "path" | Percorso del file | String | SI
+2 | "recursive" | Se true analizza anche i file all'interno delle cartelle | Boolean | SI
+
+Come parametri da inserire in "filters" ci saranno:
+
+N° | "filters" | Descrizione | Tipo | Required
+----- | ------------ | ----------------- | ----- | ---
+1 | "only_downloadable" | Se true, filtra solo i file scaricabili | Boolean | NO
+2 | "max_size" | Filtra per massima dimensione | int | NO
+3 | "min_size" | Filtra per minima dimensione | int | NO
+2 | "file_extensions" | Filtra per estensione dei file | String | NO
+
+Un esempio di chiamata è:
+
 ```json
 {
     "info" :
@@ -104,7 +155,9 @@ Per effetturare questa chiamata, sarà necessario inserire un body, in linguaggi
     "filters":
     {
         "only_downloadable" :false,
-        "max_size" : 100000
+        "max_size" : 100000,
+        "min_size" : 190,
+        "file_extensions" : "paper"
     }
 }
 ```
