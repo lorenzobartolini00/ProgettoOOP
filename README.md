@@ -4,17 +4,18 @@
 
 
 
-<h1 align="center"> Progetto per il corso di Programmazione Ad Oggetti 2021/2022 - Dropbox Analyser </h1>
+<h1 align="center"> Progetto per il corso di Programmazione Ad Oggetti 2021/2022 - Dropbox Analyzer </h1>
 
 <p align="center">
 Dropbox analyser permette di effettuare statistiche sulle revisioni dei file di una cartella Dropbox, anche in base a filtraggi per periodo temporale con tempi medi tra le revisioni e numero minimo di revisioni
 </p>
 
-## **Scaletta dei contenuti**
+## **Scaletta dei contenuti** :mag_right:
 * [Introduzione](#intro)
 * [Installazione](#install)
 * [Rotte](#rotte)
 * [Chiamate](#call)
+* [Eccezioni](#exceptions)
 * [Documentazione](#doc)
 * [Autori](#autor)
 
@@ -43,14 +44,14 @@ DropboxAnalyser è stata pensata principalmente per effetuare statistiche sulle 
   * *[Min Size]:* imposta la dimensione minima dei file da visualizzare
 
 <a name="install"></a>
-## Installazione
+## Installazione :cd:
 La nostra applicazione può essere installata direttamente dal Prompt dei Comandi, scrivendo:
 ```
 git clone https://github.com/lorenzobartolini00/ProgettoOOP.git
 ```
 
 <a name="rotte"></a>
-## Rotte
+## Rotte :mountain_cableway:
 
 Le richieste che l'utente può effettuare tramite Postman devono essere all'indirizzo
 ```
@@ -65,7 +66,7 @@ N° | Tipo | Rotta | Descrizione
 [4](#4) | ` GET ` | ` /list_file_members ` | *Restituisce una lista di membri di utenti che hanno accesso ad un file*
 
 <a name="call"></a>
-## Chiamate
+## Chiamate :telephone_receiver:
 Per fare una chiamata da client, (es. Postaman) sarà necessario contattare l'indirizzo:
 ```
 localhost:8080/rotta?token=G4J8eRdP9roAAAAAAAAAAbvWRhutuOx6QkF7rz2VDCjVr5tQMhM3InqV16_tajQB
@@ -94,12 +95,12 @@ N° | "info" | Descrizione | Tipo | Required
 ----- | ------------ | ----------------- | ----- | ---
 1 | "path" | Percorso del file | String | SI
 2 | "mode" | Modalità scelta del file (Default = Path) | String | NO 
-3 | "limit" | Numero massimo di revisioni da visualizzare (MAX=100) | int | SI
+3 | "limit" | Numero massimo di revisioni da visualizzare (MAX=100) | int | NO
 
 Come parametri da inserire in "filters" ci saranno:
 
-N° | "filters" | Descrizione | Tipo | Required
------ | ------------ | ----------------- | ----- | ---
+N° | "filters" | Descrizione | Tipo
+----- | ------------ | ----------------- | -----
 1 | "max_size" | Dimensione massima delle revisioni | int
 2 | "min_size" | Dimensione minima delle revisioni | int 
 3 | "time_filter | Filtra per periodo temporale | String
@@ -157,16 +158,16 @@ Come paramentri da inseriere in "info" ci saranno:
 N° | "info" | Descrizione | Tipo | Required
 ----- | ------------ | ----------------- | ----- | ---
 1 | "path" | Percorso del file | String | SI
-2 | "recursive" | Se true analizza anche i file all'interno delle cartelle | Boolean | SI
+2 | "recursive" | Se true analizza anche i file all'interno delle cartelle | Boolean | NO
 
 Come parametri da inserire in "filters" ci saranno:
 
-N° | "filters" | Descrizione | Tipo | Required
------ | ------------ | ----------------- | ----- | ---
-1 | "only_downloadable" | Se true, filtra solo i file scaricabili | Boolean | NO
-2 | "max_size" | Filtra per massima dimensione | int | NO
-3 | "min_size" | Filtra per minima dimensione | int | NO
-2 | "file_extensions" | Filtra per estensione dei file | String | NO
+N° | "filters" | Descrizione | Tipo |
+----- | ------------ | ----------------- | -----
+1 | "only_downloadable" | Se true, filtra solo i file scaricabili | Boolean
+2 | "max_size" | Filtra per massima dimensione | int
+3 | "min_size" | Filtra per minima dimensione | int
+2 | "file_extensions" | Filtra per estensione dei file | String
 
 Un esempio di chiamata è:
 
@@ -213,7 +214,7 @@ Il formato restituito sarà:
 ```
 
 <a name=3></a>
-### 3. /get_list_revisions
+### 3. /list_revisions
 Questa rotta mi permette di ottenere la lista di revisioni di un file.
 La lista di revisioni può essere filtrata per periodo temporale o per dimensione.
 
@@ -225,12 +226,12 @@ N° | "info" | Descrizione | Tipo | Required
 ----- | ------------ | ----------------- | ----- | ---
 1 | "path" | Percorso del file | String | SI
 2 | "mode" | Modalità scelta del file (Default = Path) | String | NO 
-3 | "limit" | Numero massimo di revisioni da visualizzare (MAX=100) | int | SI
+3 | "limit" | Numero massimo di revisioni da visualizzare (MAX=100) | int | NO
 
 Come paramentri da inseriere in "filter" ci saranno:
 
-N° | "filters" | Descrizione | Tipo | Required
------ | ------------ | ----------------- | ----- | ---
+N° | "filters" | Descrizione | Tipo 
+----- | ------------ | ----------------- | -----
 1 | "max_size" | Dimensione massima delle revisioni | int
 2 | "min_size" | Dimensione minima delle revisioni | int 
 3 | "time_filter | Filtra per periodo temporale | String
@@ -314,7 +315,7 @@ N° | "info" | Descrizione | Tipo | Required
 ----- | ------------ | ----------------- | ----- | ---
 1 | "path" | Percorso del file | String | SI
 2 | "include_inherited" | Include  | String | NO 
-3 | "limit" | Numero massimo di utenti da visualizzare (MAX=100) | int | SI
+3 | "limit" | Numero massimo di utenti da visualizzare (MAX=100) | int | NO
 
 Un esempio di chiamata è:
 
@@ -348,12 +349,78 @@ Il formato restituito sarà:
 
 ```
 
+<a name="exceptions"></a>
+## Eccezioni :bangbang:
+Oltre alle eccezioni standard, è stata implementata una nuova eccezione:
+
+[BadFormatException](https://github.com/lorenzobartolini00/ProgettoOOP/blob/main/DropboxAnalyzer/src/main/java/it/univpm/DropboxAnalyzer/exceptions/BadFormatException.java) Lanciata se l'utente non inserisce i parametri richiesti o se hanno il tipo errato e restituisce:
+
+```
+"Invalid data in " + context + ": "+ "'"+ cause +"' "+ type
+```
+
+### Esempio 1
+
+Passando questo body errato (al posto di "info" trovo "infos"):
+```
+{
+    "infos" :
+    {
+        "path": "/Uni/Generali.docx",
+        "mode" : "path",
+        "limit": 100
+    }
+}
+```
+Verrà sollevata l'eccezione e verrà restituito il messaggio:
+```
+"Invalid data in body: 'info' is missing"
+```
+
+### Esempio 2
+Passando questo body errato (al posto di "path" trovo un numero):
+
+```
+{
+    "infos" :
+    {
+        "path": "/Uni/Generali.docx",
+        "mode" : 200,
+        "limit": 100
+    }
+}
+```
+
+Verrà sollevata l'eccezione e verrà restituito il messaggio:
+
+```
+"Invalid data in body/info: 'mode' has wrong type"
+```
+
+### Esempio 3
+Passando questo body errato (elimino "Path" che è paramtro required):
+
+```
+{
+    "info" :
+    {
+        "mode" : 200,
+        "limit": 100
+    }
+}
+```
+Verrà sollevata l'eccezione e verrà restituito il messaggio:
+```
+"Invalid data in body/info: 'path' is missing"
+```
+ATTENZIONE: Questo non accade se elimino, ad esempio mode, il quale non è un parametro required
+
 <a name="doc"></a>
-## Documentazione
+## Documentazione :paperclip:
 Il codice java è interamente documentato nella [Javadoc](link alla javadoc)
 
 <a name="autor"></a>
-## Autori
+## Autori :family:
 
 * **[Lorenzo Bartolini] (https://github.com/lorenzobartolini00)**
 * **[Francesco Pio Cecca] (https://github.com/francescocecca)**
