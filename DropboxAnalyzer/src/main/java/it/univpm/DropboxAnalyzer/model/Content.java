@@ -9,7 +9,7 @@ public class Content {
 
 	//attributi
 	private String name;
-	private String pathLower;
+	protected String pathLower;
 	private String pathDisplay;
 	private String id;
 	

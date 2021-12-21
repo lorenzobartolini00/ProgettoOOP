@@ -1,6 +1,7 @@
 package it.univpm.DropboxAnalyzer.service;
 
 
+import java.util.Map;
 import java.util.Vector;
 
 import org.json.JSONObject;
@@ -27,6 +28,6 @@ public interface FileService {
 	 * @param jsonObjectFolders JSONObject di contenuti
 	 * @return Vettore di contenuti 
 	 */
-	public Vector<Content> getContentList(JSONObject jsonObjectFolders);
-	public Content getMetadata(JSONObject jsonObjectContent);
+	public Vector<Content> getContentList(JSONObject jsonObjectFolders, Map<String, Object> parameters);
+	public Content getMetadata(JSONObject jsonObjectContent, Map<String, Object> parameters);
 }

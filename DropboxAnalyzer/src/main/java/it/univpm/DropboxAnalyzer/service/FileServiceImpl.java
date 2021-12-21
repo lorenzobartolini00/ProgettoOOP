@@ -1,6 +1,8 @@
 package it.univpm.DropboxAnalyzer.service;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
 import org.json.JSONArray;
@@ -9,6 +11,8 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import it.univpm.DropboxAnalyzer.configuration.ListRevisionsConfiguration;
+import it.univpm.DropboxAnalyzer.exceptions.BadFormatException;
 import it.univpm.DropboxAnalyzer.model.Content;
 import it.univpm.DropboxAnalyzer.model.File;
 import it.univpm.DropboxAnalyzer.model.Folder;
@@ -51,8 +55,9 @@ public class FileServiceImpl implements FileService {
 		}
 
 	@Override
-	public Vector<Content> getContentList(JSONObject jsonObjectFolders) {
+	public Vector<Content> getContentList(JSONObject jsonObjectFolders, Map<String, Object> parameters) {
 		Vector<Content> contentList = new Vector<Content>();
+		
 		
 		//Ottengo il jsonArray che contiene la lista delle revisioni per il file di interesse
         JSONArray jsonArrayFolders = (JSONArray) jsonObjectFolders.get("entries");
@@ -71,7 +76,8 @@ public class FileServiceImpl implements FileService {
         		//TODO: Gestire eccezioni
         		Long size = ((JSONObject) jsonObjectContent).getLong("size");
         		boolean isDownloadable = ((JSONObject) jsonObjectContent).getBoolean("is_downloadable");
-        		content = new File(name, pathLower, pathDisplay, id, size, isDownloadable);
+        		Vector<Revision> revisions = getRevisionsFromFile(pathDisplay, id, parameters);
+        		content = new File(name, pathLower, pathDisplay, id, size, isDownloadable, revisions);
         	}
         	else if(((JSONObject) jsonObjectContent).getString(".tag").equals("folder"))
         	{
@@ -84,8 +90,9 @@ public class FileServiceImpl implements FileService {
 		return contentList;
 	}
 
+	
 	@Override
-	public Content getMetadata(JSONObject jsonObjectContent) {
+	public Content getMetadata(JSONObject jsonObjectContent, Map<String, Object> parameters) {
 		
 		String name=((JSONObject) jsonObjectContent).getString("name");
 		String pathLower=((JSONObject) jsonObjectContent).getString("path_lower");
@@ -96,9 +103,10 @@ public class FileServiceImpl implements FileService {
     	if(((JSONObject) jsonObjectContent).getString(".tag").equals("file"))
     	{
     		//TODO: Gestire eccezioni
-    		Long size =  ((JSONObject) jsonObjectContent).getLong("size");
+    		Long size = ((JSONObject) jsonObjectContent).getLong("size");
     		boolean isDownloadable = ((JSONObject) jsonObjectContent).getBoolean("is_downloadable");
-    		content = new File(name, pathLower, pathDisplay, id, size, isDownloadable);
+    		Vector<Revision> revisions = getRevisionsFromFile(pathDisplay, id, parameters);
+    		content = new File(name, pathLower, pathDisplay, id, size, isDownloadable, revisions);
     	}
     	else if(((JSONObject) jsonObjectContent).getString(".tag").equals("folder"))
     	{
@@ -106,6 +114,47 @@ public class FileServiceImpl implements FileService {
     	}
     	
     	return content;
+	}
+	
+	//Per ottenere l'attributo numberOfRevision della classe File, è necessario conoscere la lista delle revisioni del file stesso
+	//e per farlo, fare una richiesta http a dropbox, passando l'id del file
+	private Vector<Revision> getRevisionsFromFile(String path, String id, Map<String, Object> parameters)
+	{
+		HTTPSRequest httpRequest = new HTTPSRequest();
+		ListRevisionsConfiguration revisionConfig = new ListRevisionsConfiguration();
+		
+		@SuppressWarnings("unchecked")
+		String mode = (String)parameters.get("mode");
+		String token = (String) parameters.get("token");
+		
+		//Ripulisco la lista di parametri per prepararla alla nuova chiamata api
+		parameters = new HashMap<String, Object>();
+		Map<String, Object> info = new HashMap<String, Object>();
+		
+		info.put("mode", mode);
+		
+		//A seconda della scelta dell'utente, si farà riferimento ad un file in base al suo percorso
+		//oppure in base al suo. La differenza sta nel fatto che, mentre l'id è univoco per quel file e vale per tutta la "vita" del 
+		//del file stesso, dal momento dell'upload su DropBox in poi, il percorso fa riferimento solamente alla posizione in cui si trova il file 
+		//in quel preciso momento. Quindi le revisioni recuperate a partire dall'id tengono conto di tutte le modifiche fatte al
+		//file dalla data di creazione alla data odierna, mentre quelle recuperate a partire dal percorso tengono conto delle modifiche fatte 
+		//al file soltanto mentre si trovava in quella specifica posizione.
+		if(mode.equals("path"))
+		{
+			info.put("path", path);
+		}
+		else if(mode.equals("id"))
+		{
+			info.put("path", id);
+		}
+		parameters.put("info", info);
+		parameters.put("token", token);
+		
+		//Setto i parametri per la chiamata all'API /list_revisions
+		revisionConfig.setDefault(parameters);
+		
+		//Ritorno la lista di revisioni associate al file
+		return getRevisionList(httpRequest.rootCall(parameters));
 	}
 
 	

@@ -26,7 +26,7 @@ class TestRevision {
 
 	@Test
 	void test() {
-		//assertEquals(true, r.getIsDownloadable());
+		assertEquals(true, r.getIsDownloadable());
 		assertEquals(1055630, r.getSize());
 	}
 	

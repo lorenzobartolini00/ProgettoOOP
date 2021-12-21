@@ -15,6 +15,8 @@ public class File extends Content{
 	private Long size;
 	private Boolean isDownloadable;
 	private String extension;
+	private Vector<Revision> revisions;
+	private Integer numberOfRevisions;
 	
 	/**
 	 * Costruttore
@@ -25,23 +27,15 @@ public class File extends Content{
 	 * @param size Dimensione del contenuto
 	 * @param isDownloadable Boolean che mi dice se il contenuto è scaricabile
 	 */
-	public File(String name, String pathLower, String pathDisplay, String id, Long size, Boolean isDownloadable) {
+	public File(String name, String pathLower, String pathDisplay, String id, Long size, Boolean isDownloadable, Vector<Revision> revisions) {
 		super(name, pathLower, pathDisplay, id);
 		this.size = size;
 		this.isDownloadable = isDownloadable;
-		this.extension = toExtension(pathLower);
+		this.extension = getExtension();
+		this.revisions = revisions;
+		this.numberOfRevisions = revisions.size();
 	}
-
-	/**
-	 * Mi ritorna l'estensione del file
-	 * @param pathLower 
-	 * @return String extension
-	 */
-	private String toExtension(String pathLower) {
-		String[] s = pathLower.split("\\.");
-		ArrayList<String> strings = new ArrayList<String>(Arrays.asList(s));
-		return strings.get(strings.size() - 1);
-	}
+	
 
 	/**
 	 * metodo che restituisce la dimensione del file
@@ -80,7 +74,9 @@ public class File extends Content{
 	 * @return extension
 	 */
 	public String getExtension() {
-		return extension;
+		String[] s = pathLower.split("\\.");
+		ArrayList<String> strings = new ArrayList<String>(Arrays.asList(s));
+		return strings.get(strings.size() - 1);
 	}
 
 	/**
@@ -90,6 +86,30 @@ public class File extends Content{
 	public void setExtension(String extension) {
 		this.extension = extension;
 	}
+
+
+	public Integer getNumberOfRevisions() {
+		return numberOfRevisions;
+	}
+
+
+	public void setNumberOfRevisions(Integer numberOfRevisions) {
+		this.numberOfRevisions = numberOfRevisions;
+	}
+
+
+	public Vector<Revision> getRevisions() {
+		return revisions;
+	}
+
+
+	public void setRevisions(Vector<Revision> revisions) {
+		this.revisions = revisions;
+	}
+	
+	
+	
+	
 	
 	
 	

@@ -18,6 +18,7 @@ import it.univpm.DropboxAnalyzer.model.Revision;
  */
 public class FileFilter extends FilterImpl{
 	
+	private Integer minNumberOfRevision;
 	private String fileExtension;
 	private boolean onlyDownloadable;
 	private Vector<Content> contents;
@@ -37,8 +38,9 @@ public class FileFilter extends FilterImpl{
 		//rimuovo prima tutti gli elementi di contents che non sono istanza
 		//della classe File
 		contents.removeIf(p -> !(p instanceof File));
-		if(maxSize != null) contents.removeIf(aboveThreshold());
-		if(minSize != null) contents.removeIf(belowThreshold());
+		if(minNumberOfRevision != null) contents.removeIf(belowNumberOfRevisionThreshold());
+		if(maxSize != null) contents.removeIf(aboveSizeThreshold());
+		if(minSize != null) contents.removeIf(belowSizeThreshold());
 		if(fileExtension != null) contents.removeIf(notRightExtension());
 		if(onlyDownloadable != false) contents.removeIf(isNotDownloadable());
 	}
@@ -48,7 +50,13 @@ public class FileFilter extends FilterImpl{
 		if(parameters.containsKey("filters"))
 		{
 			super.setFilters(parameters);
+			@SuppressWarnings("unchecked")
 			Map<String, Object> filters = (Map<String, Object>) parameters.get("filters");
+			
+			if(filters.containsKey("min_number_of_revisions"))
+			{
+				this.setMinNumberOfRevision((Integer)filters.get("min_number_of_revisions"));
+			}
 			
 			if(filters.containsKey("file_extensions"))
 			{
@@ -67,42 +75,48 @@ public class FileFilter extends FilterImpl{
 		
 	}
 	
-	/**
-	 * Metodo che restituisce il filtro da passare come parametro al metodo RemoveIf()
-	 * Elimino il file se non ha la stessa estensione del filtro
-	 * @return Funzione a valore booleana p
-	 */
+	Predicate<Content> belowNumberOfRevisionThreshold() {
+		
+        return p -> (((File) p).getNumberOfRevisions() < minNumberOfRevision);
+    }
+	
+	//Metodo che restituisce il filtro da passare come parametro al metodo RemoveIf()
+	//Elimino il file se non ha la stessa estensione del filtro
 	private Predicate<Content> notRightExtension(){
 		
 		//se l'estensione del file non è la stessa del filtro, la elimino
 		return p -> (!((File) p).getExtension().equals(fileExtension));
 	}
 
-	/**
-	 * Metodo che restituisce il filtro da passare come parametro al metodo RemoveIf()
-	 * Elimino il file se getIsDownloadable mi ritorna falso
-	 * @return Funzione a valore booleana p
-	 */
+	// Metodo che restituisce il filtro da passare come parametro al metodo RemoveIf()
+	// Elimino il file se getIsDownloadable ritorna falso
 	private Predicate<Content> isNotDownloadable(){
 		
 		return p -> (!((File) p).getIsDownloadable());
 	}
 	
-	private Predicate<Content> aboveThreshold() {
+	private Predicate<Content> aboveSizeThreshold() {
 		
         return p -> (((File) p).getSize() > maxSize);
     }
 	
-	/**
-	 * Metodo che restituisce il filtro da passare come parametro al metodo RemoveIf()
-	 * L'elemento viene rimosso se la dimensione dell'elemento è minore o uguale alla soglia
-	 * @return Funzione a valore booleana p
-	 */
-	private Predicate<Content> belowThreshold() {
+	//Metodo che restituisce il filtro da passare come parametro al metodo RemoveIf()
+	//L'elemento viene rimosso se la dimensione dell'elemento è minore o uguale alla soglia
+	Predicate<Content> belowSizeThreshold() {
 		
         return p -> (((File) p).getSize() <= minSize);
     }
 	
+	
+	
+	public int getMinNumberOfRevision() {
+		return minNumberOfRevision;
+	}
+
+	public void setMinNumberOfRevision(int minNumberOfRevision) {
+		this.minNumberOfRevision = minNumberOfRevision;
+	}
+
 	//getter e setter
 	public String getFileExtension() {
 		return fileExtension;

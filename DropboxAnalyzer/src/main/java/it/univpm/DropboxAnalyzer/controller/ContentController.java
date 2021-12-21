@@ -172,7 +172,7 @@ public class ContentController {
 		//Ottengo la lista di contenuti su cui fare statistiche
 		Vector<Content> contents = null;
 		try {
-			contents = fileService.getContentList(httpsReq.rootCall(parameters));
+			contents = fileService.getContentList(httpsReq.rootCall(parameters), parameters);
 		}
 		catch (NullPointerException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
