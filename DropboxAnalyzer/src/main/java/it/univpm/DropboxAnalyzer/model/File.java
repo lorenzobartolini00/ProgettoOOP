@@ -26,6 +26,7 @@ public class File extends Content{
 	 * @param id Id del contenuto
 	 * @param size Dimensione del contenuto
 	 * @param isDownloadable Boolean che mi dice se il contenuto è scaricabile
+	 * @param revisions lista di revisioni associata al file
 	 */
 	public File(String name, String pathLower, String pathDisplay, String id, Long size, Boolean isDownloadable, Vector<Revision> revisions) {
 		super(name, pathLower, pathDisplay, id);
