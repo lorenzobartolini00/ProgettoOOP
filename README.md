@@ -50,6 +50,8 @@ E' possibile:
   * ***Min Size**:* imposta la dimensione(espressa in byte) minima dei file da visualizzare
   * ***Min Number Of Revisions**:* imposta il numero minimo di revisioni che deve possedere il file per poter essere visualizzato nell'elenco
 
+E' possibile visionare com'era stata pensata inizialmente l'applicazione alla [seguente pagina](https://github.com/lorenzobartolini00/ProgettoOOP/blob/main/Bozza%20Iniziale%20OOP.pdf)
+
 <a name="install"></a>
 ## Installazione :cd:
 La nostra applicazione può essere installata direttamente dal Prompt dei Comandi, scrivendo:
