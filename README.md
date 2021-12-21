@@ -177,7 +177,8 @@ N° | "filters" | Descrizione | Tipo |
 1 | "only_downloadable" | Se true, filtra solo i file scaricabili | Boolean
 2 | "max_size" | Filtra per massima dimensione | int
 3 | "min_size" | Filtra per minima dimensione | int
-2 | "file_extensions" | Filtra per estensione dei file | String
+4 | "file_extensions" | Filtra per estensione dei file | String
+5 | "min_number_of_revisions" | Filtra per numero minimo di revisioni | int
 
 Un esempio di chiamata è il seguente:
 
