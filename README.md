@@ -16,6 +16,7 @@ Abbiamo sviluppato un'applicazione Java che mette a disposizione dell'utente del
 * [Rotte](#rotte)
 * [Chiamate](#call)
 * [Eccezioni](#exceptions)
+* [JUnit Tests](#tests)
 * [Documentazione](#doc)
 * [Autori](#autor)
 
@@ -163,9 +164,9 @@ I paramentri da inserire in "info" sono:
 
 N° | "info" | Descrizione | Tipo | Required
 ----- | ------------ | ----------------- | ----- | ---
-1 | "path" | Percorso del file | String | SI
+1 | "path" | Directory principale in cui sono contenuti i file da visualizzare| String | SI
 2 | "mode" | Modalità scelta del file(Default = "path") | String | NO
-2 | "recursive" | Se true analizza anche i file all'interno delle cartelle | Boolean | NO
+2 | "recursive" | Se impostato a true, considera anche i file presenti in tutte le sottocartelle | Boolean | NO
 
 I paramentri da inserire in "filters" sono:
 
@@ -183,14 +184,17 @@ Un esempio di chiamata è il seguente:
     "info" :
     {
         "path": "/Uni",
+        "mode" : "path",
         "recursive": true
     },
     "filters":
     {
+        "min_number_of_revisions": 1,
         "only_downloadable" :false,
-        "max_size" : 100000,
-        "min_size" : 190,
-        "file_extensions" : "paper"
+        "max_size" : 1000000,
+        "min_size" : 0,
+        "file_extensions" : "png"
+        
     }
 }
 ```
@@ -200,22 +204,46 @@ Il formato restituito è il seguente:
 ```json
 [
     {
-        "name": "GIT.docx",
-        "pathLower": "/uni/oop/git.docx",
-        "pathDisplay": "/Uni/OOP/GIT.docx",
-        "id": "id:xjKzQLUfUpAAAAAAAAAAIw",
-        "size": 18374,
+        "name": "Modello Opamp.png",
+        "pathLower": "/uni/elettronica analogica/modello opamp.png",
+        "pathDisplay": "/Uni/Elettronica Analogica/Modello Opamp.png",
+        "id": "id:xjKzQLUfUpAAAAAAAAAADA",
+        "size": 313940,
         "isDownloadable": true,
-        "extension": "docx"
+        "extension": "png",
+        "revisions": [
+            {
+                "lastClientModify": "2021-12-06T21:34:07.000+00:00",
+                "lastServerModify": "2021-12-07T22:04:21.000+00:00",
+                "revisionId": "5d2958e3c647189398f81",
+                "size": 313940,
+                "isDownloadable": true,
+                "lastServerModifyInMilliseconds": 1638914661000,
+                "lastClientModifyInMilliseconds": 1638826447000
+            }
+        ],
+        "numberOfRevisions": 1
     },
     {
-        "name": "Appunti.paper",
-        "pathLower": "/uni/appunti.paper",
-        "pathDisplay": "/Uni/Appunti.paper",
-        "id": "id:xjKzQLUfUpAAAAAAAAAAFQ",
-        "size": 200,
-        "isDownloadable": false,
-        "extension": "paper"
+        "name": "Precharge.png",
+        "pathLower": "/uni/precharge.png",
+        "pathDisplay": "/Uni/Precharge.png",
+        "id": "id:xjKzQLUfUpAAAAAAAAAAFA",
+        "size": 452755,
+        "isDownloadable": true,
+        "extension": "png",
+        "revisions": [
+            {
+                "lastClientModify": "2021-12-07T17:09:39.000+00:00",
+                "lastServerModify": "2021-12-07T22:06:06.000+00:00",
+                "revisionId": "5d29594757a8789398f81",
+                "size": 452755,
+                "isDownloadable": true,
+                "lastServerModifyInMilliseconds": 1638914766000,
+                "lastClientModifyInMilliseconds": 1638896979000
+            }
+        ],
+        "numberOfRevisions": 1
     }
 ]
 ```
@@ -406,8 +434,8 @@ viene sollevata un'eccezione e restituito il seguente messaggio:
 ```
 ATTENZIONE: Questo non accade se non viene fornito un parametro non obbligatorio, come, ad esempio, il parametro "mode", in quanto i parametri non obbligatori prevedono un valore di default in caso di assenza.
 
-<a name="doc"></a>
-## JUnit tests
+<a name="tests"></a>
+## JUnit Tests :gear:
 Per verificare il corretto funzionamento di alcune parti del codice, sono state sviluppate delle classi di test.
 ### TestRevision
 Questa classe permette di eseguire un test unitario per la creazione di un'istanza della classe Revision. Una volta creata e inizializzata con dei parametri arbitrari, viene verificato, tramite il metodo assertEquals, se i parametri inseriti e quelli attesi combacino.
@@ -423,6 +451,7 @@ Questa classe permette di eseguire due test unitari per testare che venga effett
 1. Il primo test verifica, tramite un assertThrows, che venga sollevata l'eccezione BadFormatException, dopo aver appositamente evitato di inserire il parametro obbligatorio "path" nella lista dei parametri. Il test è superato se il metodo chekFormat(), il quale si occupa di controllare la correttezza dei parametri, solleva l'eccezione richiesta. Inoltre viene controllato, tramite assertEquals che il messaggio di errore sia corretto.
 2. Il secondo test è simile al precedente, ma questa volta si inserisce appositamente un parametro con un tipo errato. Il test è superato se si verificano le medesime condizioni del primo test.
 
+<a name="doc"></a>
 ## Documentazione :paperclip:
 Il codice java è interamente documentato nella [Javadoc](https://github.com/lorenzobartolini00/ProgettoOOP/tree/main/DropboxAnalyzer/doc)
 
