@@ -7,7 +7,7 @@
 <h1 align="center"> Progetto per il corso di Programmazione Ad Oggetti 2021/2022 - Dropbox Analyzer </h1>
 
 <p align="center">
-Abbiamo sviluppato un'applicazione Java che mette a disposizione dell'utente delle API personalizzate, sfruttando le API di DropBox, grazie alle potenzialità di SpringBoot. 
+Abbiamo sviluppato un'applicazione Java sfruttando le potenzialità di SpringBoot. L'applicazione mette a disposizione dell'utente delle API personalizzate, basate su quelle di DropBox.
 </p>
 
 ## **Scaletta dei contenuti** :mag_right:
@@ -24,9 +24,9 @@ Abbiamo sviluppato un'applicazione Java che mette a disposizione dell'utente del
 ## Introduzione :mega:
 Dropbox Analyzer fornisce all'utente una serie di funzionalità, che possono essere riassunte come segue. 
 E' possibile:
-1. effettuare statistiche sulle revisioni di un file presente in una cartella Dropbox, di cui si deve specificare il percorso. Le revisione possono essere filtrate in base al periodo temporale massimo a cui esse possono risalire e alla dimensione minima e massima. Le statistiche sulle revisioni riguardano due ambiti: ogni quanto si effettuano revisioni su quel file e di quanto il file vari di dimensioni.
-2. ottenere una lista di revisioni, con i relativi metadati. Quest'ultimi riguardano la data della modifica(lato client e lato server) del file, la sua dimensione dopo che esser stato modificato e l'id univoco associato alla particolare revisione.
-3. ottenere una lista di file, con i relativi metadati. Per farlo occorre specificare il percorso e, nel caso in cui l'utente lo desideri, è possibile visualizzare anche i file presenti nelle sottocartelle. La lista di file da visualizzare può essere filtrata in base ad una serie di campi di seguito riportati.
+1. effettuare statistiche sulle revisioni di un file presente in una cartella Dropbox, di cui si deve specificare il percorso. Le revisioni possono essere filtrate in base al periodo temporale e/o alla dimensione. Le statistiche sulle revisioni riguardano due ambiti: ogni quanto si effettuano revisioni su quel file e di quanto il file vari di dimensioni.
+2. ottenere una lista di file, con i relativi metadati. Per farlo occorre specificare il percorso e, nel caso in cui l'utente lo desideri, è possibile visualizzare anche i file presenti nelle sottocartelle. La lista di file da visualizzare può essere filtrata in base ad una serie di campi di seguito riportati.
+3. ottenere una lista di revisioni, con i relativi metadati. Questi ultimi riguardano la data della modifica(lato client e lato server) del file, la sua dimensione dopo la modifica e l'id univoco associato alla particolare revisione.
 4. ottenere una lista di utenti che hanno accesso ad un determinato file.
 
 * **STATISTICHE** 
@@ -85,7 +85,7 @@ dove al posto di "rotta", l'utente dovrà specificare una di quelle sopra elenca
 <a name=1></a>
 ### 1. /revision_statistics/{statistic_type}
 Questa rotta permette di effettuare statistiche sulle revisioni di un file. 
-La lista di revisioni su cui vengono effettuate le statistiche, può essere filtrata per periodo temporale o per dimensione.
+La lista di revisioni su cui vengono effettuate le statistiche può essere filtrata per periodo temporale o per dimensione.
 La rotta prende come attributo (opzionale) il tipo di statistica da visualizzare.
 
 N° | "statistics_type"| Descrizione
@@ -100,19 +100,19 @@ Per effetturare questa chiamata, è necessario inserire nel body della richiesta
 
 I paramentri da inserire in "info" sono:
 
-N° | "info" | Descrizione | Tipo | Required
------ | ------------ | ----------------- | ----- | ---
-1 | "path" | Percorso del file | String | SI
-2 | "mode" | Modalità scelta del file (Default = "path") | String | NO 
+N° | "info" | Descrizione | Tipo | Required | Values |
+----- | ------------ | ----------------- | ----- | --- | ----- |
+1 | "path" | Percorso del file | String | SI | "/..." oppure "id:..." |
+2 | "mode" | Modalità scelta del file (Default = "path") | String | NO | "path" oppure "id" |
 3 | "limit" | Numero massimo di revisioni da visualizzare (MAX=100) | int | NO
 
 I parametri da inserire in "filters" sono:
 
-N° | "filters" | Descrizione | Tipo
------ | ------------ | ----------------- | -----
-1 | "max_size" | Dimensione massima delle revisioni | int
-2 | "min_size" | Dimensione minima delle revisioni | int 
-3 | "time_filter | Filtra per periodo temporale | String
+N° | "filters" | Descrizione | Tipo | Values |
+----- | ------------ | ----------------- | ----- | ----- |
+1 | "max_size" | Dimensione massima delle revisioni | int |
+2 | "min_size" | Dimensione minima delle revisioni | int |
+3 | "time_filter | Periodo temporale massimo al quale devono risalire le revisioni | String | "last_week","last_day","last_hour" |
 
 
 
@@ -157,28 +157,28 @@ Il formato restituito è il seguente:
 
 <a name=2></a>
 ### 2. /list_files
-Questa rotta permette di effettuare statistiche sui file presenti in una cartella.
-La lista di file può essere filtrata per massima e minima dimensione, per estensione e per possibilità di scaricare il file.
+Questa rotta permette di visualizzare un elenco di file presenti in una cartella, di cui si deve specificare la directory.
+La lista di file può essere filtrata per massima e minima dimensione, per estensione, per possibilità di scaricare il file e numero minimo di revisioni.
 
 Per effetturare questa chiamata, è necessario inserire nel body della richiesta i seguenti dati in formato Json:
 
 I paramentri da inserire in "info" sono:
 
-N° | "info" | Descrizione | Tipo | Required
------ | ------------ | ----------------- | ----- | ---
-1 | "path" | Directory principale in cui sono contenuti i file da visualizzare| String | SI
-2 | "mode" | Modalità scelta del file(Default = "path") | String | NO
-2 | "recursive" | Se impostato a true, considera anche i file presenti in tutte le sottocartelle | Boolean | NO
+N° | "info" | Descrizione | Tipo | Required | Values
+----- | ------------ | ----------------- | ----- | --- | ----------- |
+1 | "path" | Directory principale in cui sono contenuti i file da visualizzare| String | SI | "/..." oppure "id:..." |
+2 | "mode" | Modalità scelta del file(Default = "path") | String | NO | "path" oppure "id" | 
+2 | "recursive" | Se impostato a true, considera anche i file presenti in tutte le sottocartelle | Boolean | NO |
 
 I paramentri da inserire in "filters" sono:
 
-N° | "filters" | Descrizione | Tipo |
------ | ------------ | ----------------- | -----
-1 | "only_downloadable" | Se true, filtra solo i file scaricabili | Boolean
-2 | "max_size" | Filtra per massima dimensione | int
-3 | "min_size" | Filtra per minima dimensione | int
-4 | "file_extensions" | Filtra per estensione dei file | String
-5 | "min_number_of_revisions" | Filtra per numero minimo di revisioni | int
+N° | "filters" | Descrizione | Tipo | Values | 
+----- | ------------ | ----------------- | ----- | ---------- |
+1 | "only_downloadable" | Se true, visualizza solo i file scaricabili | Boolean |
+2 | "max_size" | Filtra per massima dimensione | int |
+3 | "min_size" | Filtra per minima dimensione | int |
+4 | "file_extensions" | Filtra per estensione dei file | String | "png", "docx",... |
+5 | "min_number_of_revisions" | Filtra per numero minimo di revisioni | int | 
 
 Un esempio di chiamata è il seguente:
 
@@ -253,26 +253,26 @@ Il formato restituito è il seguente:
 
 <a name=3></a>
 ### 3. /list_revisions
-Questa rotta permette di ottenere la lista di revisioni di un file.
+Questa rotta permette di ottenere un elenco di revisioni relative ad un file, di cui si deve fornire il percorso oppure l'id.
 La lista di revisioni può essere filtrata per periodo temporale o per dimensione.
 
 Per effetturare questa chiamata, è necessario inserire nel body della richiesta i seguenti dati in formato Json:
 
 I paramentri da inserire in "info" sono:
 
-N° | "info" | Descrizione | Tipo | Required
------ | ------------ | ----------------- | ----- | ---
-1 | "path" | Percorso del file | String | SI
-2 | "mode" | Modalità scelta del file (Default = "path") | String | NO 
-3 | "limit" | Numero massimo di revisioni da visualizzare (MAX=100) | int | NO
+N° | "info" | Descrizione | Tipo | Required | Values
+----- | ------------ | ----------------- | ----- | -------|-------
+1 | "path" | Percorso del file | String | SI | "/..." oppure "id:..." |
+2 | "mode" | Modalità scelta del file (Default = "path") | String | NO | "path" oppure "id" |
+3 | "limit" | Numero massimo di revisioni da visualizzare (MAX=100) | int | NO | 
 
 I paramentri da inserire in "filters" sono:
 
-N° | "filters" | Descrizione | Tipo 
------ | ------------ | ----------------- | -----
-1 | "max_size" | Dimensione massima delle revisioni | int
-2 | "min_size" | Dimensione minima delle revisioni | int 
-3 | "time_filter | Filtra per periodo temporale | String
+N° | "filters" | Descrizione | Tipo | Values |
+----- | ------------ | ----------------- | ----- | ----- |
+1 | "max_size" | Dimensione massima delle revisioni | int |
+2 | "min_size" | Dimensione minima delle revisioni | int |
+3 | "time_filter | Periodo temporale massimo al quale devono risalire le revisioni | String | "last_week","last_day","last_hour" |
 
 Un esempio di chiamata è il seguente:
 
@@ -334,11 +334,10 @@ Questa rotta permette di ottenere la lista di utenti che possono accedere ad un 
 
 Per effetturare questa chiamata, è necessario inserire nel body della richiesta i seguenti dati in formato Json:
 
-N° | "info" | Descrizione | Tipo | Required
------ | ------------ | ----------------- | ----- | ---
-1 | "path" | Percorso del file | String | SI
-2 | "include_inherited" | Include  | String | NO 
-3 | "limit" | Numero massimo di utenti da visualizzare (MAX=100) | int | NO
+N° | "info" | Descrizione | Tipo | Required | Values |
+----- | ------------ | ----------------- | ----- | --- | ------- |
+1 | "path" | Percorso del file | String | SI | "id:..."
+2 | "limit" | Numero massimo di utenti da visualizzare (MAX=100) | int | NO | 
 
 Un esempio di chiamata è:
 
