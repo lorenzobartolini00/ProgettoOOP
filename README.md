@@ -47,6 +47,7 @@ E' possibile:
   * ***Only Downloadable**:* filtra solamente i file scaricabili
   * ***Max Size**:* imposta la dimensione(espressa in byte) massima dei file da visualizzare
   * ***Min Size**:* imposta la dimensione(espressa in byte) minima dei file da visualizzare
+  * ***Min Number Of Revisions**:* imposta il numero minimo di revisioni che deve possedere il file per poter essere visualizzato nell'elenco
 
 <a name="install"></a>
 ## Installazione :cd:
@@ -99,7 +100,7 @@ I paramentri da inserire in "info" sono:
 N° | "info" | Descrizione | Tipo | Required
 ----- | ------------ | ----------------- | ----- | ---
 1 | "path" | Percorso del file | String | SI
-2 | "mode" | Modalità scelta del file (Default = Path) | String | NO 
+2 | "mode" | Modalità scelta del file (Default = "path") | String | NO 
 3 | "limit" | Numero massimo di revisioni da visualizzare (MAX=100) | int | NO
 
 I parametri da inserire in "filters" sono:
@@ -163,6 +164,7 @@ I paramentri da inserire in "info" sono:
 N° | "info" | Descrizione | Tipo | Required
 ----- | ------------ | ----------------- | ----- | ---
 1 | "path" | Percorso del file | String | SI
+2 | "mode" | Modalità scelta del file(Default = "path") | String | NO
 2 | "recursive" | Se true analizza anche i file all'interno delle cartelle | Boolean | NO
 
 I paramentri da inserire in "filters" sono:
@@ -230,7 +232,7 @@ I paramentri da inserire in "info" sono:
 N° | "info" | Descrizione | Tipo | Required
 ----- | ------------ | ----------------- | ----- | ---
 1 | "path" | Percorso del file | String | SI
-2 | "mode" | Modalità scelta del file (Default = Path) | String | NO 
+2 | "mode" | Modalità scelta del file (Default = "path") | String | NO 
 3 | "limit" | Numero massimo di revisioni da visualizzare (MAX=100) | int | NO
 
 I paramentri da inserire in "filters" sono:
