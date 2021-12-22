@@ -373,9 +373,9 @@ Il formato restituito sarà:
 
 <a name="exceptions"></a>
 ## Eccezioni :bangbang:
-Oltre alle eccezioni standard, è stata implementata una nuova eccezione:
+Il programma è in grado di gestire le eccezioni che più comunemente possono capitare durante la sua esecuzione. Ad esempio, nel caso in cui l'utente inserisca un percorso di un file non presente nella cartella DropBox, viene sollevata l'eccezione standard di Java NullPointerException, poichè il metodo rootCall(), che si occupa di fare la chiamata http, ha restiutito un JSONObject vuoto. Un altro tipo di eccezione viene sollevata nel caso in cui l'utente inserisca un filtro con un tipo errato(ad esempio al posto di un boolean viene inserita una stringa). In quel caso si genera una ClassCastException, poichè si tenta di fare il cast tra due tipi di oggetto incompatibili. Entrambe queste eccezione sono gestite tramite il costrutto try/catch, il quale stampa a schermo un messaggio di errore standard. Oltre a queste eccezioni già presenti nelle librerie di Java, è stata introdotta un un'ulteriore eccezione personalizzata, denominata BadFormatException.
 
-[BadFormatException](https://github.com/lorenzobartolini00/ProgettoOOP/blob/main/DropboxAnalyzer/src/main/java/it/univpm/DropboxAnalyzer/exceptions/BadFormatException.java) Lanciata nel caso in cui l'utente non inserisca i parametri richiesti o se questi hanno un tipo errato. Il messaggio contenuto nell'eccezione è stato così formattato e parametrizzato:
+[BadFormatException](https://github.com/lorenzobartolini00/ProgettoOOP/blob/main/DropboxAnalyzer/src/main/java/it/univpm/DropboxAnalyzer/exceptions/BadFormatException.java) Viene lanciata nel caso in cui l'utente non inserisca nel body i parametri richiesti per fare la chiamata http alle API di DropBox o se questi abbiano un tipo errato. Il messaggio contenuto nell'eccezione è stato così formattato e parametrizzato:
 
 ```
 "Invalid data in " + context + ": "+ "'"+ cause +"' "+ type
