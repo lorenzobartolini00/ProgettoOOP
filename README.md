@@ -50,7 +50,7 @@ E' possibile:
   * ***Min Size**:* imposta la dimensione(espressa in byte) minima dei file da visualizzare
   * ***Min Number Of Revisions**:* imposta il numero minimo di revisioni che deve possedere il file per poter essere visualizzato nell'elenco
 
-E' possibile visionare com'era stata pensata inizialmente l'applicazione alla [seguente pagina](https://github.com/lorenzobartolini00/ProgettoOOP/blob/main/Bozza%20Iniziale%20OOP.pdf)
+E' possibile visualizzare uno schema prototipale del progetto cliccando sul seguente link: [Bozza iniziale](https://github.com/lorenzobartolini00/ProgettoOOP/blob/main/Bozza%20Iniziale%20OOP.pdf)
 
 <a name="install"></a>
 ## Installazione :cd:
@@ -336,7 +336,7 @@ Per effetturare questa chiamata, è necessario inserire nel body della richiesta
 
 N° | "info" | Descrizione | Tipo | Required | Values |
 ----- | ------------ | ----------------- | ----- | --- | ------- |
-1 | "path" | Percorso del file | String | SI | "id:..."
+1 | "path" | Id del file  | String | SI | "id:..."
 2 | "limit" | Numero massimo di utenti da visualizzare (MAX=100) | int | NO | 
 
 Un esempio di chiamata è:
